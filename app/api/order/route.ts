@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  //   const isUser = await prisma.order.findMany();
-  return NextResponse.json({ data: "ommaleka" });
+  const orders = await prisma.order.findMany();
+  return NextResponse.json({ data: orders });
 }
 export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
