@@ -3,8 +3,8 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Input from "./component/template/input";
-import Button from "./component/template/button";
+import Input from "./component/template/Input";
+import Button from "./component/template/Button";
 
 export default function Home() {
   const [email, setEmail] = useState();
