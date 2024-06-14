@@ -3,6 +3,8 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Input from "./component/template/input";
+import Button from "./component/template/button";
 
 export default function Home() {
   const [email, setEmail] = useState();
@@ -44,26 +46,16 @@ export default function Home() {
         <p className="flex justify-center font-bold">LOGIN</p>
         <div className="w-full space-y-2">
           <p className="text-[.9rem]">Email</p>
-          <input
-            className="w-full h-[2rem] px-[1rem] rounded-md border-[1.4px] border-gray-200 text-[.9rem]"
-            type="text"
-            autoComplete="off"
-            onChange={(e: any) => {
+          <Input onChange={(e: any) => {
               setEmail(e.target.value);
-            }}
-          />
+            }}/>
         </div>
         <div className="space-y-2">
           <p className="text-[.9rem]">Password</p>
           <div>
-            <input
-              className="w-full h-[2rem] px-[1rem] rounded-md border-[1.4px] border-gray-200 text-[.9rem]"
-              type="password"
-              autoComplete="off"
-              onChange={(e: any) => {
-                setPassword(e.target.value);
-              }}
-            />
+          <input type="password" className="w-full h-[2rem] px-[1rem] rounded-md border-[1.4px] border-gray-200 text-[.9rem]" onChange={(e: any) => {
+              setPassword(e.target.value);
+            }}/>
             <Image src="" alt="" />
           </div>
         </div>
@@ -77,10 +69,7 @@ export default function Home() {
           </p>
         </div>
         <div className="flex justify-around pt-[1rem]">
-          <button
-            onClick={handleLogin}
-            className="px-[1rem] rounded-md bg-green-600 text-white w-full h-[2.5rem] hover:bg-green-600 flex justify-around items-center bg-primary"
-          >
+          <Button onClick={handleLogin}>
             {isLoading ? (
               <Image
                 width={500}
@@ -92,7 +81,7 @@ export default function Home() {
             ) : (
               <p>Login</p>
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
