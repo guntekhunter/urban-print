@@ -38,7 +38,7 @@ export default function page() {
   }, [])
   return (
     <div className='flex justify-around relative pt-[2rem]'>
-      <div className='p-[1rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]'>
+      <div className='p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]'>
         <h1 className='text-[2rem] font-bold'>Data Order</h1>
         <Button onClick={handleCreateOrder}>Tambah Orderan</Button>
         <table className='min-w-full divide-y divide-gray-200 rounded-md'>
