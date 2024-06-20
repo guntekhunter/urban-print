@@ -29,7 +29,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       });
       return NextResponse.json({ data: newUser });
     }
-  } catch (error) {
-    return NextResponse.json({ error });
+  } catch (err) {
+    return NextResponse.json({ err });
   }
 }

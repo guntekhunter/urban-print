@@ -33,9 +33,16 @@ model Order {
   contact_person   String
   ship_to          String
   adress           String
-  status           Boolean  @default(false)
+  status           Int
   product_type     String
   id_operator      Int
   user             User     @relation(fields: [authorId], references: [id])
   authorId         Int
+  Status           Status?  @relation(fields: [status], references: [id])
+}
+
+model Status {
+  id     Int     @id @default(autoincrement())
+  status String
+  orders Order[]
 }
