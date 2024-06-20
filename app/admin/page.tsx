@@ -1,12 +1,29 @@
 'use client';
 import React, { useEffect, useState } from 'react'
 import Button from '../component/template/Button'
-import { getAllOrder } from '../fetch/FetchData';
+import { deleteOrder, getAllOrder } from '../fetch/FetchData';
 import { dateFormater } from '../functions/DateFormater';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function page() {
   const [orders, setOrders] = useState([])
+
+  const route = useRouter()
+
+  const handleDelete = async(id:any) => {
+    try{
+      const res = await deleteOrder(id)
+      setOrders(res?.data.response)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  const handleCreateOrder = () => {
+    route.push("/admin/create-order");
+  }
+
   useEffect(() => {
     const fetchOrder = async () => {
       try{
@@ -23,7 +40,7 @@ export default function page() {
     <div className='flex justify-around relative pt-[2rem]'>
       <div className='p-[1rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]'>
         <h1 className='text-[2rem] font-bold'>Data Order</h1>
-        <Button>Tambah User</Button>
+        <Button onClick={handleCreateOrder}>Tambah Orderan</Button>
         <table className='min-w-full divide-y divide-gray-200 rounded-md'>
           <thead className='bg-gray-50'>
             <tr className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
@@ -55,8 +72,9 @@ export default function page() {
                 <td className='px-6 py-4 whitespace-nowrap'>{item.sales_person}</td>
                 <td className='px-6 py-4 whitespace-nowrap'>{dateFormater(item.required_date)}</td>
                 <td className='px-6 py-4 whitespace-nowrap'>{item.Status.status}</td>
-                <td className='px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]'><button
-                      className="p-[.5rem] bg-red-200 border-red-300 border-[1.3px] rounded-md"
+                <td className='px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]'>
+                  <button
+                      className="p-[.5rem] bg-red-200 border-red-300 border-[1.3px] rounded-md" onClick={(e) => {handleDelete(item.id)}}
                     >
                       <Image
                         src="/delete.png"

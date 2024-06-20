@@ -12,8 +12,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
         id: id,
       },
     });
+
+    const orderData = await prisma.order.findMany({
+      include: {
+        Status: true,
+      },
+    });
     return NextResponse.json({
-      response: res,
+      deletedData: res,
+      response: orderData,
     });
   } catch (error) {
     console.log(error);
