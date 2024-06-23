@@ -8,6 +8,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     where: {
       type: "operator",
     },
+    take: 32000,
   });
   return NextResponse.json({ data: isUser });
 }
