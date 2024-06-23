@@ -22,9 +22,7 @@ export const deleteOrder = async (id:any) => {
 
 export const addOrder = async (data:any) => {
     try{
-        const res = await axios.post("/api/order/create-order", {
-            data
-        })
+        const res = await axios.post("/api/order/create-order",data)
         return res;
     }catch(error){
         console.log(error)

@@ -9,12 +9,12 @@ export default function CreateOrder() {
   const [operators, setOperators] = useState([])
 
   const [orderedData, setOrderedData] = useState({
-    so_number: 0,
-    quotation_number: 0,
+    so_number: null,
+    quotation_number: null,
     order_date: "",
     required_date: "",
     sales_type: "",
-    po_number: 0,
+    po_number: null,
     acount_rep: "",
     sales_person: "",
     custumer: "",
@@ -23,13 +23,19 @@ export default function CreateOrder() {
     adress: "",
     status: 1,
     product_type: "",
-    id_operator: 0,
+    id_operator: null,
     authorId: 1 
   }) 
 
   const handleInput = (e: any) => {
     const name = e.target.name;
-    const value = e.target.value;
+    let value = e.target.value;
+    if (["so_number", "quotation_number", "po_number"].includes(name)) {
+      value = parseInt(value, 10);
+      if (isNaN(value)) {
+        value = 0; // or handle it appropriately if value is not a valid number
+      }
+    }
     setOrderedData((prev) => {
       return {
         ...prev,
@@ -40,7 +46,7 @@ export default function CreateOrder() {
   
   const handleDropdownChange = (event:any) => {
     const idOperator = event.target.value
-    setOrderedData((prev) => {
+    setOrderedData((prev:any) => {
       return {
         ...prev,
         ["id_operator"]: parseInt(idOperator),
@@ -101,7 +107,7 @@ export default function CreateOrder() {
             </div>
             <div className='w-full flex items-center'>
               <label htmlFor="" className='w-[7rem] align-center'>PO Number</label>
-              <Input onChange={handleInput} name="po_numbe" value={orderedData.po_number}/>
+              <Input onChange={handleInput} name="po_number" value={orderedData.po_number}/>
             </div>
             <div className='w-full flex items-center'>
               <label htmlFor="" className='w-[7rem] align-center'>Acount Rep</label>
