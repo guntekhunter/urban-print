@@ -21,8 +21,12 @@ export default function Home() {
         email: email,
         password: password
       })
-      console.log(res)
       const type = res.data.user.type
+      try{
+        localStorage.setItem("user_id", res.data.user.id)
+      }catch(error){
+        console.log(error)
+      }
       if(type === "admin"){
         route.push("/admin");
       }else if(type === "operator"){

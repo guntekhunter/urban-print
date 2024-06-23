@@ -20,6 +20,7 @@ export const deleteOrder = async (id:any) => {
     }
 }
 
+//get order by admin
 export const addOrder = async (data:any) => {
     try{
         const res = await axios.post("/api/order/create-order",data)
@@ -28,6 +29,16 @@ export const addOrder = async (data:any) => {
         console.log(error)
     }
 }
+//get order by operator
+export const getOperatorTask = async (id:any) => {
+    try{
+        const res = await axios.post("api/order/operator-order", id)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
 export const getOperator = async () => {
     try{
         const res = await axios.get("/api/user/get-operator")
