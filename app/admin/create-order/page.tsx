@@ -4,6 +4,7 @@ import Dropdown from '@/app/component/template/Dropdown';
 import Input from '@/app/component/template/Input'
 import { addOrder, getOperator } from '../../fetch/FetchData';
 import React, { useEffect, useState } from 'react';
+import Datepickercomponent from '@/app/component/template/Datepickercomponent';
 
 export default function CreateOrder() {
   const [operators, setOperators] = useState([])
@@ -142,6 +143,10 @@ export default function CreateOrder() {
             <div>
               <label htmlFor="">Ship To</label>
               <Input onChange={handleInput} name="ship_to" value={orderedData.ship_to}/>
+            </div>
+            <div>
+              <label htmlFor="">Ship To</label>
+              <Datepickercomponent/>
             </div>
             </div>
           </div>
