@@ -20,11 +20,11 @@ model User {
 }
 
 model Order {
-  id               Int      @id @default(autoincrement())
+  id               Int     @id @default(autoincrement())
   so_number        Int
   quotation_number Int
   order_date       String
-  required_date    DateTime
+  required_date    String
   sales_type       String
   po_number        Int
   acount_rep       String
@@ -36,9 +36,9 @@ model Order {
   status           Int
   product_type     String
   id_operator      Int
-  user             User     @relation(fields: [authorId], references: [id])
+  user             User    @relation(fields: [authorId], references: [id])
   authorId         Int
-  Status           Status?  @relation(fields: [status], references: [id])
+  Status           Status? @relation(fields: [status], references: [id])
 }
 
 model Status {
