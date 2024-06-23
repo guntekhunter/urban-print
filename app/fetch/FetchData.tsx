@@ -19,3 +19,20 @@ export const deleteOrder = async (id:any) => {
         console.log(error)
     }
 }
+
+export const addOrder = async (data:any) => {
+    try{
+        const res = await axios.post("/api/order/create-order",data)
+        return res;
+    }catch(error){
+        console.log(error)
+    }
+}
+export const getOperator = async () => {
+    try{
+        const res = await axios.get("/api/user/get-operator")
+        return res;
+    }catch(error){
+        console.log(error)
+    }
+}

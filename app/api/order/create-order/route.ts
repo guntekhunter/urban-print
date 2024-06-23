@@ -8,6 +8,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     include: {
       Status: true,
     },
+    take: 32000,
   });
   return NextResponse.json({ data: orders });
 }

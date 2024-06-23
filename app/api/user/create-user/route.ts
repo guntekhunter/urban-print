@@ -14,9 +14,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const isUser = await prisma.user.findFirst({
       where: {
-        email: reqBody.userEmail,
+        email: reqBody.email,
       },
     });
+
     if (isUser?.id === undefined) {
       const encryptPassword = await bcrypt.hash(reqBody.password, 10);
       const newUser = await prisma.user.create({
@@ -29,6 +30,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       });
       return NextResponse.json({ data: newUser });
     }
+    return NextResponse.json({ data: isUser });
   } catch (err) {
     return NextResponse.json({ err });
   }
