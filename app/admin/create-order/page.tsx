@@ -5,6 +5,7 @@ import Input from '@/app/component/template/Input'
 import { addOrder, getOperator } from '../../fetch/FetchData';
 import React, { useEffect, useState } from 'react';
 import Datepicker from '@/app/component/template/Datepicker';
+import { useRouter } from 'next/navigation';
 
 export default function CreateOrder() {
   const [operators, setOperators] = useState([])
@@ -27,6 +28,8 @@ export default function CreateOrder() {
     id_operator: null,
     authorId: 1 
   }) 
+
+  const route = useRouter();
 
   const handleInput = (e: any) => {
     const name = e.target.name;
@@ -66,6 +69,7 @@ export default function CreateOrder() {
     const res = await addOrder(orderedData)
     console.log(res)
     console.log(orderedData)
+    route.push("/admin")
   }
 
   useEffect(() => {

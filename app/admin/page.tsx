@@ -70,7 +70,7 @@ export default function page() {
                 <td className='px-6 py-4 whitespace-nowrap'>{item.so_number}</td>
                 <td className='px-6 py-4 whitespace-nowrap'>{item.custumer}</td>
                 <td className='px-6 py-4 whitespace-nowrap'>{item.sales_person}</td>
-                <td className='px-6 py-4 whitespace-nowrap'>{dateFormater(item.required_date)}</td>
+                <td className='px-6 py-4 whitespace-nowrap'>{item.required_date}</td>
                 <td className='px-6 py-4 whitespace-nowrap'>{item.Status.status}</td>
                 <td className='px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]'>
                   <button
