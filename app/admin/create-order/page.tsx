@@ -4,6 +4,7 @@ import Dropdown from '@/app/component/template/Dropdown';
 import Input from '@/app/component/template/Input'
 import { addOrder, getOperator } from '../../fetch/FetchData';
 import React, { useEffect, useState } from 'react';
+import Datepicker from '@/app/component/template/Datepicker';
 
 export default function CreateOrder() {
   const [operators, setOperators] = useState([])
@@ -54,6 +55,13 @@ export default function CreateOrder() {
     });
   };
 
+  // date picker handler
+  const handleDate = (date:string, name:string) => {
+    setOrderedData((prev) => {
+      return { ...prev, [name]: date}
+    })
+  }
+
   const createOrder = async () => {
     const res = await addOrder(orderedData)
     console.log(res)
@@ -72,6 +80,7 @@ export default function CreateOrder() {
     }
     fetchOperators()
   }, [])
+  console.log(orderedData)
   return (
     <div className='flex justify-around relative pt-[2rem] text-[.7rem]'>
       <div className='p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]'>
@@ -87,12 +96,12 @@ export default function CreateOrder() {
               <Input onChange={handleInput} name="quotation_number" value={orderedData.quotation_number}/>
             </div>
             <div className='w-full flex items-center'>
-              <label htmlFor="" className='w-[7rem] align-center'>Order Date</label>
-              <Input onChange={handleInput} name="order_date" value={orderedData.order_date}/>
+              <label htmlFor="">Order date</label>
+              <Datepicker onChange={handleDate} name="order_date"/>
             </div>
             <div className='w-full flex items-center'>
-              <label htmlFor="" className='w-[7rem] align-center'>Required Date</label>
-              <Input onChange={handleInput} name="required_date" value={orderedData.required_date}/>
+              <label htmlFor="">Required Date</label>
+              <Datepicker onChange={handleDate} name="required_date"/>
             </div>
             <div className='w-full flex items-center'>
               <label htmlFor="" className='w-[7rem] align-center'>Operator</label>
