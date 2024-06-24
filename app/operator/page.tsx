@@ -1,36 +1,46 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import { getOperatorTask } from '../fetch/FetchData'
+"use client";
+import React, { useEffect, useState } from "react";
+import { getOperatorTask } from "../fetch/FetchData";
+import Diagram from "../component/template/Diagram";
 
-export default function page() {
+export default function Page() {
   const [orderData, setOrderData] = useState([]);
+
   useEffect(() => {
-    const fetchOpertaroTask = async () => {
-      try{
+    const fetchOperatorTask = async () => {
+      try {
         const userId = localStorage.getItem("user_id");
-        console.log(userId)
         if (userId !== null) {
           const id = parseInt(userId);
-          console.log(id)
           const res = await getOperatorTask(id);
-          setOrderData(res?.data.data)
-          console.log(res);
+          setOrderData(res?.data.data);
         } else {
-            console.log("User ID not found in local storage.");
+          console.log("User ID not found in local storage.");
         }
-      }catch(error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
       }
-    }
-    fetchOpertaroTask()
-  }, [])
+    };
+
+    fetchOperatorTask();
+  }, []);
+
   return (
-    <div className='flex justify-around relative pt-[2rem]'>
-      <div className='p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]'>
-        {orderData.map((item:any, key:any) => ( 
-          <div key={key}>{item.Status.status}</div>
-        ))}
+    <div className="flex justify-around relative pt-[2rem]">
+      <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] text-[.7rem] flex">
+        {orderData.map((item: any, key: any) => {
+          const segments = [
+            { value: 10, color: "green-400" },
+            { value: 40, color: "blue-500" },
+            { value: 30, color: "red-400" },
+          ];
+          return (
+            <div key={key} className="flex">
+              <Diagram segments={segments} idPrefix={`diagram-${key}`} />
+            </div>
+          );
+        })}
       </div>
     </div>
-  )
+  );
 }
