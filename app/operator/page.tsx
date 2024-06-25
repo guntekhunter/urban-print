@@ -30,9 +30,9 @@ export default function Page() {
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] text-[.7rem] flex">
         {orderData.map((item: any, key: any) => {
           const segments = [
-            { value: 10, color: "green-400" },
+            { value: 20, color: "green-400" },
             { value: 40, color: "blue-500" },
-            { value: 30, color: "red-400" },
+            { value: 40, color: "red-400" },
           ];
           return (
             <div key={key} className="flex">

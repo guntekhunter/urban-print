@@ -1,5 +1,5 @@
-"use client";
-import React, { useLayoutEffect } from "react";
+'use client';
+import React, { useLayoutEffect } from 'react';
 
 interface Segment {
   value: number;
@@ -10,6 +10,13 @@ interface CircularProgressBarProps {
   segments: Segment[];
   idPrefix: string;
 }
+
+const colorMap: { [key: string]: string } = {
+  'green-400': 'stroke-green-400',
+  'blue-500': 'stroke-blue-500',
+  'red-400': 'stroke-red-400',
+  // Add more color mappings as needed
+};
 
 export default function Diagram({
   segments,
@@ -48,7 +55,7 @@ export default function Diagram({
           <circle
             key={index}
             id={`${idPrefix}-segment${index + 1}`}
-            className={`fill-none stroke-${segment.color} stroke-2`}
+            className={`fill-none ${colorMap[segment.color]} stroke-2`}
             cx="18"
             cy="18"
             r="15.9155"
