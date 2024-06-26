@@ -1,19 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getOperatorTask } from "../fetch/FetchData";
+import { getTaskCount } from "../fetch/FetchData";
 import Diagram from "../component/template/Diagram";
 
 export default function Page() {
-  const [orderData, setOrderData] = useState([]);
+  const [orderData, setOrderData] = useState({ printing: {}, finishing: {} });
 
   useEffect(() => {
-    const fetchOperatorTask = async () => {
+    const fetchTask = async () => {
       try {
         const userId = localStorage.getItem("user_id");
         if (userId !== null) {
           const id = parseInt(userId);
-          const res = await getOperatorTask(id);
-          setOrderData(res?.data.data);
+          const task = await getTaskCount(id);
+          console.log(task?.data);
+          setOrderData(task?.data); // Update the state with response data
         } else {
           console.log("User ID not found in local storage.");
         }
@@ -21,21 +22,56 @@ export default function Page() {
         console.log(error);
       }
     };
-
-    fetchOperatorTask();
+    fetchTask();
   }, []);
+
+  const createSegments = (task: any) => {
+    const total =
+      task.notStarted + task.waiting + task.onProgress + task.finish;
+    if (total === 0) {
+      return [{ value: 100, color: "gray-400", total: total }]; // Default segment when there's no task
+    }
+
+    const segments = [];
+    if (task.notStarted > 0) {
+      segments.push({
+        value: (task.notStarted / total) * 100,
+        color: "red-400",
+        total: total,
+      });
+    }
+    if (task.waiting > 0) {
+      segments.push({
+        value: (task.waiting / total) * 100,
+        color: "yellow-400",
+        total: total,
+      });
+    }
+    if (task.onProgress > 0) {
+      segments.push({
+        value: (task.onProgress / total) * 100,
+        color: "blue-500",
+        total: total,
+      });
+    }
+    if (task.finish > 0) {
+      segments.push({
+        value: (task.finish / total) * 100,
+        color: "green-400",
+        total: total,
+      });
+    }
+
+    return segments;
+  };
 
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] text-[.7rem] flex">
-        {orderData.map((item: any, key: any) => {
-          const segments = [
-            { value: 20, color: "green-400" },
-            { value: 40, color: "blue-500" },
-            { value: 40, color: "red-400" },
-          ];
+        {Object.entries(orderData).map(([key, task], index) => {
+          const segments = createSegments(task);
           return (
-            <div key={key} className="flex">
+            <div key={index} className="flex">
               <Diagram segments={segments} idPrefix={`diagram-${key}`} />
             </div>
           );

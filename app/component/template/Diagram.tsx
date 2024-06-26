@@ -1,9 +1,10 @@
-'use client';
-import React, { useLayoutEffect } from 'react';
+"use client";
+import React, { useLayoutEffect, useState } from "react";
 
 interface Segment {
   value: number;
   color: string;
+  total: any;
 }
 
 interface CircularProgressBarProps {
@@ -12,9 +13,10 @@ interface CircularProgressBarProps {
 }
 
 const colorMap: { [key: string]: string } = {
-  'green-400': 'stroke-green-400',
-  'blue-500': 'stroke-blue-500',
-  'red-400': 'stroke-red-400',
+  "green-400": "stroke-green-400",
+  "blue-500": "stroke-blue-500",
+  "red-400": "stroke-red-400",
+  "yellow-400": "stroke-yellow-400",
   // Add more color mappings as needed
 };
 
@@ -22,7 +24,10 @@ export default function Diagram({
   segments,
   idPrefix,
 }: CircularProgressBarProps) {
+  const [totalTask, setTotalTask] = useState();
   useLayoutEffect(() => {
+    const totalValue = segments.length > 0 ? segments[0].total : 0;
+    setTotalTask(totalValue);
     const radius = 15.9155;
     const circumference = 2 * Math.PI * radius;
 
@@ -65,7 +70,7 @@ export default function Diagram({
         ))}
       </svg>
       <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-gray-700">
-        100%
+        {totalTask}
       </div>
     </div>
   );
