@@ -9,28 +9,28 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const countsPrinting = await Promise.all([
       prisma.order.count({
         where: {
-          id_operator: reqBody.id,
+          id_operator: reqBody,
           product_type: "printing",
           status: 1,
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody.id,
+          id_operator: reqBody,
           product_type: "printing",
           status: 2,
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody.id,
+          id_operator: reqBody,
           product_type: "printing",
           status: 3,
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody.id,
+          id_operator: reqBody,
           product_type: "printing",
           status: 4,
         },
@@ -47,28 +47,28 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const countsFinishing = await Promise.all([
       prisma.order.count({
         where: {
-          id_operator: reqBody.id,
+          id_operator: reqBody,
           product_type: "finishing",
           status: 1,
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody.id,
+          id_operator: reqBody,
           product_type: "finishing",
           status: 2,
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody.id,
+          id_operator: reqBody,
           product_type: "finishing",
           status: 3,
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody.id,
+          id_operator: reqBody,
           product_type: "finishing",
           status: 4,
         },
