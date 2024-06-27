@@ -55,3 +55,12 @@ export const getOperator = async () => {
     console.log(error);
   }
 };
+
+export const getPrintingTask = async (id: any) => {
+  try {
+    const res = await axios.post("/api/operator/printing-task", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
