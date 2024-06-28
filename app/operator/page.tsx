@@ -74,7 +74,7 @@ export default function Page() {
 
   return (
     <div className="flex justify-around relative pt-[2rem]">
-      <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] text-[.7rem] flex justify-between">
+      <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] text-[.7rem] flex space-x-[4rem]">
         {Object.entries(orderData).map(([key, task], index) => {
           const segments = createSegments(task);
           console.log(segments);

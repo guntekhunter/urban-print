@@ -13,7 +13,7 @@ export default function page() {
         if (userId !== null) {
           const id = parseInt(userId);
           const task = await getPrintingTask(id);
-          setOrders(task?.data); // Update the state with response data
+          setOrders(task?.data.data); // Update the state with response data
         } else {
           console.log("User ID not found in local storage.");
         }

@@ -64,3 +64,19 @@ export const getPrintingTask = async (id: any) => {
     console.log(error);
   }
 };
+export const getFinishingTask = async (id: any) => {
+  try {
+    const res = await axios.post("/api/operator/finishing-task", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getOrder = async (id: any) => {
+  try {
+    const res = await axios.post("/api/operator/printing-order", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -1,10 +1,13 @@
 "use client";
 import { getPrintingTask } from "@/app/fetch/FetchData";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [orders, setOrders] = useState([]);
+
+  const route = useRouter();
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -23,6 +26,10 @@ export default function page() {
     };
     fetchOrder();
   }, []);
+
+  const detailOrders = (id: any) => {
+    route.push(`/operator/printing/${id}`);
+  };
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
@@ -49,7 +56,7 @@ export default function page() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {orders?.map((item: any, key) => (
-              <tr key={key}>
+              <tr key={key} onClick={() => detailOrders(item.id)}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.so_number}
                 </td>
