@@ -110,7 +110,7 @@ export default function Page({ params }: { params: { id: string } }) {
       if (orderId !== null) {
         const id = parseInt(orderId);
         await postFinish(id, 1, "finishing");
-        route.push("/operator/finishing");
+        route.push("/operator");
       } else {
         console.log("User ID not found in local storage.");
       }
