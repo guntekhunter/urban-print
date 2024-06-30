@@ -78,7 +78,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     // Create a simplified response object
     const responseFinishing = {
       notStarted: countsFinishing[0],
-      waiting: countsFinishing[1],
+      waiting: countsPrinting[2] + countsPrinting[0],
       onProgress: countsFinishing[2],
       finish: countsFinishing[3],
     };

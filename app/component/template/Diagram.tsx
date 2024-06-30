@@ -11,6 +11,7 @@ interface Segment {
 interface CircularProgressBarProps {
   segments: Segment[];
   idPrefix: string;
+  index: number;
 }
 
 const colorMap: { [key: string]: string } = {
@@ -23,6 +24,7 @@ const colorMap: { [key: string]: string } = {
 export default function Diagram({
   segments,
   idPrefix,
+  index,
 }: CircularProgressBarProps) {
   const [totalTask, setTotalTask] = useState<number>(0);
   const [notStartedTotal, setNotStartedTotal] = useState<number>(0);
@@ -57,7 +59,7 @@ export default function Diagram({
       // Update totals based on segment color or other criteria
       if (segment.color === "yellow-400") waiting += segment.taskCount;
       if (segment.color === "red-400") notStarted += segment.taskCount;
-      if (segment.color === "green-500") onProgress += segment.taskCount;
+      if (segment.color === "green-400") onProgress += segment.taskCount;
     });
 
     setNotStartedTotal(notStarted);
@@ -67,6 +69,11 @@ export default function Diagram({
 
   return (
     <div className="space-y-[1rem]">
+      {index === 1 ? (
+        <h1 className="font-bold text-[1rem] text-center">Finishing</h1>
+      ) : (
+        <h1 className="font-bold text-[1rem] text-center">Printing</h1>
+      )}
       <div className="relative">
         <svg className="w-64 h-64 transform -rotate-90" viewBox="0 0 36 36">
           <circle cx="18" cy="18" r="15.9155" fill="white" />

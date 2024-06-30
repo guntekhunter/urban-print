@@ -77,15 +77,17 @@ export default function Page() {
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] text-[.7rem] flex space-x-[4rem]">
         {Object.entries(orderData).map(([key, task], index) => {
           const segments = createSegments(task);
-          console.log(segments);
-          console.log(index);
           return (
             <div
               key={index}
               className="flex cursor-pointer"
               onClick={() => handleChangePage(index)}
             >
-              <Diagram segments={segments} idPrefix={`diagram-${key}`} />
+              <Diagram
+                segments={segments}
+                idPrefix={`diagram-${key}`}
+                index={index}
+              />
             </div>
           );
         })}

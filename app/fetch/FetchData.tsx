@@ -80,3 +80,26 @@ export const getOrder = async (id: any) => {
     console.log(error);
   }
 };
+export const postStatus = async (id: any, status: any) => {
+  try {
+    const res = await axios.post("/api/order/task-status", {
+      id: id,
+      status: status,
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const postFinish = async (id: any, status: any, type: any) => {
+  try {
+    const res = await axios.post("/api/order/finish-task", {
+      id: id,
+      status: status,
+      type: type,
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
