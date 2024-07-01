@@ -102,6 +102,10 @@ export default function CreateOrder() {
     };
     fetchOperators();
   }, []);
+
+  const cancel = () => {
+    route.push("/admin");
+  };
   console.log(orderedData);
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
@@ -243,7 +247,7 @@ export default function CreateOrder() {
         </div>
         <div className="flex space-x-[1rem] pt-[1rem]">
           <Button onClick={createOrder}>Save Order</Button>
-          <Button>Cancel</Button>
+          <Button onClick={cancel}>Cancel</Button>
         </div>
       </div>
     </div>
