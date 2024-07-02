@@ -1,15 +1,15 @@
-"use client"
-import Image from 'next/image';
-import React, { useState } from 'react'
+"use client";
+import Image from "next/image";
+import React, { useState } from "react";
 
-export default function Dropdown(props:any) {
+export default function Dropdown(props: any) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDropdownClick = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleOptionChange = (event:any) => {
+  const handleOptionChange = (event: any) => {
     setIsOpen(true);
     props.onChange(event);
   };
@@ -20,8 +20,10 @@ export default function Dropdown(props:any) {
         onClick={handleDropdownClick}
         onChange={handleOptionChange}
       >
-        <option value="" disabled selected>Select an option</option>
-        {props.options.map((option:any, key:any) => (
+        <option value="" disabled selected>
+          Select
+        </option>
+        {props.options.map((option: any, key: any) => (
           <option key={key} value={option.id}>
             {option.name}
           </option>
@@ -29,11 +31,17 @@ export default function Dropdown(props:any) {
       </select>
       <div
         className={`absolute right-[1rem] top-1/2 transform -translate-y-1/2 transition-transform ${
-          isOpen ? 'rotate-90' : 'rotate-0'
+          isOpen ? "rotate-90" : "rotate-0"
         }`}
       >
-        <Image src="/arrow.png" alt="" width={500} height={500} className='w-[1rem]'/>
+        <Image
+          src="/arrow.png"
+          alt=""
+          width={500}
+          height={500}
+          className="w-[1rem]"
+        />
       </div>
     </div>
-  )
+  );
 }
