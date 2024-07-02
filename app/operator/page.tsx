@@ -29,8 +29,7 @@ export default function Page() {
   }, []);
 
   const createSegments = (task: any) => {
-    const total =
-      task.notStarted + task.waiting + task.onProgress + task.finish;
+    const total = task.notStarted + task.waiting + task.onProgress;
     if (total === 0) {
       return [{ value: 100, color: "gray-400", total: total, taskCount: 0 }]; // Default segment when there's no task
     }
