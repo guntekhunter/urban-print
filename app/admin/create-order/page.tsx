@@ -94,7 +94,6 @@ export default function CreateOrder() {
     const fetchOperators = async () => {
       try {
         const res = await getOperator();
-        console.log(res?.data.data);
         setOperators(res?.data.data);
       } catch (error) {
         console.log(error);

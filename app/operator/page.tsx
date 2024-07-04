@@ -79,14 +79,16 @@ export default function Page() {
           return (
             <div
               key={index}
-              className="flex cursor-pointer"
+              className="flex cursor-pointer justify-center"
               onClick={() => handleChangePage(index)}
             >
-              <Diagram
-                segments={segments}
-                idPrefix={`diagram-${key}`}
-                index={index}
-              />
+              <div className="bg-green-200">
+                <Diagram
+                  segments={segments}
+                  idPrefix={`diagram-${key}`}
+                  index={index}
+                />
+              </div>
             </div>
           );
         })}
