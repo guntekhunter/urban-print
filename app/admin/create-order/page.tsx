@@ -6,6 +6,7 @@ import { addOrder, getOperator } from "../../fetch/FetchData";
 import React, { useEffect, useState } from "react";
 import Datepicker from "@/app/component/template/Datepicker";
 import { useRouter } from "next/navigation";
+import TimeInputs from "@/app/component/template/TimeInputs";
 
 export default function CreateOrder() {
   const [operators, setOperators] = useState([]);
@@ -76,6 +77,13 @@ export default function CreateOrder() {
     });
   };
 
+  // time picker handler
+  const handleTime = (date: string, name: string) => {
+    // setOrderedData((prev) => {
+    //   return { ...prev, [name]: date };
+    // });
+  };
+
   const createOrder = async () => {
     const res = await addOrder(orderedData);
     console.log(res);
@@ -133,12 +141,16 @@ export default function CreateOrder() {
               />
             </div>
             <div className="w-full flex items-center">
-              <label htmlFor="">Order date</label>
-              <Datepicker onChange={handleDate} name="order_date" />
+              <label htmlFor="" className="w-[7rem] align-center">
+                Order date
+              </label>
+              <TimeInputs onChange={handleDate} name="order_date" />
             </div>
             <div className="w-full flex items-center">
-              <label htmlFor="">Required Date</label>
-              <Datepicker onChange={handleDate} name="required_date" />
+              <label htmlFor="" className="w-[7rem] align-center">
+                Required Date
+              </label>
+              <TimeInputs onChange={handleDate} name="required_date" />
             </div>
             <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
