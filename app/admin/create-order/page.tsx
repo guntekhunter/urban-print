@@ -88,7 +88,7 @@ export default function CreateOrder() {
     const res = await addOrder(orderedData);
     console.log(res);
     console.log(orderedData);
-    if (res?.status === 200) {
+    if (!res?.data.error) {
       route.push("/admin");
     } else {
       setErrorCreateaOrder(true);
