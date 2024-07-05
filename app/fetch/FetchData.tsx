@@ -113,3 +113,11 @@ export const getOperatorOnProgress = async (id: any) => {
     console.log(error);
   }
 };
+export const getPerformance = async (id: any) => {
+  try {
+    const res = await axios.post("/api/manager/performance", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
