@@ -100,7 +100,7 @@ export default function ChartComponent({
           })}
         </svg>
         <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-gray-700">
-          {performances}
+          {performances}%
         </div>
       </div>
     </div>
