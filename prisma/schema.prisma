@@ -35,6 +35,15 @@ model Order {
   adress           String
   status           Int
   product_type     String
+  product_width    Int
+  product_length   Int
+  cutting_width    Int
+  cutting_length   Int
+  material         String
+  color            String
+  coating          String
+  prize            Int
+  quantity         Int
   id_operator      Int
   user             User    @relation(fields: [authorId], references: [id])
   authorId         Int
@@ -45,4 +54,10 @@ model Status {
   id     Int     @id @default(autoincrement())
   status String
   orders Order[]
+}
+
+model custumer {
+  id             Int    @id @default(autoincrement())
+  address        String
+  contact_person String
 }

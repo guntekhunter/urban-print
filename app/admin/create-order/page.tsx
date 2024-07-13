@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import Datepicker from "@/app/component/template/Datepicker";
 import { useRouter } from "next/navigation";
 import TimeInputs from "@/app/component/template/TimeInputs";
+import Image from "next/image";
 
 export default function CreateOrder() {
   const [operators, setOperators] = useState([]);
@@ -29,6 +30,15 @@ export default function CreateOrder() {
     product_type: "",
     id_operator: null,
     authorId: 1,
+    product_width: null, //new data
+    product_length: null, //new data
+    cutting_width: null, //new data
+    cutting_length: null, //new data
+    material: "", //new data
+    color: "", //new data
+    coating: "", //new data
+    prize: null, //new data
+    quantity: null, //new data
   });
 
   const route = useRouter();
@@ -255,6 +265,130 @@ export default function CreateOrder() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="pt-[1rem]">
+          <div className="space-y-[1rem]">
+            <h2 className="text-[1rem] font-bold">Order Information</h2>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="text-center space-y-[1rem] text-[1rem]">
+                <div className="w-full h-64 overflow-hidden">
+                  <Image
+                    src="/stickers.png"
+                    alt=""
+                    className="w-full h-full object-cover"
+                    width={500}
+                    height={500}
+                  />
+                </div>
+                <p>Sticker</p>
+              </div>
+              <div className="text-center space-y-[1rem] text-[1rem]">
+                <div className="w-full h-64 overflow-hidden">
+                  <Image
+                    src="/potography.png"
+                    alt=""
+                    className="w-full h-full object-cover"
+                    width={500}
+                    height={500}
+                  />
+                </div>
+                <p>Potography</p>
+              </div>
+              <div className="text-center space-y-[1rem] text-[1rem]">
+                <div className="w-full h-64 overflow-hidden">
+                  <Image
+                    src="/poster.png"
+                    alt=""
+                    className="w-full h-full object-cover"
+                    width={500}
+                    height={500}
+                  />
+                </div>
+                <p>Poster</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex pt-[2rem]">
+          <div className="w-[70%] pr-[2rem] space-y-[2rem]">
+            <div className="flex space-x-[2rem]">
+              <label className="w-[30%]">Product Size</label>
+              <div className="w-full">
+                <Input
+                  onChange={handleInput}
+                  name="ship_to"
+                  value={orderedData.ship_to}
+                />
+                <p>Size Width / Centimeter</p>
+              </div>
+              <div className="w-full">
+                <Input
+                  onChange={handleInput}
+                  name="ship_to"
+                  value={orderedData.ship_to}
+                />
+                <p>Size Length / Centimeter</p>
+              </div>
+            </div>
+            <div className="flex space-x-[2rem]">
+              <label className="w-[30%]">Cutting Size</label>
+              <div className="w-full">
+                <Input
+                  onChange={handleInput}
+                  name="ship_to"
+                  value={orderedData.ship_to}
+                />
+                <p>Size Width / Centimeter</p>
+              </div>
+              <div className="w-full">
+                <Input
+                  onChange={handleInput}
+                  name="ship_to"
+                  value={orderedData.ship_to}
+                />
+                <p>Size Length / Centimeter</p>
+              </div>
+            </div>
+            <div className="flex">
+              <label className="w-[19%]">Material</label>
+              <Dropdown
+                options={[
+                  { id: "printing", name: "printing" },
+                  { id: "finishing", name: "finishing" },
+                ]}
+                onChange={handleDropdownChange("product_type")}
+              />
+            </div>
+            <div className="flex">
+              <label className="w-[19%]">Color</label>
+              <Dropdown
+                options={[
+                  { id: "printing", name: "printing" },
+                  { id: "finishing", name: "finishing" },
+                ]}
+                onChange={handleDropdownChange("product_type")}
+              />
+            </div>
+            <div className="flex">
+              <label className="w-[19%]">Coating</label>
+              <Dropdown
+                options={[
+                  { id: "printing", name: "printing" },
+                  { id: "finishing", name: "finishing" },
+                ]}
+                onChange={handleDropdownChange("product_type")}
+              />
+            </div>
+            <div className="flex">
+              <label className="w-[19%]">quantity</label>
+              <Input
+                onChange={handleInput}
+                name="ship_to"
+                value={orderedData.ship_to}
+              />
+            </div>
+          </div>
+          <div className="w-[30%]">bisa</div>
         </div>
         <div className="flex space-x-[1rem] pt-[1rem]">
           <Button onClick={createOrder}>Save Order</Button>

@@ -34,6 +34,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
         id_operator: reqBody.id_operator,
         user: reqBody.user,
         authorId: reqBody.authorId,
+        product_width: reqBody.product_width,
+        product_length: reqBody.product_length,
+        cutting_width: reqBody.cutting_width,
+        cutting_length: reqBody.cutting_length,
+        material: reqBody.material,
+        color: reqBody.color,
+        coating: reqBody.coating,
+        prize: reqBody.prize,
+        quantity: reqBody.quantity,
       },
     });
     return NextResponse.json({ data: newOrder });

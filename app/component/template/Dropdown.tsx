@@ -16,7 +16,7 @@ export default function Dropdown(props: any) {
   return (
     <div className="relative w-full">
       <select
-        className="w-full h-[2rem] px-[.5rem] rounded-md border-[1.4px] border-gray-200 text-[.9rem] appearance-none"
+        className="w-full h-[2rem] px-[.5rem] rounded-md border-[1.4px] border-gray-200 text-[.8rem] appearance-none focus:outline-none"
         onClick={handleDropdownClick}
         onChange={handleOptionChange}
       >
