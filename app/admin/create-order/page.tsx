@@ -20,7 +20,7 @@ export default function CreateOrder() {
     required_date: "",
     sales_type: "",
     po_number: null,
-    acount_rep: "",
+    acount_rep: "none",
     sales_person: "",
     custumer: "",
     contact_person: "",
@@ -29,7 +29,7 @@ export default function CreateOrder() {
     status: 1,
     product_type: "",
     id_operator: null,
-    authorId: 1,
+    authorId: 2,
     product_width: null, //new data
     product_length: null, //new data
     cutting_width: null, //new data
@@ -37,7 +37,7 @@ export default function CreateOrder() {
     material: "", //new data
     color: "", //new data
     coating: "", //new data
-    prize: null, //new data
+    prize: 1, //new data
     quantity: null, //new data
   });
 
@@ -46,7 +46,18 @@ export default function CreateOrder() {
   const handleInput = (e: any) => {
     const name = e.target.name;
     let value = e.target.value;
-    if (["so_number", "quotation_number", "po_number"].includes(name)) {
+    if (
+      [
+        "so_number",
+        "quotation_number",
+        "po_number",
+        "quantity",
+        "product_width",
+        "product_length",
+        "cutting_width",
+        "cutting_length",
+      ].includes(name)
+    ) {
       value = parseInt(value, 10);
       if (isNaN(value)) {
         value = 0; // or handle it appropriately if value is not a valid number
@@ -63,18 +74,19 @@ export default function CreateOrder() {
   const handleDropdownChange =
     (fieldName: string) => (event: React.ChangeEvent<HTMLSelectElement>) => {
       const idOperator = event.target.value;
-      if (fieldName === "product_type") {
+      console.log;
+      if (fieldName === "id_operator") {
         setOrderedData((prev: any) => {
           return {
             ...prev,
-            [fieldName]: idOperator,
+            [fieldName]: parseInt(idOperator),
           };
         });
       } else {
         setOrderedData((prev: any) => {
           return {
             ...prev,
-            [fieldName]: parseInt(idOperator),
+            [fieldName]: idOperator,
           };
         });
       }
@@ -82,9 +94,15 @@ export default function CreateOrder() {
 
   // date picker handler
   const handleDate = (date: string, name: string) => {
-    setOrderedData((prev) => {
-      return { ...prev, [name]: date };
-    });
+    if (name === "order_date") {
+      setOrderedData((prev) => {
+        return { ...prev, [name]: date };
+      });
+    } else {
+      setOrderedData((prev) => {
+        return { ...prev, [name]: date };
+      });
+    }
   };
 
   // time picker handler
@@ -122,6 +140,12 @@ export default function CreateOrder() {
 
   const cancel = () => {
     route.push("/admin");
+  };
+
+  const handleProductType = (value: any) => {
+    setOrderedData((prev) => {
+      return { ...prev, ["product_type"]: value };
+    });
   };
   console.log(orderedData);
   return (
@@ -162,15 +186,6 @@ export default function CreateOrder() {
               </label>
               <TimeInputs onChange={handleDate} name="required_date" />
             </div>
-            <div className="w-full flex items-center">
-              <label htmlFor="" className="w-[7rem] align-center">
-                Operator
-              </label>
-              <Dropdown
-                options={operators}
-                onChange={handleDropdownChange("id_operator")}
-              />
-            </div>
           </div>
           <div className="w-full space-y-[1.5rem]">
             <div className="w-full flex items-center">
@@ -195,16 +210,6 @@ export default function CreateOrder() {
             </div>
             <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
-                Acount Rep
-              </label>
-              <Input
-                onChange={handleInput}
-                name="acount_rep"
-                value={orderedData.acount_rep}
-              />
-            </div>
-            <div className="w-full flex items-center">
-              <label htmlFor="" className="w-[7rem] align-center">
                 Sales Person
               </label>
               <Input
@@ -215,14 +220,11 @@ export default function CreateOrder() {
             </div>
             <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
-                Product-type
+                Operator
               </label>
               <Dropdown
-                options={[
-                  { id: "printing", name: "printing" },
-                  { id: "finishing", name: "finishing" },
-                ]}
-                onChange={handleDropdownChange("product_type")}
+                options={operators}
+                onChange={handleDropdownChange("id_operator")}
               />
             </div>
           </div>
@@ -270,7 +272,10 @@ export default function CreateOrder() {
           <div className="space-y-[1rem]">
             <h2 className="text-[1rem] font-bold">Order Information</h2>
             <div className="grid grid-cols-3 gap-4">
-              <div className="text-center space-y-[1rem] text-[1rem]">
+              <button
+                className="text-center space-y-[1rem] text-[1rem]"
+                onClick={(e) => handleProductType("stickers")}
+              >
                 <div className="w-full h-64 overflow-hidden">
                   <Image
                     src="/stickers.png"
@@ -281,8 +286,11 @@ export default function CreateOrder() {
                   />
                 </div>
                 <p>Sticker</p>
-              </div>
-              <div className="text-center space-y-[1rem] text-[1rem]">
+              </button>
+              <button
+                className="text-center space-y-[1rem] text-[1rem]"
+                onClick={() => handleProductType("potography")}
+              >
                 <div className="w-full h-64 overflow-hidden">
                   <Image
                     src="/potography.png"
@@ -293,8 +301,11 @@ export default function CreateOrder() {
                   />
                 </div>
                 <p>Potography</p>
-              </div>
-              <div className="text-center space-y-[1rem] text-[1rem]">
+              </button>
+              <button
+                className="text-center space-y-[1rem] text-[1rem]"
+                onClick={(e) => handleProductType("poster")}
+              >
                 <div className="w-full h-64 overflow-hidden">
                   <Image
                     src="/poster.png"
@@ -305,7 +316,7 @@ export default function CreateOrder() {
                   />
                 </div>
                 <p>Poster</p>
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -316,16 +327,16 @@ export default function CreateOrder() {
               <div className="w-full">
                 <Input
                   onChange={handleInput}
-                  name="ship_to"
-                  value={orderedData.ship_to}
+                  name="product_width"
+                  value={orderedData.product_width}
                 />
                 <p>Size Width / Centimeter</p>
               </div>
               <div className="w-full">
                 <Input
                   onChange={handleInput}
-                  name="ship_to"
-                  value={orderedData.ship_to}
+                  name="product_length"
+                  value={orderedData.product_length}
                 />
                 <p>Size Length / Centimeter</p>
               </div>
@@ -335,16 +346,16 @@ export default function CreateOrder() {
               <div className="w-full">
                 <Input
                   onChange={handleInput}
-                  name="ship_to"
-                  value={orderedData.ship_to}
+                  name="cutting_width"
+                  value={orderedData.cutting_width}
                 />
                 <p>Size Width / Centimeter</p>
               </div>
               <div className="w-full">
                 <Input
                   onChange={handleInput}
-                  name="ship_to"
-                  value={orderedData.ship_to}
+                  name="cutting_length"
+                  value={orderedData.cutting_length}
                 />
                 <p>Size Length / Centimeter</p>
               </div>
@@ -353,38 +364,38 @@ export default function CreateOrder() {
               <label className="w-[19%]">Material</label>
               <Dropdown
                 options={[
-                  { id: "printing", name: "printing" },
-                  { id: "finishing", name: "finishing" },
+                  { id: "vinyl", name: "vinyl" },
+                  { id: "paper", name: "paper" },
                 ]}
-                onChange={handleDropdownChange("product_type")}
+                onChange={handleDropdownChange("material")}
               />
             </div>
             <div className="flex">
               <label className="w-[19%]">Color</label>
               <Dropdown
                 options={[
-                  { id: "printing", name: "printing" },
-                  { id: "finishing", name: "finishing" },
+                  { id: "red", name: "red" },
+                  { id: "yellow", name: "yellow" },
                 ]}
-                onChange={handleDropdownChange("product_type")}
+                onChange={handleDropdownChange("color")}
               />
             </div>
             <div className="flex">
               <label className="w-[19%]">Coating</label>
               <Dropdown
                 options={[
-                  { id: "printing", name: "printing" },
-                  { id: "finishing", name: "finishing" },
+                  { id: "coating 1", name: "coating 1" },
+                  { id: "coating 2", name: "coating 2" },
                 ]}
-                onChange={handleDropdownChange("product_type")}
+                onChange={handleDropdownChange("coating")}
               />
             </div>
             <div className="flex">
               <label className="w-[19%]">quantity</label>
               <Input
                 onChange={handleInput}
-                name="ship_to"
-                value={orderedData.ship_to}
+                name="quantity"
+                value={orderedData.quantity}
               />
             </div>
           </div>
