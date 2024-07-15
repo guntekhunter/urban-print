@@ -8,6 +8,7 @@ import Datepicker from "@/app/component/template/Datepicker";
 import { useRouter } from "next/navigation";
 import TimeInputs from "@/app/component/template/TimeInputs";
 import Image from "next/image";
+import { prize } from "@/app/functions/prizeFormater";
 
 export default function CreateOrder() {
   const [operators, setOperators] = useState([]);
@@ -37,7 +38,7 @@ export default function CreateOrder() {
     material: "", //new data
     color: "", //new data
     coating: "", //new data
-    prize: 1, //new data
+    prize: null, //new data
     quantity: null, //new data
   });
 
@@ -138,6 +139,16 @@ export default function CreateOrder() {
     fetchOperators();
   }, []);
 
+  useEffect(() => {
+    if (orderedData.cutting_length && orderedData.cutting_width) {
+      const quantity = orderedData.cutting_length * orderedData.cutting_width;
+      setOrderedData((prevData: any) => ({
+        ...prevData,
+        quantity,
+      }));
+    }
+  }, [orderedData.cutting_length, orderedData.cutting_width]);
+
   const cancel = () => {
     route.push("/admin");
   };
@@ -146,6 +157,19 @@ export default function CreateOrder() {
     setOrderedData((prev) => {
       return { ...prev, ["product_type"]: value };
     });
+    if (value === "potography") {
+      setOrderedData((prev: any) => {
+        return { ...prev, ["prize"]: 3000 };
+      });
+    } else if (value === "stickers") {
+      setOrderedData((prev: any) => {
+        return { ...prev, ["prize"]: 1000 };
+      });
+    } else if (value === "poster") {
+      setOrderedData((prev: any) => {
+        return { ...prev, ["prize"]: 2000 };
+      });
+    }
   };
   console.log(orderedData);
   return (
@@ -271,136 +295,180 @@ export default function CreateOrder() {
         <div className="pt-[1rem]">
           <div className="space-y-[1rem]">
             <h2 className="text-[1rem] font-bold">Order Information</h2>
-            <div className="grid grid-cols-3 gap-4">
-              <button
-                className="text-center space-y-[1rem] text-[1rem]"
-                onClick={(e) => handleProductType("stickers")}
-              >
-                <div className="w-full h-64 overflow-hidden">
-                  <Image
-                    src="/stickers.png"
-                    alt=""
-                    className="w-full h-full object-cover"
-                    width={500}
-                    height={500}
-                  />
+            <div className="flex space-x-[1rem]">
+              <div className="w-[70%]">
+                <div className="grid grid-cols-3 gap-4">
+                  <button
+                    className="text-center space-y-[1rem] text-[1rem]"
+                    onClick={(e) => handleProductType("stickers")}
+                  >
+                    <div className="w-full h-64 overflow-hidden">
+                      <Image
+                        src="/stickers.png"
+                        alt=""
+                        className="w-full h-full object-cover"
+                        width={500}
+                        height={500}
+                      />
+                    </div>
+                    <p>Sticker</p>
+                  </button>
+                  <button
+                    className="text-center space-y-[1rem] text-[1rem]"
+                    onClick={() => handleProductType("potography")}
+                  >
+                    <div className="w-full h-64 overflow-hidden">
+                      <Image
+                        src="/potography.png"
+                        alt=""
+                        className="w-full h-full object-cover"
+                        width={500}
+                        height={500}
+                      />
+                    </div>
+                    <p>Potography</p>
+                  </button>
+                  <button
+                    className="text-center space-y-[1rem] text-[1rem]"
+                    onClick={(e) => handleProductType("poster")}
+                  >
+                    <div className="w-full h-64 overflow-hidden">
+                      <Image
+                        src="/poster.png"
+                        alt=""
+                        className="w-full h-full object-cover"
+                        width={500}
+                        height={500}
+                      />
+                    </div>
+                    <p>Poster</p>
+                  </button>
                 </div>
-                <p>Sticker</p>
-              </button>
-              <button
-                className="text-center space-y-[1rem] text-[1rem]"
-                onClick={() => handleProductType("potography")}
-              >
-                <div className="w-full h-64 overflow-hidden">
-                  <Image
-                    src="/potography.png"
-                    alt=""
-                    className="w-full h-full object-cover"
-                    width={500}
-                    height={500}
-                  />
+                <div className="flex pt-[2rem]">
+                  <div className="w-full pr-[2rem] space-y-[2rem]">
+                    <div className="flex space-x-[2rem]">
+                      <label className="w-[30%]">Product Size</label>
+                      <div className="w-full">
+                        <Input
+                          onChange={handleInput}
+                          name="product_width"
+                          value={orderedData.product_width}
+                        />
+                        <p>Size Width / Centimeter</p>
+                      </div>
+                      <div className="w-full">
+                        <Input
+                          onChange={handleInput}
+                          name="product_length"
+                          value={orderedData.product_length}
+                        />
+                        <p>Size Length / Centimeter</p>
+                      </div>
+                    </div>
+                    <div className="flex space-x-[2rem]">
+                      <label className="w-[30%]">Cutting Size</label>
+                      <div className="w-full">
+                        <Input
+                          onChange={handleInput}
+                          name="cutting_width"
+                          value={orderedData.cutting_width}
+                        />
+                        <p>Size Width / Centimeter</p>
+                      </div>
+                      <div className="w-full">
+                        <Input
+                          onChange={handleInput}
+                          name="cutting_length"
+                          value={orderedData.cutting_length}
+                        />
+                        <p>Size Length / Centimeter</p>
+                      </div>
+                    </div>
+                    <div className="flex">
+                      <label className="w-[19%]">Material</label>
+                      <Dropdown
+                        options={[
+                          { id: "vinyl", name: "vinyl" },
+                          { id: "paper", name: "paper" },
+                        ]}
+                        onChange={handleDropdownChange("material")}
+                      />
+                    </div>
+                    <div className="flex">
+                      <label className="w-[19%]">Color</label>
+                      <Dropdown
+                        options={[
+                          { id: "red", name: "red" },
+                          { id: "yellow", name: "yellow" },
+                        ]}
+                        onChange={handleDropdownChange("color")}
+                      />
+                    </div>
+                    <div className="flex">
+                      <label className="w-[19%]">Coating</label>
+                      <Dropdown
+                        options={[
+                          { id: "coating 1", name: "coating 1" },
+                          { id: "coating 2", name: "coating 2" },
+                        ]}
+                        onChange={handleDropdownChange("coating")}
+                      />
+                    </div>
+                    <div className="flex">
+                      <label className="w-[19%]">quantity</label>
+                      <Input
+                        onChange={handleInput}
+                        name="quantity"
+                        value={orderedData.quantity}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <p>Potography</p>
-              </button>
-              <button
-                className="text-center space-y-[1rem] text-[1rem]"
-                onClick={(e) => handleProductType("poster")}
-              >
-                <div className="w-full h-64 overflow-hidden">
-                  <Image
-                    src="/poster.png"
-                    alt=""
-                    className="w-full h-full object-cover"
-                    width={500}
-                    height={500}
-                  />
+              </div>
+              <div className="w-[30%] bg-gray-200 p-[1rem]">
+                <h1 className="text-[.9rem] font-bold">Order Items</h1>
+                <div className="space-y-[2rem]">
+                  <ul className="list-disc ml-4">
+                    <li>
+                      Product Size: {orderedData.product_width} cm X{" "}
+                      {orderedData.product_length} cm
+                    </li>
+                    <li>{orderedData.product_type}: </li>
+                    <ul className="list-[square] ml-6">
+                      <li>
+                        Size:{" "}
+                        {orderedData.cutting_length && orderedData.cutting_width
+                          ? orderedData.cutting_width *
+                            orderedData.cutting_length
+                          : null}
+                      </li>
+                      <li>Material: {orderedData.material}</li>
+                      <li>Color: {orderedData.color}</li>
+                      <li>Coating: {orderedData.coating}</li>
+                    </ul>
+                  </ul>
+                  <div className="justify-between flex">
+                    <div>
+                      <div>Unit Prize</div>
+                      <div>Quantity</div>
+                      <div>Total</div>
+                    </div>
+                    <div className="text-green-600 font-bold">
+                      <div>{prize(orderedData.prize)}</div>
+                      <div>{orderedData.quantity || 0}</div>
+                      <div>
+                        {prize(
+                          (orderedData.prize ?? 0) * (orderedData.quantity ?? 0)
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <p>Poster</p>
-              </button>
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex pt-[2rem]">
-          <div className="w-[70%] pr-[2rem] space-y-[2rem]">
-            <div className="flex space-x-[2rem]">
-              <label className="w-[30%]">Product Size</label>
-              <div className="w-full">
-                <Input
-                  onChange={handleInput}
-                  name="product_width"
-                  value={orderedData.product_width}
-                />
-                <p>Size Width / Centimeter</p>
-              </div>
-              <div className="w-full">
-                <Input
-                  onChange={handleInput}
-                  name="product_length"
-                  value={orderedData.product_length}
-                />
-                <p>Size Length / Centimeter</p>
-              </div>
-            </div>
-            <div className="flex space-x-[2rem]">
-              <label className="w-[30%]">Cutting Size</label>
-              <div className="w-full">
-                <Input
-                  onChange={handleInput}
-                  name="cutting_width"
-                  value={orderedData.cutting_width}
-                />
-                <p>Size Width / Centimeter</p>
-              </div>
-              <div className="w-full">
-                <Input
-                  onChange={handleInput}
-                  name="cutting_length"
-                  value={orderedData.cutting_length}
-                />
-                <p>Size Length / Centimeter</p>
-              </div>
-            </div>
-            <div className="flex">
-              <label className="w-[19%]">Material</label>
-              <Dropdown
-                options={[
-                  { id: "vinyl", name: "vinyl" },
-                  { id: "paper", name: "paper" },
-                ]}
-                onChange={handleDropdownChange("material")}
-              />
-            </div>
-            <div className="flex">
-              <label className="w-[19%]">Color</label>
-              <Dropdown
-                options={[
-                  { id: "red", name: "red" },
-                  { id: "yellow", name: "yellow" },
-                ]}
-                onChange={handleDropdownChange("color")}
-              />
-            </div>
-            <div className="flex">
-              <label className="w-[19%]">Coating</label>
-              <Dropdown
-                options={[
-                  { id: "coating 1", name: "coating 1" },
-                  { id: "coating 2", name: "coating 2" },
-                ]}
-                onChange={handleDropdownChange("coating")}
-              />
-            </div>
-            <div className="flex">
-              <label className="w-[19%]">quantity</label>
-              <Input
-                onChange={handleInput}
-                name="quantity"
-                value={orderedData.quantity}
-              />
-            </div>
-          </div>
-          <div className="w-[30%]">bisa</div>
-        </div>
+
         <div className="flex space-x-[1rem] pt-[1rem]">
           <Button onClick={createOrder}>Save Order</Button>
           <Button onClick={cancel}>Cancel</Button>
