@@ -56,6 +56,15 @@ export const getOperator = async () => {
   }
 };
 
+export const getUser = async (id: number) => {
+  try {
+    const res = await axios.post("/api/admin/get-user", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getPrintingTask = async (id: any) => {
   try {
     const res = await axios.post("/api/operator/printing-task", id);

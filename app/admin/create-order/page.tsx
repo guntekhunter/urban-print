@@ -2,7 +2,7 @@
 import Button from "@/app/component/template/Button";
 import Dropdown from "@/app/component/template/Dropdown";
 import Input from "@/app/component/template/Input";
-import { addOrder, getOperator } from "../../fetch/FetchData";
+import { addOrder, getAllOrder, getUser } from "../../fetch/FetchData";
 import React, { useEffect, useState } from "react";
 import Datepicker from "@/app/component/template/Datepicker";
 import { useRouter } from "next/navigation";
@@ -11,8 +11,10 @@ import Image from "next/image";
 import { prize } from "@/app/functions/prizeFormater";
 
 export default function CreateOrder() {
-  const [operators, setOperators] = useState([]);
   const [errorCreateOrder, setErrorCreateaOrder] = useState(false);
+  const [thePize, setThePrize] = useState<number>();
+  const [theQuantity, setTheQuantity] = useState<number>();
+  const [user, setUser] = useState([]);
 
   const [orderedData, setOrderedData] = useState({
     so_number: null,
@@ -29,7 +31,7 @@ export default function CreateOrder() {
     adress: "",
     status: 1,
     product_type: "",
-    id_operator: null,
+    id_operator: 0,
     authorId: 2,
     product_width: null, //new data
     product_length: null, //new data
@@ -74,23 +76,13 @@ export default function CreateOrder() {
 
   const handleDropdownChange =
     (fieldName: string) => (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const idOperator = event.target.value;
-      console.log;
-      if (fieldName === "id_operator") {
-        setOrderedData((prev: any) => {
-          return {
-            ...prev,
-            [fieldName]: parseInt(idOperator),
-          };
-        });
-      } else {
-        setOrderedData((prev: any) => {
-          return {
-            ...prev,
-            [fieldName]: idOperator,
-          };
-        });
-      }
+      const value = event.target.value;
+      setOrderedData((prev: any) => {
+        return {
+          ...prev,
+          [fieldName]: value,
+        };
+      });
     };
 
   // date picker handler
@@ -126,28 +118,27 @@ export default function CreateOrder() {
       }, 3000);
     }
   };
-
-  useEffect(() => {
-    const fetchOperators = async () => {
-      try {
-        const res = await getOperator();
-        setOperators(res?.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchOperators();
-  }, []);
-
   useEffect(() => {
     if (orderedData.cutting_length && orderedData.cutting_width) {
       const quantity = orderedData.cutting_length * orderedData.cutting_width;
+      setTheQuantity(quantity);
       setOrderedData((prevData: any) => ({
         ...prevData,
         quantity,
       }));
     }
   }, [orderedData.cutting_length, orderedData.cutting_width]);
+
+  useEffect(() => {
+    console.log(theQuantity, thePize);
+    if (theQuantity && thePize) {
+      const totalPrize = thePize * theQuantity;
+      setOrderedData((prevData: any) => ({
+        ...prevData,
+        ["prize"]: totalPrize,
+      }));
+    }
+  }, [theQuantity, thePize]);
 
   const cancel = () => {
     route.push("/admin");
@@ -157,21 +148,46 @@ export default function CreateOrder() {
     setOrderedData((prev) => {
       return { ...prev, ["product_type"]: value };
     });
-    if (value === "potography") {
-      setOrderedData((prev: any) => {
-        return { ...prev, ["prize"]: 3000 };
-      });
-    } else if (value === "stickers") {
-      setOrderedData((prev: any) => {
-        return { ...prev, ["prize"]: 1000 };
-      });
-    } else if (value === "poster") {
-      setOrderedData((prev: any) => {
-        return { ...prev, ["prize"]: 2000 };
-      });
+    if (value === "printing potography") {
+      setThePrize(3000);
+    } else if (value === "printing stickers") {
+      setThePrize(1000);
+    } else if (value === "printing poster") {
+      setThePrize(2000);
     }
   };
-  console.log(orderedData);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const id = localStorage.getItem("user_id");
+        if (id) {
+          const theId = parseInt(id);
+          const data = await getUser(theId);
+          setUser(data?.data.data);
+          const name = data?.data.data.name;
+          setOrderedData((pref: any) => ({ ...pref, ["sales_person"]: name }));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const data = await getAllOrder();
+        const newId = data?.data.data.length;
+        setOrderedData((pref: any) => ({ ...pref, ["so_number"]: newId + 1 }));
+        console.log(newId);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchOrders();
+  }, []);
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">
@@ -242,15 +258,6 @@ export default function CreateOrder() {
                 value={orderedData.sales_person}
               />
             </div>
-            <div className="w-full flex items-center">
-              <label htmlFor="" className="w-[7rem] align-center">
-                Operator
-              </label>
-              <Dropdown
-                options={operators}
-                onChange={handleDropdownChange("id_operator")}
-              />
-            </div>
           </div>
           {/* right section */}
           <div className="w-full flex space-x-[1rem] ">
@@ -300,7 +307,7 @@ export default function CreateOrder() {
                 <div className="grid grid-cols-3 gap-4">
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
-                    onClick={(e) => handleProductType("stickers")}
+                    onClick={(e) => handleProductType("printing stickers")}
                   >
                     <div className="w-full h-64 overflow-hidden">
                       <Image
@@ -315,7 +322,7 @@ export default function CreateOrder() {
                   </button>
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
-                    onClick={() => handleProductType("potography")}
+                    onClick={() => handleProductType("printing potography")}
                   >
                     <div className="w-full h-64 overflow-hidden">
                       <Image
@@ -330,7 +337,7 @@ export default function CreateOrder() {
                   </button>
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
-                    onClick={(e) => handleProductType("poster")}
+                    onClick={(e) => handleProductType("printing poster")}
                   >
                     <div className="w-full h-64 overflow-hidden">
                       <Image
@@ -454,12 +461,10 @@ export default function CreateOrder() {
                       <div>Total</div>
                     </div>
                     <div className="text-green-600 font-bold">
-                      <div>{prize(orderedData.prize)}</div>
+                      <div>{thePize ? prize(thePize) : 0}</div>
                       <div>{orderedData.quantity || 0}</div>
                       <div>
-                        {prize(
-                          (orderedData.prize ?? 0) * (orderedData.quantity ?? 0)
-                        )}
+                        {prize((thePize ?? 0) * (orderedData.quantity ?? 0))}
                       </div>
                     </div>
                   </div>
