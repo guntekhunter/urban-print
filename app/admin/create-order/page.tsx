@@ -2,7 +2,13 @@
 import Button from "@/app/component/template/Button";
 import Dropdown from "@/app/component/template/Dropdown";
 import Input from "@/app/component/template/Input";
-import { addOrder, getAllOrder, getUser } from "../../fetch/FetchData";
+import {
+  addOrder,
+  getAllOrder,
+  getCustumer,
+  getCustumers,
+  getUser,
+} from "../../fetch/FetchData";
 import React, { useEffect, useState } from "react";
 import Datepicker from "@/app/component/template/Datepicker";
 import { useRouter } from "next/navigation";
@@ -10,11 +16,20 @@ import TimeInputs from "@/app/component/template/TimeInputs";
 import Image from "next/image";
 import { prize } from "@/app/functions/prizeFormater";
 
+export interface Customer {
+  name: string;
+  address: string;
+  contact_person: string;
+  // add other properties as needed
+}
+
 export default function CreateOrder() {
   const [errorCreateOrder, setErrorCreateaOrder] = useState(false);
   const [thePize, setThePrize] = useState<number>();
   const [theQuantity, setTheQuantity] = useState<number>();
   const [user, setUser] = useState([]);
+  const [custumers, setCustumers] = useState([]);
+  const [custumer, setCustumer] = useState<Customer | null>(null);
 
   const [orderedData, setOrderedData] = useState({
     so_number: null,
@@ -77,6 +92,18 @@ export default function CreateOrder() {
   const handleDropdownChange =
     (fieldName: string) => (event: React.ChangeEvent<HTMLSelectElement>) => {
       const value = event.target.value;
+      if (fieldName === "custumer") {
+        const fetchCustumer = async () => {
+          try {
+            const data = await getCustumer(value);
+            console.log(data?.data.data);
+            setCustumer(data?.data.data);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchCustumer();
+      }
       setOrderedData((prev: any) => {
         return {
           ...prev,
@@ -188,6 +215,19 @@ export default function CreateOrder() {
     };
     fetchOrders();
   }, []);
+
+  useEffect(() => {
+    const fetchCustemers = async () => {
+      try {
+        const data = await getCustumers();
+        setCustumers(data?.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCustemers();
+  }, []);
+  console.log(custumer);
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">
@@ -264,10 +304,9 @@ export default function CreateOrder() {
             <div className="space-y-[1rem]">
               <div>
                 <label htmlFor="">Custumer</label>
-                <Input
-                  onChange={handleInput}
-                  name="custumer"
-                  value={orderedData.custumer}
+                <Dropdown
+                  options={custumers}
+                  onChange={handleDropdownChange("custumer")}
                 />
               </div>
               <div>
@@ -275,7 +314,7 @@ export default function CreateOrder() {
                 <Input
                   onChange={handleInput}
                   name="contact_person"
-                  value={orderedData.contact_person}
+                  value={custumer?.contact_person}
                 />
               </div>
             </div>
@@ -285,7 +324,7 @@ export default function CreateOrder() {
                 <Input
                   onChange={handleInput}
                   name="adress"
-                  value={orderedData.adress}
+                  value={custumer?.address}
                 />
               </div>
               <div>
@@ -293,7 +332,7 @@ export default function CreateOrder() {
                 <Input
                   onChange={handleInput}
                   name="ship_to"
-                  value={orderedData.ship_to}
+                  value={custumer?.address}
                 />
               </div>
             </div>

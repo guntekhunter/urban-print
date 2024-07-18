@@ -139,3 +139,20 @@ export const addCustumer = async (data: any) => {
     console.log(error);
   }
 };
+
+export const getCustumers = async () => {
+  try {
+    const res = await axios.get("/api/admin/get-custumers");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getCustumer = async (id: any) => {
+  try {
+    const res = await axios.post("/api/admin/get-custumer", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
