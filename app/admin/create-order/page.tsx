@@ -328,7 +328,7 @@ export default function CreateOrder() {
                 />
               </div>
               <div>
-                <label htmlFor="">Ship To</label>
+                <label htmlFor="">Ship To Where?</label>
                 <Input
                   onChange={handleInput}
                   name="ship_to"
