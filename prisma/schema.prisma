@@ -59,5 +59,6 @@ model Status {
 model custumer {
   id             Int    @id @default(autoincrement())
   address        String
+  name           String
   contact_person String
 }

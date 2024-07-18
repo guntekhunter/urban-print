@@ -130,3 +130,12 @@ export const getPerformance = async (id: any) => {
     console.log(error);
   }
 };
+
+export const addCustumer = async (data: any) => {
+  try {
+    const res = await axios.post("/api/admin/add-custumer", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
