@@ -206,9 +206,9 @@ export default function CreateOrder() {
     const fetchOrders = async () => {
       try {
         const data = await getAllOrder();
-        const newId = data?.data.data.length;
+        const length = data?.data.data.length;
+        const newId = data?.data.data[length - 2].id;
         setOrderedData((pref: any) => ({ ...pref, ["so_number"]: newId + 1 }));
-        console.log(newId);
       } catch (error) {
         console.log(error);
       }
