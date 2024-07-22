@@ -47,6 +47,15 @@ export const getTaskCount = async (id: any) => {
   }
 };
 
+export const getTask = async () => {
+  try {
+    const res = await axios.get("api/operator/printing-order");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getOperator = async () => {
   try {
     const res = await axios.get("/api/user/get-operator");

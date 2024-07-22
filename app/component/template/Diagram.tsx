@@ -70,9 +70,13 @@ export default function Diagram({
   return (
     <div className="space-y-[1rem]">
       {index === 1 ? (
-        <h1 className="font-bold text-[1rem] text-center">Finishing</h1>
+        <h1 className="font-bold text-[1rem] text-center">Printing Stickers</h1>
+      ) : index === 2 ? (
+        <h1 className="font-bold text-[1rem] text-center">
+          Printing Photography
+        </h1>
       ) : (
-        <h1 className="font-bold text-[1rem] text-center">Printing</h1>
+        <h1 className="font-bold text-[1rem] text-center">Printing Poster</h1>
       )}
       <div className="relative">
         <svg className="w-64 h-64 transform -rotate-90" viewBox="0 0 36 36">

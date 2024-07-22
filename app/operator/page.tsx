@@ -1,11 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getTaskCount } from "../fetch/FetchData";
+import { getTask, getTaskCount } from "../fetch/FetchData";
 import Diagram from "../component/template/Diagram";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const [orderData, setOrderData] = useState({ printing: {}, finishing: {} });
+  const [orderData, setOrderData] = useState({
+    printing_stickers: {},
+    printing_photography: {},
+    printing_poster: {},
+  });
 
   const route = useRouter();
 
@@ -15,7 +19,7 @@ export default function Page() {
         const userId = localStorage.getItem("user_id");
         if (userId !== null) {
           const id = parseInt(userId);
-          const task = await getTaskCount(id);
+          const task = await getTask();
           console.log(task?.data);
           setOrderData(task?.data); // Update the state with response data
         } else {
