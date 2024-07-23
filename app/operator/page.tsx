@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 export default function Page() {
   const [orderData, setOrderData] = useState({
     printing_stickers: {},
-    printing_photography: {},
     printing_poster: {},
+    printing_photography: {},
   });
 
   const route = useRouter();
@@ -69,10 +69,15 @@ export default function Page() {
 
   const handleChangePage = (index: number) => {
     if (index === 0) {
-      route.push("/operator/printing");
+      route.push("/operator/printing-stickers");
+      // make it go to path printing stickers
     } else if (index === 1) {
-      route.push("/operator/finishing");
+      route.push("/operator/printing-poster");
+      // make it go to path printing photograph
+    } else {
+      route.push("/operator/printing-photography");
     }
+    // add one more path to printing poster
   };
 
   return (
@@ -86,7 +91,7 @@ export default function Page() {
               className="flex cursor-pointer justify-center"
               onClick={() => handleChangePage(index)}
             >
-              <div className="bg-green-200">
+              <div className="">
                 <Diagram
                   segments={segments}
                   idPrefix={`diagram-${key}`}

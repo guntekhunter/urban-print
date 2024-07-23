@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         Status: true,
       },
       where: {
-        product_type: "printing potography",
+        product_type: "printing stickers",
       },
     });
     return NextResponse.json({

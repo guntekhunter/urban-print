@@ -69,7 +69,7 @@ export default function Diagram({
 
   return (
     <div className="space-y-[1rem]">
-      {index === 1 ? (
+      {index === 0 ? (
         <h1 className="font-bold text-[1rem] text-center">Printing Stickers</h1>
       ) : index === 2 ? (
         <h1 className="font-bold text-[1rem] text-center">

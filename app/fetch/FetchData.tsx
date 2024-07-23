@@ -82,6 +82,24 @@ export const getPrintingTask = async (id: any) => {
     console.log(error);
   }
 };
+
+export const getPrintingPosterTask = async () => {
+  try {
+    const res = await axios.get("/api/operator/printing-poster-task");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPrintingStickersTask = async (id: any) => {
+  try {
+    const res = await axios.post("/api/operator/printing-stickers-task", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const getFinishingTask = async (id: any) => {
   try {
     const res = await axios.post("/api/operator/finishing-task", id);

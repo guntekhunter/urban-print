@@ -9,28 +9,28 @@ export async function GET(req: NextRequest, res: NextResponse) {
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_stickers",
+          product_type: "printing stickers",
           status: 1,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_stickers",
+          product_type: "printing stickers",
           status: 2,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_stickers",
+          product_type: "printing stickers",
           status: 3,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_stickers",
+          product_type: "printing stickers",
           status: 4,
         },
       }),
@@ -40,28 +40,28 @@ export async function GET(req: NextRequest, res: NextResponse) {
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_photography",
+          product_type: "printing potography",
           status: 1,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_photography",
+          product_type: "printing potography",
           status: 2,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_photography",
+          product_type: "printing potography",
           status: 3,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_photography",
+          product_type: "printing potography",
           status: 4,
         },
       }),
@@ -71,28 +71,28 @@ export async function GET(req: NextRequest, res: NextResponse) {
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_poster",
+          product_type: "printing poster",
           status: 1,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_poster",
+          product_type: "printing poster",
           status: 2,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_poster",
+          product_type: "printing poster",
           status: 3,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing_poster",
+          product_type: "printing poster",
           status: 4,
         },
       }),
@@ -122,8 +122,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
     return NextResponse.json({
       printingStickers: responsePrintingStickers,
-      printingPhotography: responsePrintingPhotography,
       printingPoster: responsePrintingPoster,
+      printingPhotography: responsePrintingPhotography,
     });
   } catch (error) {
     console.log(error);
