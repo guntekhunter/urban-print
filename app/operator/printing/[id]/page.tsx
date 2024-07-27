@@ -23,6 +23,7 @@ interface OrderData {
   quotation_number: number;
   required_date: string;
   sales_person: string;
+  quantity: string;
   sales_type: string;
   ship_to: string;
   so_number: number;
@@ -73,15 +74,18 @@ export default function Page({ params }: { params: { id: string } }) {
     sales_person,
     sales_type,
     ship_to,
+    quantity,
     so_number,
   } = orderData;
 
+  console.log(orderData.id);
   const handleStart = async () => {
+    const idOperator = orderData.id;
     try {
       const orderId = params.id;
       if (orderId !== null) {
         const id = parseInt(orderId);
-        const task = await postStatus(id, 3);
+        const task = await postStatus(id, 3, idOperator);
         setOrderData(task?.data.data[0] as OrderData);
       } else {
         console.log("User ID not found in local storage.");
@@ -95,7 +99,7 @@ export default function Page({ params }: { params: { id: string } }) {
       const orderId = params.id;
       if (orderId !== null) {
         const id = parseInt(orderId);
-        const task = await postStatus(id, 1);
+        const task = await postStatus(id, 1, 0);
         setOrderData(task?.data.data[0] as OrderData);
       } else {
         console.log("User ID not found in local storage.");
@@ -212,7 +216,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <tbody className="bg-white divide-y divide-gray-200">
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
-                  {Status.status}
+                  {quantity}
                 </td>
               </tr>
             </tbody>

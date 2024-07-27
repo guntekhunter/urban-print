@@ -116,11 +116,12 @@ export const getOrder = async (id: any) => {
     console.log(error);
   }
 };
-export const postStatus = async (id: any, status: any) => {
+export const postStatus = async (id: any, status: any, operator: any) => {
   try {
     const res = await axios.post("/api/order/task-status", {
       id: id,
       status: status,
+      operator: operator,
     });
     return res;
   } catch (error) {
