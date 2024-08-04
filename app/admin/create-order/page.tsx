@@ -10,7 +10,6 @@ import {
   getUser,
 } from "../../fetch/FetchData";
 import React, { useEffect, useState } from "react";
-import Datepicker from "@/app/component/template/Datepicker";
 import { useRouter } from "next/navigation";
 import TimeInputs from "@/app/component/template/TimeInputs";
 import Image from "next/image";
@@ -55,6 +54,7 @@ export default function CreateOrder() {
     material: "", //new data
     color: "", //new data
     coating: "", //new data
+    late: false, //new data
     prize: null, //new data
     quantity: null, //new data
   });
@@ -96,8 +96,13 @@ export default function CreateOrder() {
         const fetchCustumer = async () => {
           try {
             const data = await getCustumer(value);
-            console.log(data?.data.data);
             setCustumer(data?.data.data);
+            setOrderedData((prevData: any) => ({
+              ...prevData,
+              ["contact_person"]: data?.data.data.contact_person,
+              ["adress"]: data?.data.data.address,
+              ["ship_to"]: data?.data.data.address,
+            }));
           } catch (error) {
             console.log(error);
           }
@@ -125,17 +130,8 @@ export default function CreateOrder() {
     }
   };
 
-  // time picker handler
-  const handleTime = (date: string, name: string) => {
-    // setOrderedData((prev) => {
-    //   return { ...prev, [name]: date };
-    // });
-  };
-
   const createOrder = async () => {
     const res = await addOrder(orderedData);
-    console.log(res);
-    console.log(orderedData);
     if (!res?.data.error) {
       route.push("/admin");
     } else {
@@ -157,7 +153,6 @@ export default function CreateOrder() {
   }, [orderedData.cutting_length, orderedData.cutting_width]);
 
   useEffect(() => {
-    console.log(theQuantity, thePize);
     if (theQuantity && thePize) {
       const totalPrize = thePize * theQuantity;
       setOrderedData((prevData: any) => ({
@@ -206,13 +201,26 @@ export default function CreateOrder() {
     const fetchOrders = async () => {
       try {
         const data = await getAllOrder();
-        const length = data?.data.data.length;
-        const newId = data?.data.data[length - 2].id;
-        setOrderedData((pref: any) => ({ ...pref, ["so_number"]: newId + 1 }));
+        const orders = data?.data?.data;
+        console.log(orders);
+        if (orders?.length >= 1) {
+          const newId = orders[orders.length - 1].id;
+          setOrderedData((pref: any) => ({
+            ...pref,
+            ["so_number"]: newId + 1,
+          }));
+        } else {
+          setOrderedData((pref: any) => ({
+            ...pref,
+            ["so_number"]: 1,
+          }));
+        }
       } catch (error) {
         console.log(error);
       }
     };
+
+    console.log("Fetching orders");
     fetchOrders();
   }, []);
 
@@ -227,7 +235,6 @@ export default function CreateOrder() {
     };
     fetchCustemers();
   }, []);
-  console.log(custumer);
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">

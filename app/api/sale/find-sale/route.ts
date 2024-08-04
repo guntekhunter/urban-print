@@ -6,13 +6,18 @@ const prisma = new PrismaClient();
 export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
   try {
-    const res = await prisma.order.findMany({
+    const res = await prisma.sale.findMany({
       include: {
-        Status: true,
+        order: {
+          select: {
+            so_number: true,
+            product_type: true,
+            prize: true,
+          },
+        },
       },
       where: {
-        id_operator: reqBody.id,
-        product_type: reqBody.type,
+        id: reqBody,
       },
     });
     return NextResponse.json({

@@ -31,7 +31,7 @@ export default function page() {
   }, []);
 
   const detailOrders = (id: any) => {
-    route.push(`/operator/printing/${id}`);
+    route.push(`/operator/detail/${id}`);
   };
   return (
     <div className="flex justify-around relative pt-[2rem]">

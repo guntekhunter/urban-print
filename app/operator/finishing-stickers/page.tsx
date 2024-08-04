@@ -1,5 +1,9 @@
 "use client";
-import { getPrintingPosterTask, getPrintingTask } from "@/app/fetch/FetchData";
+import {
+  getFinishingTask,
+  getPrintingStickersTask,
+  getPrintingTask,
+} from "@/app/fetch/FetchData";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -15,7 +19,11 @@ export default function page() {
         const userId = localStorage.getItem("user_id");
         if (userId !== null) {
           const id = parseInt(userId);
-          const task = await getPrintingPosterTask();
+          const taskData = {
+            id: id,
+            type: "finishing stickers",
+          };
+          const task = await getFinishingTask(taskData);
           setOrders(task?.data.data); // Update the state with response data
         } else {
           console.log("User ID not found in local storage.");

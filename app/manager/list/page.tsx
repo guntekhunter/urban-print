@@ -46,7 +46,7 @@ export default function page() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {orders?.map((item: any, key) => (
-              <tr key={key}>
+              <tr key={key} className="cursor-pointer">
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.so_number}
                 </td>

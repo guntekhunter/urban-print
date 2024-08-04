@@ -39,8 +39,23 @@ export default function ChartComponent({
   useEffect(() => {
     const totalTasks = Object.values(performance).reduce((a, b) => a + b, 0);
     const goodPerformance = performance.finish + performance.onProgress;
-    setPerformance(goodPerformance);
-    const badPerformance = totalTasks - goodPerformance;
+    const latePerformance = performance.late;
+
+    console.log(totalTasks);
+
+    // Calculate the performance percentage
+    const basePerformance = 100;
+    const performanceReductionPerLateTask =
+      latePerformance > 0 ? (latePerformance / totalTasks) * 100 : 0;
+    const calculatedPerformance =
+      basePerformance - performanceReductionPerLateTask;
+
+    const finalPerformance = calculatedPerformance.toFixed(2);
+
+    setPerformance(Number(finalPerformance));
+
+    console.log(performanceReductionPerLateTask);
+
     const segmentData: Segment[] = [
       {
         value: performance.finish,
@@ -50,15 +65,15 @@ export default function ChartComponent({
       },
       {
         value: performance.onProgress,
-        color: "blue-400",
+        color: "green-400",
         total: totalTasks,
         taskCount: performance.onProgress,
       },
       {
-        value: badPerformance,
+        value: performance.late,
         color: "red-400",
         total: totalTasks,
-        taskCount: badPerformance,
+        taskCount: performance.late,
       },
     ];
     setSegments(segmentData);

@@ -10,7 +10,14 @@ export async function GET(req: NextRequest, res: NextResponse) {
     },
     take: 32000,
   });
-  return NextResponse.json({ data: orders });
+  const finish = await prisma.order.findMany({
+    where: {
+      status: 4,
+    },
+    take: 32000,
+  });
+  const length = finish.length;
+  return NextResponse.json({ data: orders, finish: length });
 }
 export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
@@ -42,6 +49,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         color: reqBody.color,
         coating: reqBody.coating,
         prize: reqBody.prize,
+        late: reqBody.late,
         quantity: reqBody.quantity,
       },
     });
