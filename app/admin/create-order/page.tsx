@@ -364,7 +364,7 @@ export default function CreateOrder() {
                         height={500}
                       />
                     </div>
-                    <p>Sticker</p>
+                    <p>Digital Offset</p>
                   </button>
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
@@ -379,7 +379,7 @@ export default function CreateOrder() {
                         height={500}
                       />
                     </div>
-                    <p>Potography</p>
+                    <p>Digital Printing</p>
                   </button>
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
@@ -394,7 +394,7 @@ export default function CreateOrder() {
                         height={500}
                       />
                     </div>
-                    <p>Poster</p>
+                    <p>Mercendise</p>
                   </button>
                 </div>
                 <div className="flex pt-[2rem]">

@@ -60,7 +60,11 @@ export default function page() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {orders?.map((item: any, key) => (
-              <tr key={key} onClick={() => detailOrders(item.id)}>
+              <tr
+                key={key}
+                onClick={() => detailOrders(item.id)}
+                className="cursor-pointer hover:bg-gray-100"
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.so_number}
                 </td>
