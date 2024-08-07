@@ -29,6 +29,7 @@ export default function CreateOrder() {
   const [user, setUser] = useState([]);
   const [custumers, setCustumers] = useState([]);
   const [custumer, setCustumer] = useState<Customer | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState("");
 
   const [orderedData, setOrderedData] = useState({
     so_number: null,
@@ -168,6 +169,7 @@ export default function CreateOrder() {
   };
 
   const handleProductType = (value: any) => {
+    setSelectedProduct(value);
     setOrderedData((prev) => {
       return { ...prev, ["product_type"]: value };
     });
@@ -236,6 +238,8 @@ export default function CreateOrder() {
     };
     fetchCustemers();
   }, []);
+
+  console.log(selectedProduct);
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">
@@ -354,9 +358,16 @@ export default function CreateOrder() {
                 <div className="grid grid-cols-3 gap-4">
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
-                    onClick={(e) => handleProductType("printing stickers")}
+                    onClick={() => handleProductType("printing stickers")}
                   >
-                    <div className="w-full h-64 overflow-hidden">
+                    <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
+                      <div
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
+                          selectedProduct === "printing stickers"
+                            ? "opacity-70"
+                            : ""
+                        }`}
+                      />
                       <Image
                         src="/stickers.png"
                         alt=""
@@ -367,11 +378,19 @@ export default function CreateOrder() {
                     </div>
                     <p>Digital Offset</p>
                   </button>
+
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
-                    onClick={() => handleProductType("printing potography")}
+                    onClick={() => handleProductType("printing photography")}
                   >
-                    <div className="w-full h-64 overflow-hidden">
+                    <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
+                      <div
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
+                          selectedProduct === "printing photography"
+                            ? "opacity-70"
+                            : ""
+                        }`}
+                      />
                       <Image
                         src="/potography.png"
                         alt=""
@@ -382,11 +401,19 @@ export default function CreateOrder() {
                     </div>
                     <p>Digital Printing</p>
                   </button>
+
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
-                    onClick={(e) => handleProductType("printing poster")}
+                    onClick={() => handleProductType("printing poster")}
                   >
-                    <div className="w-full h-64 overflow-hidden">
+                    <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
+                      <div
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
+                          selectedProduct === "printing poster"
+                            ? "opacity-70"
+                            : "bg-red-200"
+                        }`}
+                      />
                       <Image
                         src="/poster.png"
                         alt=""
@@ -395,7 +422,7 @@ export default function CreateOrder() {
                         height={500}
                       />
                     </div>
-                    <p>Mercendise</p>
+                    <p>Merchandise</p>
                   </button>
                 </div>
                 <div className="flex pt-[2rem]">
@@ -403,7 +430,7 @@ export default function CreateOrder() {
                     <div className="flex space-x-[2rem]">
                       <label className="w-[14%]">Product Type</label>
                       <div className="w-full">
-                        {orderedData.product_type === "stickers" ? (
+                        {orderedData.product_type === "printing stickers" ? (
                           <Dropdown
                             options={[
                               { id: "kartu nama", name: "kartu nama" },
@@ -414,7 +441,7 @@ export default function CreateOrder() {
                             onChange={handleDropdownChange("type")}
                           />
                         ) : orderedData.product_type ===
-                          "printing potography" ? (
+                          "printing photography" ? (
                           <Dropdown
                             options={[{ id: "spanduk", name: "spanduk" }]}
                             onChange={handleDropdownChange("type")}
@@ -519,7 +546,18 @@ export default function CreateOrder() {
                       Product Size: {orderedData.product_width} cm X{" "}
                       {orderedData.product_length} cm
                     </li>
-                    <li>{orderedData.product_type}: </li>
+                    <li>
+                      {orderedData.product_type === "printing photography" ? (
+                        <>Digital Printing</>
+                      ) : orderedData.product_type === "printing poster" ? (
+                        <>Merchandise</>
+                      ) : (
+                        orderedData.product_type === "printing stickers" && (
+                          <>Digital Offset</>
+                        )
+                      )}
+                      :{" "}
+                    </li>
                     <ul className="list-[square] ml-6">
                       <li>
                         Size:{" "}
