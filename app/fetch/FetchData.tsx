@@ -47,6 +47,24 @@ export const getTaskCount = async (id: any) => {
   }
 };
 
+export const getTask = async () => {
+  try {
+    const res = await axios.get("api/operator/printing-order");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getFinishTask = async () => {
+  try {
+    const res = await axios.get("/api/operator/finishing-order");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getOperator = async () => {
   try {
     const res = await axios.get("/api/user/get-operator");
@@ -73,9 +91,27 @@ export const getPrintingTask = async (id: any) => {
     console.log(error);
   }
 };
-export const getFinishingTask = async (id: any) => {
+
+export const getPrintingPosterTask = async () => {
   try {
-    const res = await axios.post("/api/operator/finishing-task", id);
+    const res = await axios.get("/api/operator/printing-poster-task");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPrintingStickersTask = async (id: any) => {
+  try {
+    const res = await axios.post("/api/operator/printing-stickers-task", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getFinishingTask = async (data: any) => {
+  try {
+    const res = await axios.post("/api/operator/finishing-task", data);
     return res;
   } catch (error) {
     console.log(error);
@@ -89,11 +125,18 @@ export const getOrder = async (id: any) => {
     console.log(error);
   }
 };
-export const postStatus = async (id: any, status: any) => {
+export const postStatus = async (
+  id: any,
+  status: any,
+  operator: any,
+  late: any
+) => {
   try {
     const res = await axios.post("/api/order/task-status", {
       id: id,
       status: status,
+      operator: operator,
+      late: late,
     });
     return res;
   } catch (error) {
@@ -134,6 +177,57 @@ export const getPerformance = async (id: any) => {
 export const addCustumer = async (data: any) => {
   try {
     const res = await axios.post("/api/admin/add-custumer", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCustumers = async () => {
+  try {
+    const res = await axios.get("/api/admin/get-custumers");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getCustumer = async (id: any) => {
+  try {
+    const res = await axios.post("/api/admin/get-custumer", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const createSale = async (data: any) => {
+  try {
+    const res = await axios.post("/api/sale/create-sale", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getSales = async () => {
+  try {
+    const res = await axios.get("/api/sale/create-sale");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSale = async (id: any) => {
+  try {
+    const res = await axios.post("/api/sale/find-sale", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editSale = async (data: any) => {
+  try {
+    const res = await axios.post("/api/sale/edit-sale", data);
     return res;
   } catch (error) {
     console.log(error);

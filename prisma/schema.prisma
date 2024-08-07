@@ -44,10 +44,20 @@ model Order {
   coating          String
   prize            Int
   quantity         Int
+  late             Boolean
   id_operator      Int
   user             User    @relation(fields: [authorId], references: [id])
   authorId         Int
   Status           Status? @relation(fields: [status], references: [id])
+  Sale             Sale[]
+}
+
+model Sale {
+  id       Int    @id @default(autoincrement())
+  order_id Int
+  status   String
+  date     String
+  order    Order  @relation(fields: [order_id], references: [id])
 }
 
 model Status {

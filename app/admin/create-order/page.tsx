@@ -2,19 +2,33 @@
 import Button from "@/app/component/template/Button";
 import Dropdown from "@/app/component/template/Dropdown";
 import Input from "@/app/component/template/Input";
-import { addOrder, getAllOrder, getUser } from "../../fetch/FetchData";
+import {
+  addOrder,
+  getAllOrder,
+  getCustumer,
+  getCustumers,
+  getUser,
+} from "../../fetch/FetchData";
 import React, { useEffect, useState } from "react";
-import Datepicker from "@/app/component/template/Datepicker";
 import { useRouter } from "next/navigation";
 import TimeInputs from "@/app/component/template/TimeInputs";
 import Image from "next/image";
 import { prize } from "@/app/functions/prizeFormater";
+
+export interface Customer {
+  name: string;
+  address: string;
+  contact_person: string;
+  // add other properties as needed
+}
 
 export default function CreateOrder() {
   const [errorCreateOrder, setErrorCreateaOrder] = useState(false);
   const [thePize, setThePrize] = useState<number>();
   const [theQuantity, setTheQuantity] = useState<number>();
   const [user, setUser] = useState([]);
+  const [custumers, setCustumers] = useState([]);
+  const [custumer, setCustumer] = useState<Customer | null>(null);
 
   const [orderedData, setOrderedData] = useState({
     so_number: null,
@@ -40,6 +54,7 @@ export default function CreateOrder() {
     material: "", //new data
     color: "", //new data
     coating: "", //new data
+    late: false, //new data
     prize: null, //new data
     quantity: null, //new data
   });
@@ -77,6 +92,23 @@ export default function CreateOrder() {
   const handleDropdownChange =
     (fieldName: string) => (event: React.ChangeEvent<HTMLSelectElement>) => {
       const value = event.target.value;
+      if (fieldName === "custumer") {
+        const fetchCustumer = async () => {
+          try {
+            const data = await getCustumer(value);
+            setCustumer(data?.data.data);
+            setOrderedData((prevData: any) => ({
+              ...prevData,
+              ["contact_person"]: data?.data.data.contact_person,
+              ["adress"]: data?.data.data.address,
+              ["ship_to"]: data?.data.data.address,
+            }));
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchCustumer();
+      }
       setOrderedData((prev: any) => {
         return {
           ...prev,
@@ -98,17 +130,8 @@ export default function CreateOrder() {
     }
   };
 
-  // time picker handler
-  const handleTime = (date: string, name: string) => {
-    // setOrderedData((prev) => {
-    //   return { ...prev, [name]: date };
-    // });
-  };
-
   const createOrder = async () => {
     const res = await addOrder(orderedData);
-    console.log(res);
-    console.log(orderedData);
     if (!res?.data.error) {
       route.push("/admin");
     } else {
@@ -130,7 +153,6 @@ export default function CreateOrder() {
   }, [orderedData.cutting_length, orderedData.cutting_width]);
 
   useEffect(() => {
-    console.log(theQuantity, thePize);
     if (theQuantity && thePize) {
       const totalPrize = thePize * theQuantity;
       setOrderedData((prevData: any) => ({
@@ -179,14 +201,39 @@ export default function CreateOrder() {
     const fetchOrders = async () => {
       try {
         const data = await getAllOrder();
-        const newId = data?.data.data.length;
-        setOrderedData((pref: any) => ({ ...pref, ["so_number"]: newId + 1 }));
-        console.log(newId);
+        const orders = data?.data?.data;
+        console.log(orders);
+        if (orders?.length >= 1) {
+          const newId = orders[orders.length - 1].id;
+          setOrderedData((pref: any) => ({
+            ...pref,
+            ["so_number"]: newId + 1,
+          }));
+        } else {
+          setOrderedData((pref: any) => ({
+            ...pref,
+            ["so_number"]: 1,
+          }));
+        }
       } catch (error) {
         console.log(error);
       }
     };
+
+    console.log("Fetching orders");
     fetchOrders();
+  }, []);
+
+  useEffect(() => {
+    const fetchCustemers = async () => {
+      try {
+        const data = await getCustumers();
+        setCustumers(data?.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCustemers();
   }, []);
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
@@ -264,10 +311,9 @@ export default function CreateOrder() {
             <div className="space-y-[1rem]">
               <div>
                 <label htmlFor="">Custumer</label>
-                <Input
-                  onChange={handleInput}
-                  name="custumer"
-                  value={orderedData.custumer}
+                <Dropdown
+                  options={custumers}
+                  onChange={handleDropdownChange("custumer")}
                 />
               </div>
               <div>
@@ -275,7 +321,7 @@ export default function CreateOrder() {
                 <Input
                   onChange={handleInput}
                   name="contact_person"
-                  value={orderedData.contact_person}
+                  value={custumer?.contact_person}
                 />
               </div>
             </div>
@@ -285,15 +331,15 @@ export default function CreateOrder() {
                 <Input
                   onChange={handleInput}
                   name="adress"
-                  value={orderedData.adress}
+                  value={custumer?.address}
                 />
               </div>
               <div>
-                <label htmlFor="">Ship To</label>
+                <label htmlFor="">Ship To Where?</label>
                 <Input
                   onChange={handleInput}
                   name="ship_to"
-                  value={orderedData.ship_to}
+                  value={custumer?.address}
                 />
               </div>
             </div>
@@ -318,7 +364,7 @@ export default function CreateOrder() {
                         height={500}
                       />
                     </div>
-                    <p>Sticker</p>
+                    <p>Digital Offset</p>
                   </button>
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
@@ -333,7 +379,7 @@ export default function CreateOrder() {
                         height={500}
                       />
                     </div>
-                    <p>Potography</p>
+                    <p>Digital Printing</p>
                   </button>
                   <button
                     className="text-center space-y-[1rem] text-[1rem]"
@@ -348,7 +394,7 @@ export default function CreateOrder() {
                         height={500}
                       />
                     </div>
-                    <p>Poster</p>
+                    <p>Mercendise</p>
                   </button>
                 </div>
                 <div className="flex pt-[2rem]">

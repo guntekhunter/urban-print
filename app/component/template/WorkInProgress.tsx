@@ -1,17 +1,15 @@
-"use client";
 import React, { useLayoutEffect, useState } from "react";
 
 interface Segment {
   value: number;
   color: string;
   total: any;
-  taskCount: number; // Add taskCount property
+  taskCount: number;
 }
 
 interface CircularProgressBarProps {
   segments: Segment[];
   idPrefix: string;
-  index: number;
 }
 
 const colorMap: { [key: string]: string } = {
@@ -19,13 +17,11 @@ const colorMap: { [key: string]: string } = {
   "red-400": "stroke-red-400",
   "yellow-400": "stroke-yellow-400",
   "blue-400": "stroke-blue-400",
-  // Add more color mappings as needed
 };
 
 export default function WorkInProgress({
   segments,
   idPrefix,
-  index,
 }: CircularProgressBarProps) {
   const [totalTask, setTotalTask] = useState<number>(0);
   const [notStartedTotal, setNotStartedTotal] = useState<number>(0);
@@ -34,10 +30,15 @@ export default function WorkInProgress({
   const [onFinishTotal, setOnFinishTotal] = useState<number>(0);
 
   useLayoutEffect(() => {
-    const totalValue = segments.length > 0 ? segments[0].total : 0;
+    const totalValue = segments.reduce(
+      (acc, segment) => acc + segment.taskCount,
+      0
+    );
     setTotalTask(totalValue);
-    const radius = 15.9155;
+
+    const radius = 15.9155; // Radius of the circle
     const circumference = 2 * Math.PI * radius;
+    let accumulatedOffset = 0;
 
     let notStarted = 0;
     let waiting = 0;
@@ -45,25 +46,22 @@ export default function WorkInProgress({
     let finish = 0;
 
     segments.forEach((segment, index) => {
+      const segmentLength = (segment.value / 100) * circumference;
       const circle = document.getElementById(
         `${idPrefix}-segment${index + 1}`
       ) as HTMLElement;
+
       if (circle) {
-        const dashArray = (segment.value / 100) * circumference;
-        const prevSegmentsOffset = segments
-          .slice(0, index)
-          .reduce((acc, curr) => acc + curr.value, 0);
-        const dashOffset = (prevSegmentsOffset / 100) * circumference;
+        circle.style.strokeDasharray = `${segmentLength} ${circumference}`;
+        circle.style.strokeDashoffset = `${-accumulatedOffset}`;
+        accumulatedOffset += segmentLength;
 
-        circle.style.strokeDasharray = `${dashArray} ${circumference}`;
-        circle.style.strokeDashoffset = `-${dashOffset}`;
+        // Update totals based on segment color
+        if (segment.color === "yellow-400") waiting += segment.taskCount;
+        if (segment.color === "red-400") notStarted += segment.taskCount;
+        if (segment.color === "blue-400") onProgress += segment.taskCount;
+        if (segment.color === "green-400") finish += segment.taskCount;
       }
-
-      // Update totals based on segment color or other criteria
-      if (segment.color === "yellow-400") waiting += segment.taskCount;
-      if (segment.color === "red-400") notStarted += segment.taskCount;
-      if (segment.color === "blue-400") onProgress += segment.taskCount;
-      if (segment.color === "green-400") finish += segment.taskCount;
     });
 
     setNotStartedTotal(notStarted);
@@ -89,8 +87,9 @@ export default function WorkInProgress({
               cx="18"
               cy="18"
               r="15.9155"
-              strokeDasharray="0 100"
-              strokeDashoffset="0"
+              strokeDasharray="0 100" // Placeholder value, will be updated in useLayoutEffect
+              strokeDashoffset="0" // Placeholder value, will be updated in useLayoutEffect
+              strokeLinecap="round" // Optional: for rounded ends
             />
           ))}
         </svg>

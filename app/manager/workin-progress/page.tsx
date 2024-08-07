@@ -30,7 +30,9 @@ export default function Page() {
     const res = await getOperatorOnProgress(event.target.value);
     console.log(res?.data.response);
     const data = res?.data.response;
-    const total = data.notStarted + data.waiting + data.onProgress;
+    console.log(data);
+    const total =
+      data.notStarted + data.waiting + data.onProgress + data.finish;
     if (total === 0) {
       setWork([{ value: 100, color: "gray-400", total: total, taskCount: 0 }]);
       return;
@@ -100,11 +102,7 @@ export default function Page() {
         </div>
         <div className="flex justify-center items-center">
           <div className="w-[20rem]">
-            <WorkInProgress
-              segments={work}
-              idPrefix={`diagram-${1}`}
-              index={1}
-            />
+            <WorkInProgress segments={work} idPrefix={`diagram-${1}`} />
           </div>
         </div>
       </div>

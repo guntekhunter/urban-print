@@ -12,7 +12,8 @@ export default function Input(props: any) {
       disabled={
         props.name === "quantity" ||
         props.name === "sales_person" ||
-        props.name === "so_number"
+        props.name === "so_number" ||
+        props.name === "adress"
       }
     />
   );

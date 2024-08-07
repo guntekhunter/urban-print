@@ -11,8 +11,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
         Status: true,
       },
       where: {
-        id_operator: reqBody,
-        product_type: "finishing",
+        id_operator: reqBody.id,
+        product_type: reqBody.type,
       },
     });
     return NextResponse.json({

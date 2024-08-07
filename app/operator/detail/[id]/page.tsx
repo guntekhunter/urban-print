@@ -1,5 +1,11 @@
 "use client";
-import { getOrder, postFinish, postStatus } from "@/app/fetch/FetchData";
+import {
+  createSale,
+  getOrder,
+  postFinish,
+  postStatus,
+} from "@/app/fetch/FetchData";
+import { dateFormater } from "@/app/functions/DateFormater";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -23,9 +29,12 @@ interface OrderData {
   quotation_number: number;
   required_date: string;
   sales_person: string;
+  quantity: string;
   sales_type: string;
   ship_to: string;
+  late: boolean;
   so_number: number;
+  status: number;
 }
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -73,16 +82,36 @@ export default function Page({ params }: { params: { id: string } }) {
     sales_person,
     sales_type,
     ship_to,
+    quantity,
+    status,
+    late,
     so_number,
   } = orderData;
 
   const handleStart = async () => {
+    const userId = localStorage.getItem("user_id");
+    let idOperator = 0;
+    if (userId) {
+      idOperator = parseInt(userId);
+    } else {
+      console.log("error");
+    }
+    const currentDate = new Date().toISOString();
+    const requiredDateObject = new Date(required_date);
+    console.log(requiredDateObject);
     try {
       const orderId = params.id;
       if (orderId !== null) {
-        const id = parseInt(orderId);
-        const task = await postStatus(id, 3);
-        setOrderData(task?.data.data[0] as OrderData);
+        if (new Date(currentDate) > requiredDateObject) {
+          console.log("terlambat");
+          const id = parseInt(orderId);
+          const task = await postStatus(id, 3, idOperator, true);
+          setOrderData(task?.data.data[0] as OrderData);
+        } else {
+          const id = parseInt(orderId);
+          const task = await postStatus(id, 3, idOperator, false);
+          setOrderData(task?.data.data[0] as OrderData);
+        }
       } else {
         console.log("User ID not found in local storage.");
       }
@@ -95,7 +124,7 @@ export default function Page({ params }: { params: { id: string } }) {
       const orderId = params.id;
       if (orderId !== null) {
         const id = parseInt(orderId);
-        const task = await postStatus(id, 1);
+        const task = await postStatus(id, 1, 0, late);
         setOrderData(task?.data.data[0] as OrderData);
       } else {
         console.log("User ID not found in local storage.");
@@ -109,7 +138,22 @@ export default function Page({ params }: { params: { id: string } }) {
       const orderId = params.id;
       if (orderId !== null) {
         const id = parseInt(orderId);
-        await postFinish(id, 4, "finishing");
+        const currentDate = new Date().toISOString();
+        const data = {
+          order_id: id,
+          status: "unpaid",
+          date: currentDate,
+        };
+        await createSale(data);
+        if (product_type === "printing potography") {
+          await postFinish(id, 2, "finishing photography");
+        } else if (product_type === "printing stickers") {
+          await postFinish(id, 2, "finishing stickers");
+        } else if (product_type === "printing poster") {
+          await postFinish(id, 2, "finishing poster");
+        } else {
+          await postFinish(id, 4, product_type);
+        }
         route.push("/operator");
       } else {
         console.log("User ID not found in local storage.");
@@ -180,7 +224,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <tbody className="bg-white divide-y divide-gray-200">
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
-                  {order_date}
+                  {dateFormater(order_date)}
                 </td>
               </tr>
             </tbody>
@@ -196,7 +240,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <tbody className="bg-white divide-y divide-gray-200">
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
-                  {required_date}
+                  {dateFormater(required_date)}
                 </td>
               </tr>
             </tbody>
@@ -212,7 +256,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <tbody className="bg-white divide-y divide-gray-200">
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
-                  {Status.status}
+                  {quantity}
                 </td>
               </tr>
             </tbody>
@@ -239,19 +283,23 @@ export default function Page({ params }: { params: { id: string } }) {
         <div className="w-[95%] flex justify-between space-x-[1rem]">
           <button
             className={`p-[2rem] w-full rounded-md text-center shadow-md ${
-              Status.id === 1 ? "bg-red-200" : "bg-gray-100 text-gray-500"
+              orderData.status === 1 || orderData.status === 2
+                ? "bg-red-200"
+                : "bg-gray-100 text-gray-500"
             }`}
             onClick={handleStart}
-            disabled={Status.id === 3}
+            disabled={orderData.status === 3}
           >
             Start
           </button>
           <button
             className={`p-[2rem] w-full rounded-md text-center shadow-md ${
-              Status.id === 3 ? "bg-red-200" : "bg-gray-100 text-gray-500"
+              orderData.status === 3
+                ? "bg-red-200"
+                : "bg-gray-100 text-gray-500"
             }`}
             onClick={handleRredo}
-            disabled={Status.id === 1}
+            disabled={orderData.status === 1}
           >
             Redo
           </button>

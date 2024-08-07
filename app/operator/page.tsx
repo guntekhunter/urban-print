@@ -1,11 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getTaskCount } from "../fetch/FetchData";
+import { getTask, getTaskCount } from "../fetch/FetchData";
 import Diagram from "../component/template/Diagram";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Page() {
-  const [orderData, setOrderData] = useState({ printing: {}, finishing: {} });
+  const path = usePathname();
+  const [orderData, setOrderData] = useState({
+    printing_stickers: {},
+    printing_poster: {},
+    printing_photography: {},
+  });
 
   const route = useRouter();
 
@@ -15,7 +20,7 @@ export default function Page() {
         const userId = localStorage.getItem("user_id");
         if (userId !== null) {
           const id = parseInt(userId);
-          const task = await getTaskCount(id);
+          const task = await getTask();
           console.log(task?.data);
           setOrderData(task?.data); // Update the state with response data
         } else {
@@ -65,33 +70,62 @@ export default function Page() {
 
   const handleChangePage = (index: number) => {
     if (index === 0) {
-      route.push("/operator/printing");
+      route.push("/operator/printing-stickers");
+      // make it go to path printing stickers
     } else if (index === 1) {
-      route.push("/operator/finishing");
+      route.push("/operator/printing-poster");
+      // make it go to path printing photograph
+    } else {
+      route.push("/operator/printing-photography");
     }
+    // add one more path to printing poster
+  };
+
+  const changePage = (path: string) => {
+    route.push(path);
   };
 
   return (
     <div className="flex justify-around relative pt-[2rem]">
-      <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] text-[.7rem] flex space-x-[4rem]">
-        {Object.entries(orderData).map(([key, task], index) => {
-          const segments = createSegments(task);
-          return (
-            <div
-              key={index}
-              className="flex cursor-pointer justify-center"
-              onClick={() => handleChangePage(index)}
-            >
-              <div className="bg-green-200">
-                <Diagram
-                  segments={segments}
-                  idPrefix={`diagram-${key}`}
-                  index={index}
-                />
+      <div className="w-[95%]">
+        <div className={`w-[20%] flex`}>
+          <div
+            onClick={() => changePage("operator")}
+            className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${
+              path.includes("/operator") ? "bg-white" : "bg-gray-200"
+            }`}
+          >
+            Printing
+          </div>
+          <div
+            onClick={() => changePage("operator/finishing-task")}
+            className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer`}
+          >
+            Finishing
+          </div>
+        </div>
+        <div
+          className={`p-[3rem] rounded-tr-md shadow-md text-text text-[.7rem] flex bg-white justify-between `}
+        >
+          {Object.entries(orderData).map(([key, task], index) => {
+            const segments = createSegments(task);
+            return (
+              <div
+                key={index}
+                className="flex cursor-pointer justify-center"
+                onClick={() => handleChangePage(index)}
+              >
+                <div className="">
+                  <Diagram
+                    segments={segments}
+                    idPrefix={`diagram-${key}`}
+                    index={index}
+                  />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

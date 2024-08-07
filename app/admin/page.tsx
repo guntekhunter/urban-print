@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function page() {
   const [orders, setOrders] = useState([]);
+  const [countFinish, setCountFinish] = useState(0);
 
   const route = useRouter();
 
@@ -31,7 +32,7 @@ export default function page() {
     const fetchOrder = async () => {
       try {
         const res = await getAllOrder();
-        console.log(res?.data.data);
+        setCountFinish(res?.data.finish);
         setOrders(res?.data.data);
       } catch (error) {
         console.log(error);
@@ -39,10 +40,20 @@ export default function page() {
     };
     fetchOrder();
   }, []);
+
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
         <h1 className="text-[2rem] font-bold">Data Order</h1>
+        <div className="flex justify-between">
+          <button
+            onClick={() => route.push("/admin/sale")}
+            className="bg-green-500 px-[3rem] py-[1rem] text-white rounded-md"
+          >
+            <h3 className="text-[2rem]">{countFinish}</h3>
+            <p>new Finished Product</p>
+          </button>
+        </div>
         <div className="flex w-full space-x-[2rem]">
           <Button onClick={handleCreateOrder}>Tambah Orderan</Button>
           <Button onClick={handleCreateCustumer}>Tambah Custumer</Button>
@@ -72,7 +83,7 @@ export default function page() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {orders?.map((item: any, key) => (
-              <tr key={key}>
+              <tr key={key} className="cursor-pointer">
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.so_number}
                 </td>
@@ -101,15 +112,6 @@ export default function page() {
                       className="w-4"
                     />
                   </button>
-                  <div className="p-[.5rem] bg-green-200 border-green-300 border-[1.3px] rounded-md">
-                    <Image
-                      src="/editing.png"
-                      alt=""
-                      width={500}
-                      height={500}
-                      className="w-4"
-                    />
-                  </div>
                 </td>
               </tr>
             ))}
