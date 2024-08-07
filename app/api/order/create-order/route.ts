@@ -50,6 +50,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         coating: reqBody.coating,
         prize: reqBody.prize,
         late: reqBody.late,
+        type: reqBody.type,
         quantity: reqBody.quantity,
       },
     });

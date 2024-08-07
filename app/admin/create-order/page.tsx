@@ -54,6 +54,7 @@ export default function CreateOrder() {
     material: "", //new data
     color: "", //new data
     coating: "", //new data
+    type: "", //new data
     late: false, //new data
     prize: null, //new data
     quantity: null, //new data
@@ -399,6 +400,38 @@ export default function CreateOrder() {
                 </div>
                 <div className="flex pt-[2rem]">
                   <div className="w-full pr-[2rem] space-y-[2rem]">
+                    <div className="flex space-x-[2rem]">
+                      <label className="w-[14%]">Product Type</label>
+                      <div className="w-full">
+                        {orderedData.product_type === "stickers" ? (
+                          <Dropdown
+                            options={[
+                              { id: "kartu nama", name: "kartu nama" },
+                              { id: "brosur", name: "brosur" },
+                              { id: "stiker", name: "stiker" },
+                              { id: "cetak a3", name: "cetak a3" },
+                            ]}
+                            onChange={handleDropdownChange("type")}
+                          />
+                        ) : orderedData.product_type ===
+                          "printing potography" ? (
+                          <Dropdown
+                            options={[{ id: "spanduk", name: "spanduk" }]}
+                            onChange={handleDropdownChange("type")}
+                          />
+                        ) : (
+                          <Dropdown
+                            options={[
+                              { id: "baju cotton", name: "baju cotton" },
+                              { id: "jersey", name: "jersey" },
+                              { id: "tumbler", name: "tumbler" },
+                              { id: "todbag", name: "todbag" },
+                            ]}
+                            onChange={handleDropdownChange("type")}
+                          />
+                        )}
+                      </div>
+                    </div>
                     <div className="flex space-x-[2rem]">
                       <label className="w-[30%]">Product Size</label>
                       <div className="w-full">

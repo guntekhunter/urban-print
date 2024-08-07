@@ -23,6 +23,7 @@ model Order {
   id               Int     @id @default(autoincrement())
   so_number        Int
   quotation_number Int
+  type             String
   order_date       String
   required_date    String
   sales_type       String

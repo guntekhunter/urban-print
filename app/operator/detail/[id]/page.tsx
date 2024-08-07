@@ -14,8 +14,14 @@ interface OrderStatus {
   status: string;
 }
 
+interface Customer {
+  id: number;
+  name: string;
+}
+
 interface OrderData {
   Status: OrderStatus;
+  Customer: Customer;
   acount_rep: string;
   adress: string;
   authorId: number;
@@ -34,6 +40,7 @@ interface OrderData {
   ship_to: string;
   late: boolean;
   so_number: number;
+  type: string;
   status: number;
 }
 
@@ -85,6 +92,7 @@ export default function Page({ params }: { params: { id: string } }) {
     quantity,
     status,
     late,
+    type,
     so_number,
   } = orderData;
 
@@ -175,7 +183,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <tbody className="bg-white divide-y divide-gray-200">
             <tr>
               <td className="px-6 py-4 whitespace-nowrap text-center">
-                {product_type}
+                {type}
               </td>
             </tr>
           </tbody>
