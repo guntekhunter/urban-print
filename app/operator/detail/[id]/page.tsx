@@ -151,8 +151,10 @@ export default function Page({ params }: { params: { id: string } }) {
           order_id: id,
           status: "unpaid",
           date: currentDate,
+          sales_id: authorId,
         };
         await createSale(data);
+
         if (product_type === "printing potography") {
           await postFinish(id, 2, "finishing photography");
         } else if (product_type === "printing stickers") {

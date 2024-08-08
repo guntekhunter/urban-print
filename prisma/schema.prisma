@@ -58,6 +58,7 @@ model Sale {
   order_id Int
   status   String
   date     String
+  sales_id Int
   order    Order  @relation(fields: [order_id], references: [id])
 }
 

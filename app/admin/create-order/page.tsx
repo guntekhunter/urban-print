@@ -47,7 +47,7 @@ export default function CreateOrder() {
     status: 1,
     product_type: "",
     id_operator: 0,
-    authorId: 2,
+    authorId: 0,
     product_width: null, //new data
     product_length: null, //new data
     cutting_width: null, //new data
@@ -191,6 +191,7 @@ export default function CreateOrder() {
           const data = await getUser(theId);
           setUser(data?.data.data);
           const name = data?.data.data.name;
+          setOrderedData((pref: any) => ({ ...pref, ["authorId"]: theId }));
           setOrderedData((pref: any) => ({ ...pref, ["sales_person"]: name }));
         }
       } catch (error) {

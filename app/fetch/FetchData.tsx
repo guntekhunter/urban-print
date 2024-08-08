@@ -207,9 +207,9 @@ export const createSale = async (data: any) => {
     console.log(error);
   }
 };
-export const getSales = async () => {
+export const getSales = async (data: any) => {
   try {
-    const res = await axios.get("/api/sale/create-sale");
+    const res = await axios.get("/api/sale/create-sale", data);
     return res;
   } catch (error) {
     console.log(error);
@@ -237,6 +237,15 @@ export const editSale = async (data: any) => {
 export const getSalesPerson = async () => {
   try {
     const res = await axios.get("/api/user/get-sales-person");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getDaily = async (data: any) => {
+  try {
+    const res = await axios.post("/api/sale/daily", data);
     return res;
   } catch (error) {
     console.log(error);

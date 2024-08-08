@@ -32,6 +32,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         order_id: reqBody.order_id,
         status: reqBody.status,
         date: reqBody.date,
+        sales_id: reqBody.sales_id,
       },
     });
     return NextResponse.json({ data: newSale });

@@ -1,6 +1,13 @@
 "use client";
+import Button from "@/app/component/template/Button";
 import Dropdown from "@/app/component/template/Dropdown";
-import { getSales, getSalesPerson, getUser } from "@/app/fetch/FetchData";
+import TimeInputs from "@/app/component/template/TimeInputs";
+import {
+  getDaily,
+  getSales,
+  getSalesPerson,
+  getUser,
+} from "@/app/fetch/FetchData";
 import React, { useEffect, useState } from "react";
 
 interface Sales {
@@ -32,10 +39,28 @@ export default function page() {
 
   console.log(salesPerson);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
+  const handleDropdownChange = async (event: any) => {
+    console.log("ini valuenya", event.target.value);
+    const intId = parseInt(event.target.value);
+    salesPerson.map((item: any) => {
+      if (item.id === intId) {
+        setSales(item);
+      }
+    });
+  };
+
+  const handleDate = async (date: string, name: string) => {
+    setTheDate(date);
+  };
+
+  const handleSave = async () => {
+    console.log("ini the date", theDate);
+    if (theDate && sales) {
+      const data = {
+        sales_id: sales.id,
+      };
       try {
-        const res = await getSales();
+        const res = await getDaily(data);
         console.log(res?.data.data);
         const theData = res?.data.data;
 
@@ -46,6 +71,7 @@ export default function page() {
         const filteredData = theData.filter((item: any) => {
           const itemDate = new Date(item.date).toISOString().split("T")[0];
           const filterDate = new Date(theDate).toISOString().split("T")[0];
+          console.log(filterDate, itemDate);
           if (itemDate === filterDate) {
             total += item.order.prize;
             if (item.status === "paid") {
@@ -64,29 +90,21 @@ export default function page() {
       } catch (error) {
         console.log(error);
       }
-    };
-    if (theDate) fetchOrders();
-  }, [theDate]);
-
-  const handleDropdownChange = async (event: any) => {
-    console.log("ini valuenya", event.target.value);
-    const intId = parseInt(event.target.value);
-    salesPerson.map((item: any) => {
-      if (item.id === intId) {
-        setSales(item);
-      }
-    });
+    }
   };
-
-  console.log(sales);
   return (
     <div className="flex flex-col items-center pt-[2rem]">
       <div className="p-8 rounded-md shadow-md bg-white text-black w-[95%] text-[1rem] text-gray-700 border border-gray-300 space-y-[2rem]">
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 w-[80%] gap-4">
           <div>
             <label htmlFor="">Pilih Sales</label>
             <Dropdown options={salesPerson} onChange={handleDropdownChange} />
           </div>
+          <div>
+            <label htmlFor="">Pilih Tanggal</label>
+            <TimeInputs onChange={handleDate} name="required_date" />
+          </div>
+          <Button onClick={handleSave}>Filter</Button>
         </div>
         <div className="py-[5rem] px-[15rem] bg-gray-200">
           <div className="p-[4rem] bg-white">
