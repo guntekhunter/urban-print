@@ -233,3 +233,12 @@ export const editSale = async (data: any) => {
     console.log(error);
   }
 };
+
+export const getSalesPerson = async () => {
+  try {
+    const res = await axios.get("/api/user/get-sales-person");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

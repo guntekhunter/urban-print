@@ -12,6 +12,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
             so_number: true,
             product_type: true,
             prize: true,
+            sales_person: true,
           },
         },
       },
