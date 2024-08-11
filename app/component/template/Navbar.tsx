@@ -59,7 +59,7 @@ export default function Navbar() {
             <p className="font-bold flex items-center">URBAN PRINT</p>
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>{user?.name}</p>
+            <p>Sales</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}
@@ -80,7 +80,7 @@ export default function Navbar() {
             <p className="font-bold flex items-center">URBAN PRINT</p>
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>{user?.name}</p>
+            <p>Manager</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}
@@ -101,7 +101,7 @@ export default function Navbar() {
             <p className="font-bold flex items-center">URBAN PRINT</p>
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>{user?.name}</p>
+            <p>Operator</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}

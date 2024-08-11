@@ -115,7 +115,7 @@ export default function page() {
           <Button onClick={handleSave}>Filter</Button>
           <Button onClick={handlePrint}>Print</Button>
         </div>
-        <div className="py-[5rem] px-[15rem] bg-gray-200">
+        <div className="py-[5rem] px-[10rem] bg-gray-200">
           <div className="p-[4rem] bg-white" ref={ref}>
             <div className="text-center ">
               <div className="flex justify-between items-center">

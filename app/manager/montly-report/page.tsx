@@ -51,7 +51,7 @@ export default function page() {
 
         // Find the corresponding day in the dailyData array
         const dayData = dailyData.find((d) => d.date === dateStr);
-        if (dayData) {
+        if (dayData && item.order.prize) {
           const prize = item.order.prize;
 
           if (item.status === "paid") {
@@ -65,7 +65,19 @@ export default function page() {
           dayData.transaction += prize;
           const theTotal =
             dayData.transaction - dayData.unpaid - dayData.refund;
-          dayData.total += theTotal;
+          dayData.total = theTotal;
+
+          if (dayData.paid > 0 || dayData.unpaid > 0 || dayData.refund > 0) {
+            // Check if the date already exists in the dailyData array
+            const existingDataIndex = dailyData.findIndex(
+              (d) => d.date === dateStr
+            );
+            if (existingDataIndex === -1) {
+              dailyData.push(dayData);
+            } else {
+              dailyData[existingDataIndex] = dayData;
+            }
+          }
         }
       });
 
@@ -81,6 +93,10 @@ export default function page() {
     content: () => ref.current,
   });
 
+  const getPageMargins = () => {
+    return `@page { margin: 4rem 4rem 3rem 3rem !important; }`;
+  };
+
   return (
     <div className="flex flex-col items-center pt-[2rem]">
       <div className="p-8 rounded-md shadow-md bg-white text-black w-[95%] text-[1rem] text-gray-700 border border-gray-300 space-y-[2rem]">
@@ -93,56 +109,9 @@ export default function page() {
         >
           Print
         </Button>
-
-        <table className="min-w-full divide-y divide-gray-200 rounded-md">
-          <thead className="bg-gray-50">
-            <tr className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                No
-              </th>
-              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Date
-              </th>
-              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Penjualan
-              </th>
-              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Pelunasan
-              </th>
-              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Belum Dibayar
-              </th>
-              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Refund
-              </th>
-              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Total Omset
-              </th>
-              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Ket.
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {mountlyData.map((item: any, key: any) => (
-              <tr className="cursor-pointer" key={key}>
-                <td className="px-6 py-4 whitespace-nowrap">{key + 1}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {item.transaction}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.paid}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.unpaid}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.refund}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.total}</td>
-                <td className="px-6 py-4 whitespace-nowrap"></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div ref={ref} className={`p-[5rem] text-[.7rem] hidden print:block`}>
+        <div className="bg-[#F8F8F8] p-[2rem] h-[100vh] overflow-y-scroll">
           <table className="min-w-full divide-y divide-gray-200 rounded-md">
-            <thead className="bg-gray-50">
+            <thead className="bg-green-200">
               <tr className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
                 <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
                   No
@@ -165,8 +134,80 @@ export default function page() {
                 <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
                   Total Omset
                 </th>
-                <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                  Ket.
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {mountlyData.map((item: any, key: any) => (
+                <tr className="cursor-pointer" key={key}>
+                  <td className="px-6 py-4 whitespace-nowrap">{key + 1}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.transaction === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.transaction)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.paid === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.paid)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.unpaid === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.unpaid)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.refund === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.refund)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.total === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.total)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {/* printable component */}
+        <div
+          ref={ref}
+          className={`text-[.7rem] hidden print:block space-y-[2rem]`}
+        >
+          <style>{getPageMargins()}</style>
+          <div className="flex justify-center">
+            <h1 className="text-[1rem] font-bold">LAPORAN BULANAN</h1>
+          </div>
+          <table className="min-w-full divide-y divide-gray-200 rounded-md">
+            <thead className="bg-green-200 text-[.7rem]">
+              <tr className="px-6 py-3 text-left text-gray-500">
+                <th className="px-6 py-3 text-left text-gray-500">No</th>
+                <th className="px-6 py-3 text-left text-gray-500">Date</th>
+                <th className="px-6 py-3 text-left text-gray-500">Penjualan</th>
+                <th className="px-6 py-3 text-left text-gray-500">Pelunasan</th>
+                <th className="px-6 py-3 text-left text-gray-500">
+                  Belum Dibayar
+                </th>
+                <th className="px-6 py-3 text-left text-gray-500">Refund</th>
+                <th className="px-6 py-3 text-left text-gray-500">
+                  Total Omset
                 </th>
               </tr>
             </thead>
@@ -176,13 +217,45 @@ export default function page() {
                   <td className="px-6 py-4 whitespace-nowrap">{key + 1}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.date}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.transaction}
+                    {item.transaction === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.transaction)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.paid}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.unpaid}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.refund}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.total}</td>
-                  <td className="px-6 py-4 whitespace-nowrap"></td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.paid === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.paid)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.unpaid === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.unpaid)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.refund === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.refund)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.total === 0
+                      ? "-"
+                      : new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(item.total)}
+                  </td>
                 </tr>
               ))}
             </tbody>
