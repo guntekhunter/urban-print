@@ -21,12 +21,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
           status: 1,
         },
       }),
-      //   prisma.order.count({
-      //     where: {
-      //       id_operator: reqBody,
-      //       product_type: "printing",
-      //     },
-      //   }),
       prisma.order.count({
         where: {
           id_operator: reqBody,

@@ -9,7 +9,8 @@ import {
   getUser,
 } from "@/app/fetch/FetchData";
 import { dateFormat, dateFormater } from "@/app/functions/DateFormater";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useReactToPrint } from "react-to-print";
 
 interface Sales {
   id: number;
@@ -24,6 +25,8 @@ export default function page() {
   const [totalRefund, setTotalRefund] = useState(0);
   const [salesPerson, setSalesPerson] = useState([]);
   const [sales, setSales] = useState<Sales | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const currentDate = new Date().toISOString().split("T")[0];
     setTheDate(currentDate);
@@ -93,6 +96,10 @@ export default function page() {
       }
     }
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => ref.current,
+  });
   return (
     <div className="flex flex-col items-center pt-[2rem]">
       <div className="p-8 rounded-md shadow-md bg-white text-black w-[95%] text-[1rem] text-gray-700 border border-gray-300 space-y-[2rem]">
@@ -106,9 +113,10 @@ export default function page() {
             <TimeInputs onChange={handleDate} name="required_date" />
           </div>
           <Button onClick={handleSave}>Filter</Button>
+          <Button onClick={handlePrint}>Print</Button>
         </div>
         <div className="py-[5rem] px-[15rem] bg-gray-200">
-          <div className="p-[4rem] bg-white">
+          <div className="p-[4rem] bg-white" ref={ref}>
             <div className="text-center ">
               <div className="flex justify-between items-center">
                 <h1 className="font-bold">URBAN PRINT</h1>
@@ -159,7 +167,7 @@ export default function page() {
               </table>
             </div>
 
-            <div className="text-center mt-8">
+            <div className="mt-8 space-y-[5rem]">
               <p className="text-sm text-gray-600">{sales?.name}</p>
               <p className="text-sm text-gray-600">
                 {dateFormat(theDate)}: __________________

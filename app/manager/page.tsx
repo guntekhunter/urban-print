@@ -16,7 +16,10 @@ export default function page() {
         >
           Daily Report
         </button>
-        <button className="bg-green-400 px-[3.5rem] py-[3rem] rounded-md w-[30%] hover:bg-green-300">
+        <button
+          className="bg-green-400 px-[3.5rem] py-[3rem] rounded-md w-[30%] hover:bg-green-300"
+          onClick={(e) => hendleChange("montly-report")}
+        >
           Monthly Report
         </button>
         <button

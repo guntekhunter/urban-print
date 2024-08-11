@@ -251,3 +251,12 @@ export const getDaily = async (data: any) => {
     console.log(error);
   }
 };
+
+export const getMountly = async () => {
+  try {
+    const res = await axios.get("/api/sale/mountly");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
