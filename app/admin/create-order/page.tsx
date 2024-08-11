@@ -412,7 +412,7 @@ export default function CreateOrder() {
                         className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
                           selectedProduct === "printing poster"
                             ? "opacity-70"
-                            : "bg-red-200"
+                            : ""
                         }`}
                       />
                       <Image

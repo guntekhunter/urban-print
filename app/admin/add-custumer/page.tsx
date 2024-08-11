@@ -39,6 +39,10 @@ export default function page() {
     }
   };
 
+  const cancel = () => {
+    route.push("/admin");
+  };
+
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">
@@ -77,7 +81,10 @@ export default function page() {
             </div>
           </div>
         </div>
-        <Button onClick={createOrder}>Add Custumer</Button>
+        <div className="flex space-x-[1rem]">
+          <Button onClick={createOrder}>Add Custumer</Button>
+          <Button onClick={cancel}>Cancel</Button>
+        </div>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import {
   getSalesPerson,
   getUser,
 } from "@/app/fetch/FetchData";
+import { dateFormat, dateFormater } from "@/app/functions/DateFormater";
 import React, { useEffect, useState } from "react";
 
 interface Sales {
@@ -115,7 +116,7 @@ export default function page() {
                   <h1 className="font-bold text-[1.8rem]">
                     Laporan Hasil Kasir
                   </h1>
-                  <p className="text-gray-700">Date: {theDate}</p>
+                  <p className="text-gray-700">Date: {dateFormat(theDate)}</p>
                   <p className="text-gray-700">Nama Sales: {sales?.name}</p>
                 </div>
               </div>
@@ -159,9 +160,9 @@ export default function page() {
             </div>
 
             <div className="text-center mt-8">
-              <p className="text-sm text-gray-600">Prepared by: John Doe</p>
+              <p className="text-sm text-gray-600">{sales?.name}</p>
               <p className="text-sm text-gray-600">
-                Signature: __________________
+                {dateFormat(theDate)}: __________________
               </p>
             </div>
           </div>

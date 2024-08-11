@@ -207,9 +207,9 @@ export const createSale = async (data: any) => {
     console.log(error);
   }
 };
-export const getSales = async (data: any) => {
+export const getSales = async () => {
   try {
-    const res = await axios.get("/api/sale/create-sale", data);
+    const res = await axios.get("/api/sale/create-sale");
     return res;
   } catch (error) {
     console.log(error);
