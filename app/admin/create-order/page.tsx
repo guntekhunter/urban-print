@@ -466,9 +466,18 @@ export default function CreateOrder() {
                         )}
                       </div>
                     </div>
-                    <div className={`flex space-x-[2rem] ${orderedData.product_type !== "printing photography" && "hidden"}`}>
-                      <label className="w-[30%]">Product Size</label>
-                      <div className="w-full">
+                    <div className={`flex ${orderedData.product_type !== "printing photography" && "hidden"}`}>
+                      <label className="w-[19%]">Product Size</label>
+                      <Dropdown
+                        options={[
+                          { id: 1, name: "10 x 15" },
+                          { id: 2, name: "20 x 30" },
+                          { id: 3, name: "30 x 40" },
+                          { id: 4, name: "40 x 45" },
+                        ]}
+                        onChange={handleDropdownChange("material")}
+                      />
+                      {/* <div className="w-full">
                         <Input
                           onChange={handleInput}
                           name="product_width"
@@ -483,9 +492,9 @@ export default function CreateOrder() {
                           value={orderedData.product_length}
                         />
                         <p>Size Length / Centimeter</p>
-                      </div>
+                      </div> */}
                     </div>
-                    <div className={`flex space-x-[2rem] ${orderedData.product_type !== "printing photography" && "hidden"}`}>
+                    {/* <div className={`flex space-x-[2rem] ${orderedData.product_type !== "printing photography" && "hidden"}`}>
                       <label className="w-[30%]">Cutting Size</label>
                       <div className="w-full">
                         <Input
@@ -503,7 +512,7 @@ export default function CreateOrder() {
                         />
                         <p>Size Length / Centimeter</p>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="flex">
                       <label className="w-[19%]">Media Print</label>
                       {
@@ -532,6 +541,10 @@ export default function CreateOrder() {
                         options={[
                           { id: "red", name: "red" },
                           { id: "yellow", name: "yellow" },
+                          { id: "green", name: "green" },
+                          { id: "blue", name: "blue" },
+                          { id: "white", name: "white" },
+                          { id: "black", name: "black" },
                         ]}
                         onChange={handleDropdownChange("color")}
                       />
