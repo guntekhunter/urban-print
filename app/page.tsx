@@ -46,7 +46,8 @@ export default function Home() {
   return (
     <div className="h-screen flex items-center justify-center bg-gray-200">
       <div className="p-[4rem] space-y-[1rem] w-[30rem] rounded-md shadow-md bg-white text-text">
-        <p className="flex justify-center font-bold">LOGIN</p>
+        <p className="flex justify-center font-bold">URBAN PRINT</p>
+        <p className="flex justify-center">Please login to your account</p>
         <div className="w-full space-y-2">
           <p className="text-[.9rem]">Email</p>
           <Input
@@ -69,9 +70,8 @@ export default function Home() {
           </div>
         </div>
         <div
-          className={`bg-red-200 h-[2rem] flex items-center pl-4 rounded-md border-[1.4px] border-red-300 ${
-            error ? "" : "hidden"
-          }`}
+          className={`bg-red-200 h-[2rem] flex items-center pl-4 rounded-md border-[1.4px] border-red-300 ${error ? "" : "hidden"
+            }`}
         >
           <p className={`text-[.8rem] text-red-500 ${error ? "" : "hidden"}`}>
             {error}

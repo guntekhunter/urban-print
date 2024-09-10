@@ -1,8 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { editSale, getSale } from "@/app/fetch/FetchData";
 import Button from "@/app/component/template/Button";
 import { useRouter } from "next/navigation";
+import { useReactToPrint } from "react-to-print";
 
 interface Order {
   so_number: number;
@@ -18,6 +19,7 @@ interface Sale {
 
 export default function page({ params }: { params: { id: string } }) {
   const [sale, setSale] = useState<Sale | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const route = useRouter();
 
@@ -75,6 +77,10 @@ export default function page({ params }: { params: { id: string } }) {
       console.log(error);
     }
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => ref.current,
+  });
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
@@ -128,6 +134,64 @@ export default function page({ params }: { params: { id: string } }) {
           </Button>
         </div>
       </div>
-    </div>
+      <div className="p-[4rem] bg-white" ref={ref}>
+        <div className="text-center ">
+          <div className="flex justify-between items-center">
+            <h1 className="font-bold">URBAN PRINT</h1>
+            <div className="w-2/3">
+              <h1 className="font-bold text-[1.8rem]">
+                Laporan Hasil Kasir
+              </h1>
+              {/* <p className="text-gray-700">Date: {dateFormat(theDate)}</p>
+              <p className="text-gray-700">Nama Sales: {sales?.name}</p> */}
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <table className="w-full text-left border-collapse">
+            <tbody>
+              <tr className="border-b">
+                <td className="py-2 font-bold">Total Penjualan</td>
+                <td>:</td>
+                {/* <td className="py-2 text-right">
+                {new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                }).format(totalSale)}
+              </td> */}
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 font-bold">Total Pelunasan</td>
+                <td>:</td>
+                {/* <td className="py-2 text-right">
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(totalPaid)}
+                </td> */}
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 font-bold">Total Refund</td>
+                <td>:</td>
+                {/* <td className="py-2 text-right">
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(totalRefund)}
+                </td> */}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-8 space-y-[5rem]">
+          {/* <p className="text-sm text-gray-600">{sales?.name}</p> */}
+          <p className="text-sm text-gray-600">
+            {/* {dateFormat(theDate)}: __________________ */}
+          </p>
+        </div>
+      </div>
+    </div >
   );
 }

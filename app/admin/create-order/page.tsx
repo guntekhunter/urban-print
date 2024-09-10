@@ -48,10 +48,10 @@ export default function CreateOrder() {
     product_type: "",
     id_operator: 0,
     authorId: 0,
-    product_width: null, //new data
-    product_length: null, //new data
-    cutting_width: null, //new data
-    cutting_length: null, //new data
+    product_width: 1, //new data
+    product_length: 1, //new data
+    cutting_width: 1, //new data
+    cutting_length: 1, //new data
     material: "", //new data
     color: "", //new data
     coating: "", //new data
@@ -143,26 +143,36 @@ export default function CreateOrder() {
       }, 3000);
     }
   };
+  // useEffect(() => {
+  //   if (orderedData.cutting_length && orderedData.cutting_width) {
+  //     const quantity = orderedData.cutting_length * orderedData.cutting_width;
+  //     setTheQuantity(quantity);
+  //     setOrderedData((prevData: any) => ({
+  //       ...prevData,
+  //       quantity,
+  //     }));
+  //   }
+  // }, [orderedData.cutting_length, orderedData.cutting_width]);
+
+  // set the prize
   useEffect(() => {
-    if (orderedData.cutting_length && orderedData.cutting_width) {
-      const quantity = orderedData.cutting_length * orderedData.cutting_width;
-      setTheQuantity(quantity);
-      setOrderedData((prevData: any) => ({
-        ...prevData,
-        quantity,
-      }));
+    if (orderedData.type === "kartu nama") {
+
     }
-  }, [orderedData.cutting_length, orderedData.cutting_width]);
+  }, [])
 
   useEffect(() => {
-    if (theQuantity && thePize) {
-      const totalPrize = thePize * theQuantity;
+    if (orderedData.quantity && thePize) {
+      const totalPrize = thePize * orderedData.quantity;
+      console.log("ini total prize", totalPrize)
       setOrderedData((prevData: any) => ({
         ...prevData,
         ["prize"]: totalPrize,
       }));
     }
-  }, [theQuantity, thePize]);
+  }, [orderedData.quantity, thePize]);
+
+  console.log("xoba", orderedData, orderedData.prize, thePize)
 
   const cancel = () => {
     route.push("/admin");
@@ -363,11 +373,10 @@ export default function CreateOrder() {
                   >
                     <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
                       <div
-                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
-                          selectedProduct === "printing stickers"
-                            ? "opacity-70"
-                            : ""
-                        }`}
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${selectedProduct === "printing stickers"
+                          ? "opacity-70"
+                          : ""
+                          }`}
                       />
                       <Image
                         src="/stickers.png"
@@ -386,11 +395,10 @@ export default function CreateOrder() {
                   >
                     <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
                       <div
-                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
-                          selectedProduct === "printing photography"
-                            ? "opacity-70"
-                            : ""
-                        }`}
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${selectedProduct === "printing photography"
+                          ? "opacity-70"
+                          : ""
+                          }`}
                       />
                       <Image
                         src="/potography.png"
@@ -409,11 +417,10 @@ export default function CreateOrder() {
                   >
                     <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
                       <div
-                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
-                          selectedProduct === "printing poster"
-                            ? "opacity-70"
-                            : ""
-                        }`}
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${selectedProduct === "printing poster"
+                          ? "opacity-70"
+                          : ""
+                          }`}
                       />
                       <Image
                         src="/poster.png"
@@ -450,8 +457,7 @@ export default function CreateOrder() {
                         ) : (
                           <Dropdown
                             options={[
-                              { id: "baju cotton", name: "baju cotton" },
-                              { id: "jersey", name: "jersey" },
+                              { id: "baju / jersey", name: "baju / jersey" },
                               { id: "tumbler", name: "tumbler" },
                               { id: "todbag", name: "todbag" },
                             ]}
@@ -460,7 +466,7 @@ export default function CreateOrder() {
                         )}
                       </div>
                     </div>
-                    <div className="flex space-x-[2rem]">
+                    <div className={`flex space-x-[2rem] ${orderedData.product_type !== "printing photography" && "hidden"}`}>
                       <label className="w-[30%]">Product Size</label>
                       <div className="w-full">
                         <Input
@@ -479,7 +485,7 @@ export default function CreateOrder() {
                         <p>Size Length / Centimeter</p>
                       </div>
                     </div>
-                    <div className="flex space-x-[2rem]">
+                    <div className={`flex space-x-[2rem] ${orderedData.product_type !== "printing photography" && "hidden"}`}>
                       <label className="w-[30%]">Cutting Size</label>
                       <div className="w-full">
                         <Input
@@ -499,16 +505,28 @@ export default function CreateOrder() {
                       </div>
                     </div>
                     <div className="flex">
-                      <label className="w-[19%]">Material</label>
-                      <Dropdown
-                        options={[
-                          { id: "vinyl", name: "vinyl" },
-                          { id: "paper", name: "paper" },
-                        ]}
-                        onChange={handleDropdownChange("material")}
-                      />
+                      <label className="w-[19%]">Media Print</label>
+                      {
+                        orderedData.product_type === "printing photography" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Outdor", name: "Outdor" },
+                              { id: "Indor", name: "Indor" },
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        ) : (
+                          <Dropdown
+                            options={[
+                              { id: "UV", name: "UV" },
+                              { id: "Grafir", name: "Grafir" },
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        )
+                      }
                     </div>
-                    <div className="flex">
+                    <div className={`flex ${orderedData.product_type === "printing stickers" && "hidden"}`}>
                       <label className="w-[19%]">Color</label>
                       <Dropdown
                         options={[
@@ -518,7 +536,8 @@ export default function CreateOrder() {
                         onChange={handleDropdownChange("color")}
                       />
                     </div>
-                    <div className="flex">
+
+                    <div className={`flex ${orderedData.product_type === "printing poster" && "hidden"}`}>
                       <label className="w-[19%]">Coating</label>
                       <Dropdown
                         options={[
@@ -564,7 +583,7 @@ export default function CreateOrder() {
                         Size:{" "}
                         {orderedData.cutting_length && orderedData.cutting_width
                           ? orderedData.cutting_width *
-                            orderedData.cutting_length
+                          orderedData.cutting_length
                           : null}
                       </li>
                       <li>Material: {orderedData.material}</li>
