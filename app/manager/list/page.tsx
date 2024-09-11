@@ -1,6 +1,7 @@
 "use client";
 import ButtonPerformance from "@/app/component/manager/ButtonPerformance";
 import { getAllOrder } from "@/app/fetch/FetchData";
+import { dateFormater } from "@/app/functions/DateFormater";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -37,6 +38,9 @@ export default function page() {
                 Sales Person
               </th>
               <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
+                Created At
+              </th>
+              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
                 Required Date
               </th>
               <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
@@ -55,7 +59,10 @@ export default function page() {
                   {item.sales_person}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {item.required_date}
+                  {dateFormater(item.order_date)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {dateFormater(item.required_date)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.Status.status}
