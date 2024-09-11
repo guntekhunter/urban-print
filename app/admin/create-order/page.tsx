@@ -524,6 +524,30 @@ export default function CreateOrder() {
                             ]}
                             onChange={handleDropdownChange("material")}
                           />
+                        ) : orderedData.type === "cetak a3" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
+                              { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
+                              { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
+                              { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
+                              { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
+                              { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        ) : orderedData.type === "brosur" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
+                              { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
+                              { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
+                              { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
+                              { id: "HVS 100 gsm", name: "HVS 100 gsm" },
+
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
                         ) : (
                           <Dropdown
                             options={[
