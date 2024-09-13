@@ -1,14 +1,17 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { editSale, getSale } from "@/app/fetch/FetchData";
+import { editSale, getCustumer, getSale } from "@/app/fetch/FetchData";
 import Button from "@/app/component/template/Button";
 import { useRouter } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
+import { dateFormater } from "@/app/functions/DateFormater";
 
 interface Order {
   so_number: number;
   product_type: string;
   prize: number;
+  order_date: string
+  custumer: string
 }
 
 interface Sale {
@@ -21,6 +24,7 @@ interface Sale {
 export default function Page({ params }: { params: { id: string } }) {
   const [sale, setSale] = useState<Sale | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const [custumerName, setCustumerName] = useState("")
 
   const route = useRouter();
 
@@ -75,6 +79,18 @@ export default function Page({ params }: { params: { id: string } }) {
     content: () => ref.current,
   });
 
+  useEffect(() => {
+    const fetchCustumer = async () => {
+      console.log(sale?.order.custumer)
+      if (sale?.order.custumer) {
+        const id = parseInt(sale?.order.custumer)
+        const res = await getCustumer(id)
+        setCustumerName(res?.data.data.name)
+      }
+    }
+    fetchCustumer()
+  }, [sale?.order.custumer, getCustumer])
+
   // Ensure the component renders consistently even if `sale` is not yet available.
   return (
     <div className="flex justify-around relative pt-[2rem]">
@@ -114,6 +130,16 @@ export default function Page({ params }: { params: { id: string } }) {
                 <td className="px-4 py-2">Status</td>
                 <td>:</td>
                 <td className="px-4 py-2">{sale.status}</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2">Created At</td>
+                <td>:</td>
+                <td className="px-4 py-2">{dateFormater(sale.order.order_date)}</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2">Finish At</td>
+                <td>:</td>
+                <td className="px-4 py-2">{dateFormater(sale.date)}</td>
               </tr>
             </tbody>
           </table>
@@ -159,23 +185,15 @@ export default function Page({ params }: { params: { id: string } }) {
                   </tr>
                   <tr className="">
                     <td className="py-2 font-bold">Tanggal Sales:</td>
-                    <td>:</td>
-                    {/* <td className="py-2 text-right">
-                  {new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                  }).format(totalPaid)}
-                </td> */}
+                    <td>: </td>
+                    <td className="py-2 text-right">
+                      {dateFormater(sale.order.order_date)}
+                    </td>
                   </tr>
                   <tr className="">
                     <td className="py-2 font-bold">Custumer</td>
-                    <td>:</td>
-                    {/* <td className="py-2 text-right">
-                  {new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                  }).format(totalRefund)}
-                </td> */}
+                    <td>: </td>
+                    {custumerName}
                   </tr>
                 </tbody>
               </table>

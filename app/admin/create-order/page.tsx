@@ -466,6 +466,36 @@ export default function CreateOrder() {
                         )}
                       </div>
                     </div>
+                    {
+                      orderedData.type === "brosur" ? (
+                        <div className="flex">
+                          <label className="w-[19%]">Product Size</label>
+                          <Dropdown
+                            options={[
+                              { id: 1, name: "A5" },
+                              { id: 2, name: "A4" },
+                              { id: 3, name: "1/3 A4" },
+                              { id: 4, name: "A6" },
+                              { id: 4, name: "A3" },
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        </div>
+                      ) : orderedData.type === "baju / jersey" && (
+                        <div className="flex">
+                          <label className="w-[19%]">Product Size</label>
+                          <Dropdown
+                            options={[
+                              { id: 1, name: "S" },
+                              { id: 2, name: "M" },
+                              { id: 3, name: "L" },
+                              { id: 4, name: "XL" },
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        </div>
+                      )
+                    }
                     <div className={`flex ${orderedData.product_type !== "printing photography" && "hidden"}`}>
                       <label className="w-[19%]">Product Size</label>
                       <Dropdown
@@ -513,7 +543,7 @@ export default function CreateOrder() {
                         <p>Size Length / Centimeter</p>
                       </div>
                     </div> */}
-                    <div className="flex">
+                    <div className={`flex ${orderedData.type === "baju / jersey" && "hidden"}`}>
                       <label className="w-[19%]">Media Print</label>
                       {
                         orderedData.product_type === "printing photography" ? (

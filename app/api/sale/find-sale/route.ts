@@ -13,6 +13,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
             so_number: true,
             product_type: true,
             prize: true,
+            order_date: true,
+            custumer: true,
           },
         },
       },
