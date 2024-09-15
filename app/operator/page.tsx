@@ -68,19 +68,6 @@ export default function Page() {
     return segments;
   };
 
-  const handleChangePage = (index: number) => {
-    if (index === 0) {
-      route.push("/operator/printing-stickers");
-      // make it go to path printing stickers
-    } else if (index === 1) {
-      route.push("/operator/printing-poster");
-      // make it go to path printing photograph
-    } else {
-      route.push("/operator/printing-photography");
-    }
-    // add one more path to printing poster
-  };
-
   const changePage = (path: string) => {
     route.push(path);
   };
@@ -91,9 +78,8 @@ export default function Page() {
         <div className={`w-[20%] flex`}>
           <div
             onClick={() => changePage("operator")}
-            className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${
-              path.includes("/operator") ? "bg-white" : "bg-gray-200"
-            }`}
+            className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${path.includes("/operator") ? "bg-white" : "bg-gray-200"
+              }`}
           >
             Printing
           </div>
@@ -113,10 +99,11 @@ export default function Page() {
               <div
                 key={index}
                 className="flex cursor-pointer justify-center"
-                onClick={() => handleChangePage(index)}
+              // onClick={() => handleChangePage(index)}
               >
                 <div className="">
                   <Diagram
+                    type="printing"
                     segments={segments}
                     idPrefix={`diagram-${key}`}
                     index={index}

@@ -3,6 +3,7 @@ import {
   getPrintingStickersTask,
   getPrintingTask,
 } from "@/app/fetch/FetchData";
+import { dateFormater } from "@/app/functions/DateFormater";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -13,12 +14,14 @@ export default function page() {
   const route = useRouter();
 
   useEffect(() => {
+    const idStatus: string | null = localStorage.getItem("status")
+    const idInteger = parseInt(idStatus ?? "0", 10);
     const fetchOrder = async () => {
       try {
         const userId = localStorage.getItem("user_id");
         if (userId !== null) {
           const id = parseInt(userId);
-          const task = await getPrintingStickersTask(id);
+          const task = await getPrintingStickersTask(idInteger);
           setOrders(task?.data.data); // Update the state with response data
         } else {
           console.log("User ID not found in local storage.");
@@ -72,10 +75,17 @@ export default function page() {
                   {item.sales_person}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {item.required_date}
+                  {dateFormater(item.required_date)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {item.Status.status}
+                  {
+                    item.status === 1 ? (
+                      <p>Not Started</p>
+                    ) : (
+                      <p>{item.Status.status}</p>
+                    )
+                  }
+
                 </td>
               </tr>
             ))}
