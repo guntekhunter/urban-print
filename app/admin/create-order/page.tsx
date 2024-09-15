@@ -251,6 +251,8 @@ export default function CreateOrder() {
     fetchCustemers();
   }, []);
 
+
+
   console.log(selectedProduct);
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">

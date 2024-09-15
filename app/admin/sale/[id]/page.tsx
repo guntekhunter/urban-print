@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { editSale, getCustumer, getSale } from "@/app/fetch/FetchData";
+import { editSale, getCustumer, getSale, getUser } from "@/app/fetch/FetchData";
 import Button from "@/app/component/template/Button";
 import { useRouter } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { dateFormater } from "@/app/functions/DateFormater";
+import { capitalizeName } from "@/app/functions/Capitalizer";
 
 interface Order {
   so_number: number;
@@ -12,6 +13,8 @@ interface Order {
   prize: number;
   order_date: string
   custumer: string
+  type: string
+  quantity: number
 }
 
 interface Sale {
@@ -24,7 +27,9 @@ interface Sale {
 export default function Page({ params }: { params: { id: string } }) {
   const [sale, setSale] = useState<Sale | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const [user, setUser] = useState("")
   const [custumerName, setCustumerName] = useState("")
+  const [currentDate, setCurrentDate] = useState("")
 
   const route = useRouter();
 
@@ -42,6 +47,23 @@ export default function Page({ params }: { params: { id: string } }) {
     };
     fetchSale();
   }, [params.id]);
+
+  useEffect(() => {
+    const fetchSales = async () => {
+      const userId = localStorage.getItem("user_id")
+      try {
+        if (userId) {
+          const res = await getUser(parseInt(userId));
+          setUser(res?.data.data.name);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchSales()
+  }, [])
+
+  console.log(user)
 
   const handlePaid = async () => {
     if (sale?.status === "unpaid") {
@@ -91,6 +113,15 @@ export default function Page({ params }: { params: { id: string } }) {
     fetchCustumer()
   }, [sale?.order.custumer, getCustumer])
 
+  console.log("nama", custumerName)
+  useEffect(() => {
+    const currentDate = new Date();
+    const offset = currentDate.getTimezoneOffset();
+    currentDate.setMinutes(currentDate.getMinutes() - offset);
+    const localDate = currentDate.toISOString().slice(0, 16);
+    setCurrentDate(localDate)
+  }, [])
+
   // Ensure the component renders consistently even if `sale` is not yet available.
   return (
     <div className="flex justify-around relative pt-[2rem]">
@@ -104,6 +135,13 @@ export default function Page({ params }: { params: { id: string } }) {
           <h1 className="text-[2rem] font-bold px-[1rem]">Sale Detail</h1>
           <table>
             <tbody className="text-[1rem]">
+              <tr>
+                <td className="px-4 py-2">Product</td>
+                <td>:</td>
+                <td className="px-4 py-2">
+                  {sale.order.type}
+                </td>
+              </tr>
               <tr>
                 <td className="px-4 py-2">Order So Number</td>
                 <td>:</td>
@@ -199,10 +237,33 @@ export default function Page({ params }: { params: { id: string } }) {
               </table>
             </div>
 
-            <div className="mt-8 space-y-[5rem]">
-              {/* <p className="text-sm text-gray-600">{sales?.name}</p> */}
+            <table className="min-w-full bg-white border border-gray-200">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-gray-600 tracking-wider">No</th>
+                  <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-gray-600 tracking-wider">Item Name</th>
+                  <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-gray-600 tracking-wider">Qty</th>
+                  <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-gray-600 tracking-wider">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">1</td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{sale.order.type}</td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{sale.order.quantity}</td>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">{sale.order.prize}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="w-full py-[2rem] text-center">
+              <h1 className="text-[1rem] font-bold">
+                {capitalizeName(user)}
+              </h1>
+              <p>Terimakasih atas kunjungan Anda, silahkan datang kembali</p>
+            </div>
+            <div className="mt-8 space-y-[5rem] w-full text-right">
               <p className="text-sm text-gray-600">
-                {/* {dateFormat(theDate)}: __________________ */}
+                {dateFormater(currentDate)}: __________________
               </p>
             </div>
           </div>

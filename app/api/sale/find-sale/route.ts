@@ -15,6 +15,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
             prize: true,
             order_date: true,
             custumer: true,
+            type: true,
+            quantity: true,
           },
         },
       },
@@ -22,6 +24,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         id: reqBody,
       },
     });
+
     return NextResponse.json({
       data: res,
     });
