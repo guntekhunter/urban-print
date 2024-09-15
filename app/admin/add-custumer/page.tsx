@@ -1,12 +1,14 @@
 "use client";
 import Button from "@/app/component/template/Button";
 import Input from "@/app/component/template/Input";
-import { addCustumer } from "@/app/fetch/FetchData";
+import { addCustumer, deleteCustumer, getAllCustumer } from "@/app/fetch/FetchData";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [errorCreateCustumer, setErrorCreateCustumer] = useState(false);
+  const [customer, setCustomer] = useState([])
   const [custumerData, setCustumerData] = useState({
     name: "",
     address: "",
@@ -30,7 +32,7 @@ export default function page() {
     const res = await addCustumer(custumerData);
     console.log(res);
     if (!res?.data.error) {
-      route.push("/admin");
+      setCustomer(res?.data.data)
     } else {
       setErrorCreateCustumer(true);
       setTimeout(() => {
@@ -42,6 +44,25 @@ export default function page() {
   const cancel = () => {
     route.push("/admin");
   };
+
+  useEffect(() => {
+    const fetchCustumers = async () => {
+      try {
+        const res = await getAllCustumer();
+        setCustomer(res?.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCustumers();
+  }, []);
+
+  console.log(customer)
+
+  const handleDelete = async (id: any) => {
+    const deleteRes = await deleteCustumer(id)
+    setCustomer(deleteRes?.data.response)
+  }
 
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
@@ -85,7 +106,61 @@ export default function page() {
           <Button onClick={createOrder}>Add Custumer</Button>
           <Button onClick={cancel}>Cancel</Button>
         </div>
+        <table className="min-w-full divide-y divide-gray-200 rounded-md">
+          <thead className="bg-gray-50">
+            <tr className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
+              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
+                No
+              </th>
+              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
+                Custumer
+              </th>
+              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
+                Address
+              </th>
+              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
+                Contact
+              </th>
+              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
+                Delete
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {customer?.map((item: any, key) => (
+              <tr key={key} className="cursor-pointer">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {key + 1}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {item.address}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {item.contact_person}
+                </td>
+                <td className="px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]">
+                  <button
+                    className="p-[.5rem] bg-red-200 border-red-300 border-[1.3px] rounded-md"
+                    onClick={(e) => {
+                      handleDelete(item.id);
+                    }}
+                  >
+                    <Image
+                      src="/delete.png"
+                      alt=""
+                      width={500}
+                      height={500}
+                      className="w-4"
+                    />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+
     </div>
   );
 }

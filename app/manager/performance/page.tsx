@@ -20,6 +20,7 @@ interface Performance {
 
 export default function Page() {
   const [orders, setOrders] = useState([]);
+  const [operatorTask, setOperatorTask] = useState<number>()
   const [operators, setOperators] = useState([]);
   const [performance, setPerformance] = useState<Performance | null>(null);
 
@@ -27,7 +28,9 @@ export default function Page() {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     try {
+      console.log("id operator", event.target.value)
       const res = await getPerformance(event.target.value);
+      setOperatorTask(parseInt(res?.data.count))
       setPerformance(res?.data.performance);
     } catch (error) {
       console.log(error);
@@ -68,6 +71,7 @@ export default function Page() {
                 performance={performance}
                 idPrefix={`diagram-${1}`}
                 index={1}
+                operatorTask={operatorTask ?? 0}
               />
             </div>
           </div>

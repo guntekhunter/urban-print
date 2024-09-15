@@ -5,25 +5,18 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
+  const id = reqBody.id;
   try {
-    const res = await prisma.sale.findMany({
-      include: {
-        order: {
-          select: {
-            so_number: true,
-            product_type: true,
-            prize: true,
-            order_date: true,
-            custumer: true,
-          },
-        },
-      },
+    const res = await prisma.custumer.delete({
       where: {
-        id: reqBody,
+        id: id,
       },
     });
+
+    const orderData = await prisma.custumer.findMany({});
     return NextResponse.json({
-      data: res,
+      deletedData: res,
+      response: orderData,
     });
   } catch (error) {
     console.log(error);

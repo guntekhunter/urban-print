@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+export async function GET(req: NextRequest, res: NextResponse) {
+  const costumers = await prisma.custumer.findMany({});
+  return NextResponse.json({ data: costumers });
+}
+
 export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
   try {
@@ -12,7 +17,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
         contact_person: reqBody.contact,
       },
     });
-    return NextResponse.json({ data: newOrder });
+    const costumers = await prisma.custumer.findMany({});
+    return NextResponse.json({ data: costumers });
   } catch (error) {
     console.log(error);
   }

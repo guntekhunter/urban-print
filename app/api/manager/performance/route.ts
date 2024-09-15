@@ -64,6 +64,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     return NextResponse.json({
       performance,
+      count: totalOrders,
     });
   } catch (error) {
     console.log(error);

@@ -48,12 +48,11 @@ export default function CreateOrder() {
     product_type: "",
     id_operator: 0,
     authorId: 0,
-    product_width: null, //new data
-    product_length: null, //new data
-    cutting_width: null, //new data
-    cutting_length: null, //new data
+    product_width: 1, //new data
+    product_length: 1, //new data
+    product_size: "null",
     material: "", //new data
-    color: "", //new data
+    color: "null", //new data
     coating: "", //new data
     type: "", //new data
     late: false, //new data
@@ -111,6 +110,7 @@ export default function CreateOrder() {
         };
         fetchCustumer();
       }
+      console.log("bismillah", fieldName)
       setOrderedData((prev: any) => {
         return {
           ...prev,
@@ -134,6 +134,7 @@ export default function CreateOrder() {
 
   const createOrder = async () => {
     const res = await addOrder(orderedData);
+    console.log(res)
     if (!res?.data.error) {
       route.push("/admin");
     } else {
@@ -143,26 +144,36 @@ export default function CreateOrder() {
       }, 3000);
     }
   };
+  // useEffect(() => {
+  //   if (orderedData.cutting_length && orderedData.cutting_width) {
+  //     const quantity = orderedData.cutting_length * orderedData.cutting_width;
+  //     setTheQuantity(quantity);
+  //     setOrderedData((prevData: any) => ({
+  //       ...prevData,
+  //       quantity,
+  //     }));
+  //   }
+  // }, [orderedData.cutting_length, orderedData.cutting_width]);
+
+  // set the prize
   useEffect(() => {
-    if (orderedData.cutting_length && orderedData.cutting_width) {
-      const quantity = orderedData.cutting_length * orderedData.cutting_width;
-      setTheQuantity(quantity);
-      setOrderedData((prevData: any) => ({
-        ...prevData,
-        quantity,
-      }));
+    if (orderedData.type === "kartu nama") {
+
     }
-  }, [orderedData.cutting_length, orderedData.cutting_width]);
+  }, [])
 
   useEffect(() => {
-    if (theQuantity && thePize) {
-      const totalPrize = thePize * theQuantity;
+    if (orderedData.quantity && thePize) {
+      const totalPrize = thePize * orderedData.quantity;
+      console.log("ini total prize", totalPrize)
       setOrderedData((prevData: any) => ({
         ...prevData,
         ["prize"]: totalPrize,
       }));
     }
-  }, [theQuantity, thePize]);
+  }, [orderedData.quantity, thePize]);
+
+  console.log("xoba", orderedData, orderedData.prize, thePize)
 
   const cancel = () => {
     route.push("/admin");
@@ -363,11 +374,10 @@ export default function CreateOrder() {
                   >
                     <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
                       <div
-                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
-                          selectedProduct === "printing stickers"
-                            ? "opacity-70"
-                            : ""
-                        }`}
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${selectedProduct === "printing stickers"
+                          ? "opacity-70"
+                          : ""
+                          }`}
                       />
                       <Image
                         src="/stickers.png"
@@ -386,11 +396,10 @@ export default function CreateOrder() {
                   >
                     <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
                       <div
-                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
-                          selectedProduct === "printing photography"
-                            ? "opacity-70"
-                            : ""
-                        }`}
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${selectedProduct === "printing photography"
+                          ? "opacity-70"
+                          : ""
+                          }`}
                       />
                       <Image
                         src="/potography.png"
@@ -409,11 +418,10 @@ export default function CreateOrder() {
                   >
                     <div className="w-full h-64 overflow-hidden hover:drop-shadow-md transform duration-300 relative">
                       <div
-                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${
-                          selectedProduct === "printing poster"
-                            ? "opacity-70"
-                            : ""
-                        }`}
+                        className={`absolute bg-black w-full h-full opacity-0 transform duration-200 hover:opacity-70 ${selectedProduct === "printing poster"
+                          ? "opacity-70"
+                          : ""
+                          }`}
                       />
                       <Image
                         src="/poster.png"
@@ -450,8 +458,7 @@ export default function CreateOrder() {
                         ) : (
                           <Dropdown
                             options={[
-                              { id: "baju cotton", name: "baju cotton" },
-                              { id: "jersey", name: "jersey" },
+                              { id: "baju / jersey", name: "baju / jersey" },
                               { id: "tumbler", name: "tumbler" },
                               { id: "todbag", name: "todbag" },
                             ]}
@@ -460,9 +467,48 @@ export default function CreateOrder() {
                         )}
                       </div>
                     </div>
-                    <div className="flex space-x-[2rem]">
-                      <label className="w-[30%]">Product Size</label>
-                      <div className="w-full">
+                    {
+                      orderedData.type === "brosur" ? (
+                        <div className="flex">
+                          <label className="w-[19%]">Product Size</label>
+                          <Dropdown
+                            options={[
+                              { id: "A5", name: "A5" },
+                              { id: "A4", name: "A4" },
+                              { id: "1/3 A4", name: "1/3 A4" },
+                              { id: "A6", name: "A6" },
+                              { id: "A3", name: "A3" },
+                            ]}
+                            onChange={handleDropdownChange("product_size")}
+                          />
+                        </div>
+                      ) : orderedData.type === "baju / jersey" && (
+                        <div className="flex">
+                          <label className="w-[19%]">Product Size</label>
+                          <Dropdown
+                            options={[
+                              { id: "S", name: "S" },
+                              { id: "M", name: "M" },
+                              { id: "L", name: "L" },
+                              { id: "XL", name: "XL" },
+                            ]}
+                            onChange={handleDropdownChange("product_size")}
+                          />
+                        </div>
+                      )
+                    }
+                    <div className={`flex ${orderedData.product_type !== "printing photography" && "hidden"}`}>
+                      <label className="w-[19%]">Product Size</label>
+                      <Dropdown
+                        options={[
+                          { id: "10 x 15", name: "10 x 15" },
+                          { id: "20 x 30", name: "20 x 30" },
+                          { id: "30 x 40", name: "30 x 40" },
+                          { id: "40 x 45", name: "40 x 45" },
+                        ]}
+                        onChange={handleDropdownChange("product_size")}
+                      />
+                      {/* <div className="w-full">
                         <Input
                           onChange={handleInput}
                           name="product_width"
@@ -477,9 +523,9 @@ export default function CreateOrder() {
                           value={orderedData.product_length}
                         />
                         <p>Size Length / Centimeter</p>
-                      </div>
+                      </div> */}
                     </div>
-                    <div className="flex space-x-[2rem]">
+                    {/* <div className={`flex space-x-[2rem] ${orderedData.product_type !== "printing photography" && "hidden"}`}>
                       <label className="w-[30%]">Cutting Size</label>
                       <div className="w-full">
                         <Input
@@ -497,28 +543,69 @@ export default function CreateOrder() {
                         />
                         <p>Size Length / Centimeter</p>
                       </div>
+                    </div> */}
+                    <div className={`flex ${orderedData.type === "baju / jersey" && "hidden"}`}>
+                      <label className="w-[19%]">Media Print</label>
+                      {
+                        orderedData.product_type === "printing photography" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Outdor", name: "Outdor" },
+                              { id: "Indor", name: "Indor" },
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        ) : orderedData.type === "cetak a3" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
+                              { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
+                              { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
+                              { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
+                              { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
+                              { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        ) : orderedData.type === "brosur" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
+                              { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
+                              { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
+                              { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
+                              { id: "HVS 100 gsm", name: "HVS 100 gsm" },
+
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        ) : (
+                          <Dropdown
+                            options={[
+                              { id: "UV", name: "UV" },
+                              { id: "Grafir", name: "Grafir" },
+                            ]}
+                            onChange={handleDropdownChange("material")}
+                          />
+                        )
+                      }
                     </div>
-                    <div className="flex">
-                      <label className="w-[19%]">Material</label>
-                      <Dropdown
-                        options={[
-                          { id: "vinyl", name: "vinyl" },
-                          { id: "paper", name: "paper" },
-                        ]}
-                        onChange={handleDropdownChange("material")}
-                      />
-                    </div>
-                    <div className="flex">
+                    <div className={`flex ${orderedData.product_type === "printing stickers" && "hidden"}`}>
                       <label className="w-[19%]">Color</label>
                       <Dropdown
                         options={[
                           { id: "red", name: "red" },
                           { id: "yellow", name: "yellow" },
+                          { id: "green", name: "green" },
+                          { id: "blue", name: "blue" },
+                          { id: "white", name: "white" },
+                          { id: "black", name: "black" },
                         ]}
                         onChange={handleDropdownChange("color")}
                       />
                     </div>
-                    <div className="flex">
+
+                    <div className={`flex ${orderedData.product_type === "printing poster" && "hidden"}`}>
                       <label className="w-[19%]">Coating</label>
                       <Dropdown
                         options={[
@@ -544,8 +631,7 @@ export default function CreateOrder() {
                 <div className="space-y-[2rem]">
                   <ul className="list-disc ml-4">
                     <li>
-                      Product Size: {orderedData.product_width} cm X{" "}
-                      {orderedData.product_length} cm
+                      Product Size: {orderedData.product_size} cm
                     </li>
                     <li>
                       {orderedData.product_type === "printing photography" ? (
@@ -562,10 +648,7 @@ export default function CreateOrder() {
                     <ul className="list-[square] ml-6">
                       <li>
                         Size:{" "}
-                        {orderedData.cutting_length && orderedData.cutting_width
-                          ? orderedData.cutting_width *
-                            orderedData.cutting_length
-                          : null}
+                        {orderedData.product_size}
                       </li>
                       <li>Material: {orderedData.material}</li>
                       <li>Color: {orderedData.color}</li>

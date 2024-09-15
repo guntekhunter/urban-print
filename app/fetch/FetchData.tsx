@@ -260,3 +260,21 @@ export const getMountly = async () => {
     console.log(error);
   }
 };
+
+export const getAllCustumer = async () => {
+  try {
+    const res = await axios.get("/api/admin/add-custumer");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteCustumer = async (id: any) => {
+  try {
+    const res = await axios.post("/api/admin/delete-customer", { id });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
