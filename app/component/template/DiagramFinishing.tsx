@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useLayoutEffect, useState } from "react";
 
 interface Segment {
@@ -30,6 +31,7 @@ export default function Diagram({
   const [notStartedTotal, setNotStartedTotal] = useState<number>(0);
   const [waitingTotal, setWaitingTotal] = useState<number>(0);
   const [onProgressTotal, setOnProgressTotal] = useState<number>(0);
+  const route = useRouter();
 
   useLayoutEffect(() => {
     const totalValue = segments.length > 0 ? segments[0].total : 0;
@@ -66,6 +68,21 @@ export default function Diagram({
     setWaitingTotal(waiting);
     setOnProgressTotal(onProgress);
   }, [segments, idPrefix]);
+
+  const setStatus = (e: any) => {
+    console.log(e)
+    localStorage.setItem("status", e)
+    if (index === 0) {
+      route.push(`/operator/finishing-stickers`);
+      // make it go to path printing stickers
+    } else if (index === 1) {
+      route.push(`/operator/finishing-poster`);
+      // make it go to path printing photograph
+    } else {
+      route.push(`/operator/finishing-photography`);
+    }
+    // add one more path to printing poster
+  }
 
   return (
     <div className="space-y-[1rem]">
@@ -122,9 +139,9 @@ export default function Diagram({
               <td className="bg-green-400 flex-1"></td>
             </tr>
             <tr className="text-center flex">
-              <td className="flex-1">Waiting</td>
-              <td className="flex-1">Not Started</td>
-              <td className="flex-1">On Progress</td>
+              <td className="flex-1" onClick={() => setStatus("1")}>Waiting</td>
+              <td className="flex-1" onClick={() => setStatus("2")}>Not Started</td>
+              <td className="flex-1" onClick={() => setStatus("3")}>On Progress</td>
             </tr>
           </tbody>
         </table>

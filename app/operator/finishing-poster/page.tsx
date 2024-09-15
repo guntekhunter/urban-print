@@ -4,6 +4,7 @@ import {
   getPrintingPosterTask,
   getPrintingTask,
 } from "@/app/fetch/FetchData";
+import { dateFormater } from "@/app/functions/DateFormater";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -14,6 +15,8 @@ export default function page() {
   const route = useRouter();
 
   useEffect(() => {
+    const idStatus: string | null = localStorage.getItem("status")
+    const idInteger = parseInt(idStatus ?? "0", 10);
     const fetchOrder = async () => {
       try {
         const userId = localStorage.getItem("user_id");
@@ -22,6 +25,7 @@ export default function page() {
           const taskData = {
             id: id,
             type: "finishing poster",
+            status: idInteger
           };
           const task = await getFinishingTask(taskData);
           setOrders(task?.data.data); // Update the state with response data
@@ -77,10 +81,17 @@ export default function page() {
                   {item.sales_person}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {item.required_date}
+                  {dateFormater(item.required_date)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {item.Status.status}
+                  {
+                    item.status === 1 ? (
+                      <p>Not Started</p>
+                    ) : (
+                      <p>{item.Status.status}</p>
+                    )
+                  }
+
                 </td>
               </tr>
             ))}

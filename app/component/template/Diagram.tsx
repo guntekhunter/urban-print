@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useLayoutEffect, useState } from "react";
 
 interface Segment {
@@ -12,6 +13,7 @@ interface CircularProgressBarProps {
   segments: Segment[];
   idPrefix: string;
   index: number;
+  type: string
 }
 
 const colorMap: { [key: string]: string } = {
@@ -25,11 +27,13 @@ export default function Diagram({
   segments,
   idPrefix,
   index,
+  type
 }: CircularProgressBarProps) {
   const [totalTask, setTotalTask] = useState<number>(0);
   const [notStartedTotal, setNotStartedTotal] = useState<number>(0);
   const [waitingTotal, setWaitingTotal] = useState<number>(0);
   const [onProgressTotal, setOnProgressTotal] = useState<number>(0);
+  const route = useRouter();
 
   useLayoutEffect(() => {
     const totalValue = segments.length > 0 ? segments[0].total : 0;
@@ -66,6 +70,21 @@ export default function Diagram({
     setWaitingTotal(waiting);
     setOnProgressTotal(onProgress);
   }, [segments, idPrefix]);
+
+  const setStatus = (e: any) => {
+    console.log(e)
+    if (index === 0) {
+      route.push(`/operator/${type}-stickers`);
+      // make it go to path printing stickers
+    } else if (index === 1) {
+      route.push(`/operator/${type}-poster`);
+      // make it go to path printing photograph
+    } else {
+      route.push(`/operator/${type}-photography`);
+    }
+    // add one more path to printing poster
+    localStorage.setItem("status", e)
+  }
 
   return (
     <div className="space-y-[1rem]">
@@ -110,21 +129,21 @@ export default function Diagram({
         <table className="w-full">
           <thead>
             <tr className="text-center flex">
-              <th className="flex-1">{waitingTotal}</th>
+              {/* <th className="flex-1">{waitingTotal}</th> */}
               <th className="flex-1">{notStartedTotal}</th>
               <th className="flex-1">{onProgressTotal}</th>
             </tr>
           </thead>
           <tbody>
             <tr className="text-center h-[.2rem] flex">
-              <td className="bg-yellow-400 flex-1"></td>
+              {/* <td className="bg-yellow-400 flex-1"></td> */}
               <td className="bg-red-400 flex-1"></td>
               <td className="bg-green-400 flex-1"></td>
             </tr>
             <tr className="text-center flex">
-              <td className="flex-1">Waiting</td>
-              <td className="flex-1">Not Started</td>
-              <td className="flex-1">On Progress</td>
+              {/* <td className="flex-1" onClick={() => setStatus("1")}>Waiting</td> */}
+              <td className="flex-1" onClick={() => setStatus("1")}>Not Started</td>
+              <td className="flex-1" onClick={() => setStatus("3")}>On Progress</td>
             </tr>
           </tbody>
         </table>

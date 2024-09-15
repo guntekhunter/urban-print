@@ -69,19 +69,6 @@ export default function Page() {
     return segments;
   };
 
-  const handleChangePage = (index: number) => {
-    if (index === 0) {
-      route.push("/operator/finishing-stickers");
-      // make it go to path printing stickers
-    } else if (index === 1) {
-      route.push("/operator/finishing-poster");
-      // make it go to path printing photograph
-    } else {
-      route.push("/operator/finishing-photography");
-    }
-    // add one more path to printing poster
-  };
-
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="w-[95%]">
@@ -95,7 +82,6 @@ export default function Page() {
               <div
                 key={index}
                 className="flex cursor-pointer justify-center"
-                onClick={() => handleChangePage(index)}
               >
                 <div className="">
                   <DiagramFinishing

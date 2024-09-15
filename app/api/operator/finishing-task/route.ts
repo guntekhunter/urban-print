@@ -13,6 +13,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       where: {
         id_operator: reqBody.id,
         product_type: reqBody.type,
+        status: reqBody.status,
       },
     });
     return NextResponse.json({
