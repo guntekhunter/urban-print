@@ -38,8 +38,7 @@ model Order {
   product_type     String
   product_width    Int
   product_length   Int
-  cutting_width    Int
-  cutting_length   Int
+  product_size     String
   material         String
   color            String
   coating          String

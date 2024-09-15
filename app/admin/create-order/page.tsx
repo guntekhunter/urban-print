@@ -50,10 +50,9 @@ export default function CreateOrder() {
     authorId: 0,
     product_width: 1, //new data
     product_length: 1, //new data
-    cutting_width: 1, //new data
-    cutting_length: 1, //new data
+    product_size: "null",
     material: "", //new data
-    color: "", //new data
+    color: "null", //new data
     coating: "", //new data
     type: "", //new data
     late: false, //new data
@@ -111,6 +110,7 @@ export default function CreateOrder() {
         };
         fetchCustumer();
       }
+      console.log("bismillah", fieldName)
       setOrderedData((prev: any) => {
         return {
           ...prev,
@@ -134,6 +134,7 @@ export default function CreateOrder() {
 
   const createOrder = async () => {
     const res = await addOrder(orderedData);
+    console.log(res)
     if (!res?.data.error) {
       route.push("/admin");
     } else {
@@ -472,13 +473,13 @@ export default function CreateOrder() {
                           <label className="w-[19%]">Product Size</label>
                           <Dropdown
                             options={[
-                              { id: 1, name: "A5" },
-                              { id: 2, name: "A4" },
-                              { id: 3, name: "1/3 A4" },
-                              { id: 4, name: "A6" },
-                              { id: 4, name: "A3" },
+                              { id: "A5", name: "A5" },
+                              { id: "A4", name: "A4" },
+                              { id: "1/3 A4", name: "1/3 A4" },
+                              { id: "A6", name: "A6" },
+                              { id: "A3", name: "A3" },
                             ]}
-                            onChange={handleDropdownChange("material")}
+                            onChange={handleDropdownChange("product_size")}
                           />
                         </div>
                       ) : orderedData.type === "baju / jersey" && (
@@ -486,12 +487,12 @@ export default function CreateOrder() {
                           <label className="w-[19%]">Product Size</label>
                           <Dropdown
                             options={[
-                              { id: 1, name: "S" },
-                              { id: 2, name: "M" },
-                              { id: 3, name: "L" },
-                              { id: 4, name: "XL" },
+                              { id: "S", name: "S" },
+                              { id: "M", name: "M" },
+                              { id: "L", name: "L" },
+                              { id: "XL", name: "XL" },
                             ]}
-                            onChange={handleDropdownChange("material")}
+                            onChange={handleDropdownChange("product_size")}
                           />
                         </div>
                       )
@@ -500,12 +501,12 @@ export default function CreateOrder() {
                       <label className="w-[19%]">Product Size</label>
                       <Dropdown
                         options={[
-                          { id: 1, name: "10 x 15" },
-                          { id: 2, name: "20 x 30" },
-                          { id: 3, name: "30 x 40" },
-                          { id: 4, name: "40 x 45" },
+                          { id: "10 x 15", name: "10 x 15" },
+                          { id: "20 x 30", name: "20 x 30" },
+                          { id: "30 x 40", name: "30 x 40" },
+                          { id: "40 x 45", name: "40 x 45" },
                         ]}
-                        onChange={handleDropdownChange("material")}
+                        onChange={handleDropdownChange("product_size")}
                       />
                       {/* <div className="w-full">
                         <Input
@@ -630,8 +631,7 @@ export default function CreateOrder() {
                 <div className="space-y-[2rem]">
                   <ul className="list-disc ml-4">
                     <li>
-                      Product Size: {orderedData.product_width} cm X{" "}
-                      {orderedData.product_length} cm
+                      Product Size: {orderedData.product_size} cm
                     </li>
                     <li>
                       {orderedData.product_type === "printing photography" ? (
@@ -648,10 +648,7 @@ export default function CreateOrder() {
                     <ul className="list-[square] ml-6">
                       <li>
                         Size:{" "}
-                        {orderedData.cutting_length && orderedData.cutting_width
-                          ? orderedData.cutting_width *
-                          orderedData.cutting_length
-                          : null}
+                        {orderedData.product_size}
                       </li>
                       <li>Material: {orderedData.material}</li>
                       <li>Color: {orderedData.color}</li>
