@@ -155,7 +155,7 @@ export default function Page({ params }: { params: { id: string } }) {
         };
         await createSale(data);
 
-        if (product_type === "printing potography") {
+        if (product_type === "printing photography") {
           await postFinish(id, 2, "finishing photography");
         } else if (product_type === "printing stickers") {
           await postFinish(id, 2, "finishing stickers");
@@ -292,22 +292,20 @@ export default function Page({ params }: { params: { id: string } }) {
       <div className="fixed bottom-0 w-full flex justify-center py-[1rem] z-10 bg-white">
         <div className="w-[95%] flex justify-between space-x-[1rem]">
           <button
-            className={`p-[2rem] w-full rounded-md text-center shadow-md ${
-              orderData.status === 1 || orderData.status === 2
-                ? "bg-red-200"
-                : "bg-gray-100 text-gray-500"
-            }`}
+            className={`p-[2rem] w-full rounded-md text-center shadow-md ${orderData.status === 1 || orderData.status === 2
+              ? "bg-red-200"
+              : "bg-gray-100 text-gray-500"
+              }`}
             onClick={handleStart}
             disabled={orderData.status === 3}
           >
             Start
           </button>
           <button
-            className={`p-[2rem] w-full rounded-md text-center shadow-md ${
-              orderData.status === 3
-                ? "bg-red-200"
-                : "bg-gray-100 text-gray-500"
-            }`}
+            className={`p-[2rem] w-full rounded-md text-center shadow-md ${orderData.status === 3
+              ? "bg-red-200"
+              : "bg-gray-100 text-gray-500"
+              }`}
             onClick={handleRredo}
             disabled={orderData.status === 1}
           >

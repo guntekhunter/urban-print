@@ -184,7 +184,7 @@ export default function CreateOrder() {
     setOrderedData((prev) => {
       return { ...prev, ["product_type"]: value };
     });
-    if (value === "printing potography") {
+    if (value === "printing photography") {
       setThePrize(3000);
     } else if (value === "printing stickers") {
       setThePrize(1000);

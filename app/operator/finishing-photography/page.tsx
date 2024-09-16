@@ -19,7 +19,7 @@ export default function page() {
         if (userId !== null) {
           const id = parseInt(userId);
           const taskData = {
-            id: id,
+            // id: id,
             type: "finishing photography",
             status: idInteger
           };

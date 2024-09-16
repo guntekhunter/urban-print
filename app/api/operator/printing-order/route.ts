@@ -40,28 +40,28 @@ export async function GET(req: NextRequest, res: NextResponse) {
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing potography",
+          product_type: "printing photography",
           status: 1,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing potography",
+          product_type: "printing photography",
           status: 2,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing potography",
+          product_type: "printing photography",
           status: 3,
         },
       }),
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing potography",
+          product_type: "printing photography",
           status: 4,
         },
       }),

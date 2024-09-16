@@ -49,10 +49,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
       prisma.order.count({
         where: {
           // id_operator: reqBody,
-          product_type: "printing potography",
-          status: {
-            in: [1, 3],
-          },
+          product_type: "printing photography",
+          status: 1,
         },
       }),
       prisma.order.count({
