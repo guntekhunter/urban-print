@@ -73,14 +73,24 @@ export default function Diagram({
     console.log(e)
     localStorage.setItem("status", e)
     if (index === 0) {
-      route.push(`/operator/finishing-stickers`);
-      // make it go to path printing stickers
+      // Open a new window to the specified URL
+      window.open(`/operator/finishing-stickers`, '_blank');
     } else if (index === 1) {
-      route.push(`/operator/finishing-poster`);
-      // make it go to path printing photograph
+      // Open a new window to another path
+      window.open(`/operator/finishing-poster`, '_blank');
     } else {
-      route.push(`/operator/finishing-photography`);
+      // Open a new window to the photography path
+      window.open(`/operator/finishing-photography`, '_blank');
     }
+    // if (index === 0) {
+    //   route.push(`/operator/finishing-stickers`);
+    //   // make it go to path printing stickers
+    // } else if (index === 1) {
+    //   route.push(`/operator/finishing-poster`);
+    //   // make it go to path printing photograph
+    // } else {
+    //   route.push(`/operator/finishing-photography`);
+    // }
     // add one more path to printing poster
   }
 

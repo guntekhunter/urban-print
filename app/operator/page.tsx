@@ -71,6 +71,14 @@ export default function Page() {
   const changePage = (path: string) => {
     route.push(path);
   };
+  useEffect(() => {
+    const refreshPage = setTimeout(() => {
+      window.location.reload(); // This will refresh the current page
+    }, 30000); // 60000 milliseconds = 1 minute
+
+    // Cleanup the timeout if the component unmounts
+    return () => clearTimeout(refreshPage);
+  }, []);
 
   return (
     <div className="flex justify-around relative pt-[2rem]">

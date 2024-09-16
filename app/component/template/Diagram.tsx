@@ -74,14 +74,24 @@ export default function Diagram({
   const setStatus = (e: any) => {
     console.log(e)
     if (index === 0) {
-      route.push(`/operator/${type}-stickers`);
-      // make it go to path printing stickers
+      // Open a new window to the specified URL
+      window.open(`/operator/printing-stickers`, '_blank');
     } else if (index === 1) {
-      route.push(`/operator/${type}-poster`);
-      // make it go to path printing photograph
+      // Open a new window to another path
+      window.open(`/operator/printing-poster`, '_blank');
     } else {
-      route.push(`/operator/${type}-photography`);
+      // Open a new window to the photography path
+      window.open(`/operator/printing-photography`, '_blank');
     }
+    // if (index === 0) {
+    //   route.push(`/operator/${type}-stickers`);
+    //   // make it go to path printing stickers
+    // } else if (index === 1) {
+    //   route.push(`/operator/${type}-poster`);
+    //   // make it go to path printing photograph
+    // } else {
+    //   route.push(`/operator/${type}-photography`);
+    // }
     // add one more path to printing poster
     localStorage.setItem("status", e)
   }
