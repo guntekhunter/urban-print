@@ -1,6 +1,7 @@
 "use client";
 import ButtonPerformance from "@/app/component/manager/ButtonPerformance";
 import Dropdown from "@/app/component/template/Dropdown";
+import TimeInputs from "@/app/component/template/MountInput";
 import WorkInProgress from "@/app/component/template/WorkInProgress";
 import {
   getAllOrder,
@@ -22,15 +23,36 @@ export default function Page() {
   const [operators, setOperators] = useState<any>([]);
   const [work, setWork] = useState<Segment[]>([]);
   const [orders, setOrders] = useState([]);
+  const [user, setUser] = useState("")
 
   const handleDropdownChange = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    console.log(event.target.value);
-    const res = await getOperatorOnProgress(event.target.value);
-    console.log(res?.data.response);
+    setUser(event.target.value)
+
+  };
+
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const res = await getAllOrder();
+        setOrders(res?.data.data);
+        const operator = await getOperator();
+        setOperators(operator?.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchOrder();
+  }, []);
+
+  const handleDate = async (date: string, name: string) => {
+    const theData = {
+      id: user,
+      mounth: date
+    }
+    const res = await getOperatorOnProgress(theData);
     const data = res?.data.response;
-    console.log(data);
     const total =
       data.notStarted + data.waiting + data.onProgress + data.finish;
     if (total === 0) {
@@ -75,20 +97,6 @@ export default function Page() {
     setWork(segments);
   };
 
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const res = await getAllOrder();
-        setOrders(res?.data.data);
-        const operator = await getOperator();
-        setOperators(operator?.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchOrder();
-  }, []);
-
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
@@ -99,6 +107,7 @@ export default function Page() {
             Operator
           </label>
           <Dropdown options={operators} onChange={handleDropdownChange} />
+          <TimeInputs onChange={handleDate} name="required_date" />
         </div>
         <div className="flex justify-center items-center">
           <div className="w-[20rem]">

@@ -157,9 +157,9 @@ export const postFinish = async (id: any, status: any, type: any) => {
 };
 
 // manager
-export const getOperatorOnProgress = async (id: any) => {
+export const getOperatorOnProgress = async (data: any) => {
   try {
-    const res = await axios.post("/api/manager/workin-progress", id);
+    const res = await axios.post("/api/manager/workin-progress", data);
     return res;
   } catch (error) {
     console.log(error);

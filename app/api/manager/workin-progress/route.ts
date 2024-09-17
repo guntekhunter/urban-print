@@ -9,26 +9,38 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const countsPrinting = await Promise.all([
       prisma.order.count({
         where: {
-          id_operator: reqBody,
+          id_operator: parseInt(reqBody.id),
           status: 1,
+          order_date: {
+            startsWith: reqBody.mounth,
+          },
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody,
+          id_operator: parseInt(reqBody.id),
           product_type: "printing",
+          order_date: {
+            startsWith: reqBody.mounth,
+          },
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody,
+          id_operator: parseInt(reqBody.id),
           status: 3,
+          order_date: {
+            startsWith: reqBody.mounth,
+          },
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody,
+          id_operator: parseInt(reqBody.id),
           status: 4,
+          order_date: {
+            startsWith: reqBody.mounth,
+          },
         },
       }),
     ]);
