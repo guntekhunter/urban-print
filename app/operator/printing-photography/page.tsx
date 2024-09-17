@@ -51,7 +51,6 @@ export default function page() {
     setOrders(filteredData)
   }
 
-  console.log("ini", orders)
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
