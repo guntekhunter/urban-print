@@ -101,9 +101,9 @@ export const getPrintingPosterTask = async () => {
   }
 };
 
-export const getPrintingStickersTask = async (id: any) => {
+export const getPrintingStickersTask = async () => {
   try {
-    const res = await axios.post("/api/operator/printing-stickers-task", id);
+    const res = await axios.post("/api/operator/printing-stickers-task");
     return res;
   } catch (error) {
     console.log(error);

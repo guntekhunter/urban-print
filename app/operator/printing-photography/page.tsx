@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [orders, setOrders] = useState<any>([]);
-  const [mounth, setMounth] = useState("")
 
   const route = useRouter();
 
@@ -37,7 +36,6 @@ export default function page() {
   };
 
   const handleDate = async (date: string, name: string) => {
-    setMounth(date);
     const [inputYear, inputMonth] = date.split("-");
     const task = await getPrintingTask();
 
