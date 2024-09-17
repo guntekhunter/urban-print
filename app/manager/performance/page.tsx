@@ -2,6 +2,7 @@
 import ButtonPerformance from "@/app/component/manager/ButtonPerformance";
 import ChartComponent from "@/app/component/manager/ChartComponent";
 import Dropdown from "@/app/component/template/Dropdown";
+import TimeInputs from "@/app/component/template/MountInput";
 import {
   getAllOrder,
   getOperator,
@@ -23,15 +24,15 @@ export default function Page() {
   const [operatorTask, setOperatorTask] = useState<number>()
   const [operators, setOperators] = useState([]);
   const [performance, setPerformance] = useState<Performance | null>(null);
+  const [month, setMounth] = useState("")
+  const [user, setUser] = useState("")
 
   const handleDropdownChange = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     try {
       console.log("id operator", event.target.value)
-      const res = await getPerformance(event.target.value);
-      setOperatorTask(parseInt(res?.data.count))
-      setPerformance(res?.data.performance);
+      setUser(event.target.value)
     } catch (error) {
       console.log(error);
     }
@@ -52,6 +53,17 @@ export default function Page() {
   }, []);
   console.log(performance);
 
+  const handleDate = async (date: string, name: string) => {
+    setMounth(date)
+    const data = {
+      id: user,
+      mounth: date
+    }
+    const res = await getPerformance(data);
+    setOperatorTask(parseInt(res?.data.count))
+    setPerformance(res?.data.performance);
+  };
+
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
@@ -62,6 +74,7 @@ export default function Page() {
             Operator
           </label>
           <Dropdown options={operators} onChange={handleDropdownChange} />
+          <TimeInputs onChange={handleDate} name="required_date" />
         </div>
         {performance && (
           <div className="mt-[2rem]">

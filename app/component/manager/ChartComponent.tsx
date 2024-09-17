@@ -115,7 +115,17 @@ export default function ChartComponent({
         <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-gray-700">
           <div className="text-center">
             <p className="border-b-[2px] border-gray-700">
-              {performances}% On Time
+              {
+                operatorTask ? (
+                  <>
+                    {performances} % On Time
+                  </>
+                ) : (
+                  <>
+                    -
+                  </>
+                )
+              }
             </p>
             <p>
               {operatorTask} / Pekerjaan

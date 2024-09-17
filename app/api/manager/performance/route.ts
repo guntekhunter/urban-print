@@ -9,7 +9,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
     // Count the total number of orders for the given operator
     const totalOrders = await prisma.order.count({
       where: {
-        id_operator: reqBody,
+        id_operator: parseInt(reqBody.id),
+        order_date: {
+          startsWith: reqBody.mounth,
+        },
       },
     });
 
@@ -17,25 +20,34 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const countsPerformance = await Promise.all([
       prisma.order.count({
         where: {
-          id_operator: reqBody,
+          id_operator: parseInt(reqBody.id),
           status: 1,
+          order_date: {
+            startsWith: reqBody.mounth,
+          },
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody,
+          id_operator: parseInt(reqBody.id),
           status: 3,
+          order_date: {
+            startsWith: reqBody.mounth,
+          },
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody,
+          id_operator: parseInt(reqBody.id),
           status: 4,
+          order_date: {
+            startsWith: reqBody.mounth,
+          },
         },
       }),
       prisma.order.count({
         where: {
-          id_operator: reqBody,
+          id_operator: parseInt(reqBody.id),
           status: {
             not: 4, // Exclude already finished orders from being counted as late
           },

@@ -165,9 +165,9 @@ export const getOperatorOnProgress = async (id: any) => {
     console.log(error);
   }
 };
-export const getPerformance = async (id: any) => {
+export const getPerformance = async (data: any) => {
   try {
-    const res = await axios.post("/api/manager/performance", id);
+    const res = await axios.post("/api/manager/performance", data);
     return res;
   } catch (error) {
     console.log(error);
