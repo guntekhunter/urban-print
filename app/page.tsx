@@ -49,7 +49,7 @@ export default function Home() {
         <p className="flex justify-center font-bold">URBAN PRINT</p>
         <p className="flex justify-center">Please login to your account</p>
         <div className="w-full space-y-2">
-          <p className="text-[.9rem]">Email</p>
+          <p className="text-[.9rem]">ID</p>
           <Input
             onChange={(e: any) => {
               setEmail(e.target.value);

@@ -83,9 +83,9 @@ export const getUser = async (id: number) => {
   }
 };
 
-export const getPrintingTask = async () => {
+export const getPrintingTask = async (data: any) => {
   try {
-    const res = await axios.post("/api/operator/printing-task");
+    const res = await axios.post("/api/operator/printing-task", data);
     return res;
   } catch (error) {
     console.log(error);

@@ -13,7 +13,8 @@ export default function Input(props: any) {
         // props.name === "quantity" ||
         props.name === "sales_person" ||
         props.name === "so_number" ||
-        props.name === "adress"
+        props.name === "adress" ||
+        props.name === "po_number"
       }
     />
   );

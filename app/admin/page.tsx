@@ -41,6 +41,8 @@ export default function page() {
     fetchOrder();
   }, []);
 
+  console.log(orders)
+
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
@@ -77,6 +79,9 @@ export default function page() {
                 Status
               </th>
               <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
+                Operator
+              </th>
+              <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
                 Action
               </th>
             </tr>
@@ -96,6 +101,9 @@ export default function page() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.Status.status}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {item.Status.id_operator}
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]">
                   <button

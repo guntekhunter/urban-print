@@ -33,11 +33,11 @@ export default function CreateOrder() {
 
   const [orderedData, setOrderedData] = useState({
     so_number: null,
-    quotation_number: null,
+    quotation_number: 1,
     order_date: "",
     required_date: "",
     sales_type: "",
-    po_number: null,
+    po_number: 1,
     acount_rep: "none",
     sales_person: "",
     custumer: "",
@@ -251,6 +251,18 @@ export default function CreateOrder() {
     fetchCustemers();
   }, []);
 
+  useEffect(() => {
+    if (orderedData.product_type === "printing photography") {
+
+      if (orderedData.product_length && orderedData.product_width) {
+        setOrderedData((pref: any) => ({
+          ...pref,
+          ["so_number"]: `${orderedData.product_length} x ${orderedData.product_width}`,
+        }));
+      }
+    }
+  }, [])
+
 
 
   console.log(selectedProduct);
@@ -270,7 +282,7 @@ export default function CreateOrder() {
                 value={orderedData.so_number}
               />
             </div>
-            <div className="w-full flex items-center">
+            {/* <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
                 Quotational Number
               </label>
@@ -279,7 +291,7 @@ export default function CreateOrder() {
                 name="quotation_number"
                 value={orderedData.quotation_number}
               />
-            </div>
+            </div> */}
             <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
                 Order date
@@ -294,7 +306,7 @@ export default function CreateOrder() {
             </div>
           </div>
           <div className="w-full space-y-[1.5rem]">
-            <div className="w-full flex items-center">
+            {/* <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
                 Sales Type
               </label>
@@ -303,7 +315,7 @@ export default function CreateOrder() {
                 name="sales_type"
                 value={orderedData.sales_type}
               />
-            </div>
+            </div> */}
             <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
                 PO Number
@@ -311,7 +323,7 @@ export default function CreateOrder() {
               <Input
                 onChange={handleInput}
                 name="po_number"
-                value={orderedData.po_number}
+                value={orderedData.so_number}
               />
             </div>
             <div className="w-full flex items-center">
@@ -454,15 +466,18 @@ export default function CreateOrder() {
                         ) : orderedData.product_type ===
                           "printing photography" ? (
                           <Dropdown
-                            options={[{ id: "spanduk", name: "spanduk" }]}
+                            options={[
+                              { id: "Outdor", name: "Outdor" },
+                              { id: "Indor", name: "Indor" },]}
                             onChange={handleDropdownChange("type")}
                           />
                         ) : (
                           <Dropdown
                             options={[
-                              { id: "baju / jersey", name: "baju / jersey" },
-                              { id: "tumbler", name: "tumbler" },
-                              { id: "todbag", name: "todbag" },
+                              { id: "t shirt", name: "T Shirt" },
+                              { id: "jersey", name: "Jersey" },
+                              { id: "tumbler", name: "Tumbler" },
+                              { id: "todbag", name: "Todbag" },
                             ]}
                             onChange={handleDropdownChange("type")}
                           />
@@ -484,32 +499,95 @@ export default function CreateOrder() {
                             onChange={handleDropdownChange("product_size")}
                           />
                         </div>
-                      ) : orderedData.type === "baju / jersey" && (
+                      ) : orderedData.type === "stiker" ? (
                         <div className="flex">
                           <label className="w-[19%]">Product Size</label>
                           <Dropdown
                             options={[
-                              { id: "S", name: "S" },
-                              { id: "M", name: "M" },
-                              { id: "L", name: "L" },
-                              { id: "XL", name: "XL" },
+                              { id: "A5", name: "A5" },
+                              { id: "A4", name: "A4" },
+                              { id: "1/3 A4", name: "1/3 A4" },
+                              { id: "A6", name: "A6" },
+                              { id: "A3", name: "A3" },
+                            ]}
+                            onChange={handleDropdownChange("product_size")}
+                          />
+                        </div>
+                      ) : orderedData.type === "kartu nama" && (
+                        <div className="flex">
+                          <label className="w-[19%]">Select Size</label>
+                          <Dropdown
+                            options={[
+                              { id: "Double Sided", name: "Double sided" },
+                              { id: "Single Sided", name: "Single Sided" },
                             ]}
                             onChange={handleDropdownChange("product_size")}
                           />
                         </div>
                       )
                     }
-                    <div className={`flex ${orderedData.product_type !== "printing photography" && "hidden"}`}>
+                    <div className={`flex ${(orderedData.product_type === "printing sticker" || orderedData.product_type === "printing poster" || orderedData.type === "brosur") && "hidden"}`}>
                       <label className="w-[19%]">Product Size</label>
-                      <Dropdown
-                        options={[
-                          { id: "10 x 15", name: "10 x 15" },
-                          { id: "20 x 30", name: "20 x 30" },
-                          { id: "30 x 40", name: "30 x 40" },
-                          { id: "40 x 45", name: "40 x 45" },
-                        ]}
-                        onChange={handleDropdownChange("product_size")}
-                      />
+                      {
+                        orderedData.type === "stiker" ? (
+                          <Dropdown
+                            options={[
+                              { id: "A5", name: "A5" },
+                              { id: "A4", name: "A4" },
+                              { id: "1/3 A4", name: "1/3 A4" },
+                              { id: "A6", name: "A6" },
+                              { id: "A3", name: "A3" },
+                            ]}
+                            onChange={handleDropdownChange("product_size")}
+                          />
+                        ) : orderedData.product_type === "printing photography" ? (
+                          <div className="flex space-x-[1.5rem]">
+                            <div className="w-full">
+                              <Input
+                                onChange={handleInput}
+                                name="product_width"
+                                value={orderedData.product_width}
+                              />
+                              <p>Size Width / Centimeter</p>
+                            </div>
+                            <div className="w-full">
+                              <Input
+                                onChange={handleInput}
+                                name="product_length"
+                                value={orderedData.product_length}
+                              />
+                              <p>Size Length / Centimeter</p>
+                            </div>
+                          </div>
+                        ) : orderedData.type === "t shirt" || orderedData.type === "jersey" ? (
+                          <Dropdown
+                            options={[
+                              { id: "KIDS S", name: "KIDS S" },
+                              { id: "KIDS M", name: "KIDS M" },
+                              { id: "KIDS L", name: "KIDS L" },
+                              { id: "KIDS XL", name: "KIDS XL" },
+                              { id: "XS", name: "XS" },
+                              { id: "S", name: "S" },
+                              { id: "M", name: "M" },
+                              { id: "L", name: "L" },
+                              { id: "XL", name: "XL" },
+                              { id: "2XL", name: "2XL" },
+                              { id: "3XL", name: "3XL" },
+                            ]}
+                            onChange={handleDropdownChange("product_size")}
+                          />
+                        ) : (
+                          <Dropdown
+                            options={[
+                              { id: "10 x 15", name: "10 x 15" },
+                              { id: "20 x 30", name: "20 x 30" },
+                              { id: "30 x 40", name: "30 x 40" },
+                              { id: "40 x 45", name: "40 x 45" },
+                            ]}
+                            onChange={handleDropdownChange("product_size")}
+                          />
+                        )
+                      }
                       {/* <div className="w-full">
                         <Input
                           onChange={handleInput}
@@ -546,7 +624,7 @@ export default function CreateOrder() {
                         <p>Size Length / Centimeter</p>
                       </div>
                     </div> */}
-                    <div className={`flex ${orderedData.type === "baju / jersey" && "hidden"}`}>
+                    <div className={`flex ${(orderedData.type === "jersey" || orderedData.type === "kartu nama" || orderedData.type === "brosur" || orderedData.type === "stiker" || orderedData.type === "cetak a3" || orderedData.type === "t shirt" || orderedData.product_type === "printing photography" || orderedData.type === "todbag") && "hidden"}`}>
                       <label className="w-[19%]">Media Print</label>
                       {
                         orderedData.product_type === "printing photography" ? (
@@ -554,30 +632,6 @@ export default function CreateOrder() {
                             options={[
                               { id: "Outdor", name: "Outdor" },
                               { id: "Indor", name: "Indor" },
-                            ]}
-                            onChange={handleDropdownChange("material")}
-                          />
-                        ) : orderedData.type === "cetak a3" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
-                              { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
-                              { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
-                              { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
-                              { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
-                              { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
-                            ]}
-                            onChange={handleDropdownChange("material")}
-                          />
-                        ) : orderedData.type === "brosur" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
-                              { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
-                              { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
-                              { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
-                              { id: "HVS 100 gsm", name: "HVS 100 gsm" },
-
                             ]}
                             onChange={handleDropdownChange("material")}
                           />
@@ -592,30 +646,140 @@ export default function CreateOrder() {
                         )
                       }
                     </div>
-                    <div className={`flex ${orderedData.product_type === "printing stickers" && "hidden"}`}>
-                      <label className="w-[19%]">Color</label>
-                      <Dropdown
-                        options={[
-                          { id: "red", name: "red" },
-                          { id: "yellow", name: "yellow" },
-                          { id: "green", name: "green" },
-                          { id: "blue", name: "blue" },
-                          { id: "white", name: "white" },
-                          { id: "black", name: "black" },
-                        ]}
-                        onChange={handleDropdownChange("color")}
-                      />
+                    <div className={`flex ${(orderedData.product_type === "printing stickers" || orderedData.product_type === "printing photography") && "hidden"}`}>
+                      {
+                        orderedData.type === "jersey" ? (
+                          <label className="w-[19%]">Type Print</label>
+                        ) : (
+                          <label className="w-[19%]">Color</label>
+                        )
+                      }
+                      {
+                        orderedData.type === "jersey" ? (
+                          <Dropdown
+                            options={[
+                              { id: "full print", name: "Full Print" },
+                              { id: "half print", name: "Half Print" },
+                            ]}
+                            onChange={handleDropdownChange("color")}
+                          />
+                        ) : (
+                          <Dropdown
+                            options={
+                              [
+                                { id: "red", name: "red" },
+                                { id: "yellow", name: "yellow" },
+                                { id: "green", name: "green" },
+                                { id: "blue", name: "blue" },
+                                { id: "white", name: "white" },
+                                { id: "black", name: "black" },
+                              ]
+                            }
+                            onChange={handleDropdownChange("color")}
+                          />
+                        )
+                      }
+
                     </div>
 
-                    <div className={`flex ${orderedData.product_type === "printing poster" && "hidden"}`}>
-                      <label className="w-[19%]">Coating</label>
-                      <Dropdown
-                        options={[
-                          { id: "coating 1", name: "coating 1" },
-                          { id: "coating 2", name: "coating 2" },
-                        ]}
-                        onChange={handleDropdownChange("coating")}
-                      />
+                    <div className={`flex`}>
+                      {
+                        orderedData.type === "tumbler" ? (
+                          <label className="w-[19%]">Tumbler Type</label>
+                        ) : orderedData.type === "todbag" ? (
+                          <label className="w-[19%]">Todbag Type</label>
+                        ) : (
+                          <label className="w-[19%]">Material</label>
+                        )
+                      }
+                      {
+                        orderedData.type === "brosur" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
+                              { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
+                              { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
+                              { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
+                              { id: "HVS 100 gsm", name: "HVS 100 gsm" },
+                            ]}
+                            onChange={handleDropdownChange("coating")}
+                          />
+
+                        ) : orderedData.type === "stiker" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
+                              { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
+                              { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
+                              { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
+                              { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
+                              { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
+                            ]}
+                            onChange={handleDropdownChange("coating")}
+                          />
+                        ) : orderedData.type === "cetak a3" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
+                              { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
+                              { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
+                              { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
+                              { id: "HVS 100 gsm", name: "HVS 100 gsm" },
+                              { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
+                              { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
+                              { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
+                              { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
+                              { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
+                              { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
+                            ]}
+                            onChange={handleDropdownChange("coating")}
+                          />
+                        ) : orderedData.product_type === "printing photography" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Vinyl Cina", name: "Vinyl Cina" },
+                              { id: "Vinyl Korea", name: "Vinyl Korea" },
+                              { id: "Vinyl Slik Banner", name: "Vinyl Slik Banner" },
+                              { id: "Sticker Ritrama Glosy", name: "Sticker Ritrama Glosy" },
+                              { id: "Sticker Ritrama Matte", name: "Sticker Ritrama Matte" },
+                              { id: "Sticker Ritrama Transparent", name: "Sticker Ritrama Transparent" },
+                              { id: "Sticker Ritrama Blackout", name: "Sticker Ritrama Blackout" },
+                              { id: "Sticker Oneway", name: "Sticker Oneway" },
+                            ]}
+                            onChange={handleDropdownChange("coating")}
+                          />
+                        ) : orderedData.type === "todbag" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Todbag Canvas", name: "Todbag Canvas" },
+                              { id: "Todbag Belacu", name: "Todbag Belacu" },
+                              { id: "Pouch", name: "Pouch" },
+                              { id: "Todbag Classic", name: "Todbag Classic" },
+
+                            ]}
+                            onChange={handleDropdownChange("coating")}
+                          />
+                        ) : orderedData.type === "tumbler" ? (
+                          <Dropdown
+                            options={[
+                              { id: "Tumbler Plastik", name: "Tumbler Plastik" },
+                              { id: "Tumbler Aluminium", name: "Tumbler Aluminium" },
+                              { id: "Tumbler Insert Paper", name: "Tumbler Insert Paper" },
+                              { id: "Tumbler Stainles Steel", name: "Tumbler Stainles Steel" },
+                            ]}
+                            onChange={handleDropdownChange("coating")}
+                          />
+                        ) : (<Dropdown
+                          options={[
+                            { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
+                            { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
+
+                          ]}
+                          onChange={handleDropdownChange("coating")}
+                        />
+                        )
+                      }
+
                     </div>
                     <div className="flex">
                       <label className="w-[19%]">quantity</label>
@@ -654,7 +818,7 @@ export default function CreateOrder() {
                       </li>
                       <li>Material: {orderedData.material}</li>
                       <li>Color: {orderedData.color}</li>
-                      <li>Coating: {orderedData.coating}</li>
+                      <li>Material: {orderedData.coating}</li>
                     </ul>
                   </ul>
                   <div className="justify-between flex">
@@ -682,6 +846,6 @@ export default function CreateOrder() {
           <Button onClick={cancel}>Cancel</Button>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

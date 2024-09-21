@@ -15,7 +15,7 @@ export default function page() {
         const userId = localStorage.getItem("user_id");
         if (userId !== null) {
           const id = parseInt(userId);
-          const task = await getPrintingTask(id);
+          const task = await getPrintingTask();
           setOrders(task?.data.data); // Update the state with response data
         } else {
           console.log("User ID not found in local storage.");

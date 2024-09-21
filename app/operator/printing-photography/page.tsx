@@ -19,7 +19,12 @@ export default function page() {
         const userId = localStorage.getItem("user_id");
         if (userId !== null) {
           const id = parseInt(userId);
-          const task = await getPrintingTask();
+          const taskData = {
+            // id: id,
+            type: "printing photography",
+            status: idInteger
+          };
+          const task = await getPrintingTask(taskData);
           setOrders(task?.data.data); // Update the state with response data
         } else {
           console.log("User ID not found in local storage.");
@@ -35,27 +40,27 @@ export default function page() {
     route.push(`/operator/detail/${id}`);
   };
 
-  const handleDate = async (date: string, name: string) => {
-    const [inputYear, inputMonth] = date.split("-");
-    const task = await getPrintingTask();
+  // const handleDate = async (date: string, name: string) => {
+  //   const [inputYear, inputMonth] = date.split("-");
+  //   const task = await getPrintingTask();
 
 
-    const theData = task?.data.data;
+  //   const theData = task?.data.data;
 
-    const filteredData = theData.filter((item: any) => {
-      const [orderYear, orderMonth] = item.order_date.split("-"); // Assuming order_date is in "YYYY-MM-DD" format
-      return orderYear === inputYear && orderMonth === inputMonth;
-    });
+  //   const filteredData = theData.filter((item: any) => {
+  //     const [orderYear, orderMonth] = item.order_date.split("-"); // Assuming order_date is in "YYYY-MM-DD" format
+  //     return orderYear === inputYear && orderMonth === inputMonth;
+  //   });
 
-    // Now, filteredData contains only the entries that match the selected month and year
-    setOrders(filteredData)
-  }
+  //   // Now, filteredData contains only the entries that match the selected month and year
+  //   setOrders(filteredData)
+  // }
 
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
         <h1 className="text-[2rem] font-bold">Printing Orders</h1>
-        <TimeInputs onChange={handleDate} name="required_date" />
+        {/* <TimeInputs onChange={handleDate} name="required_date" /> */}
         <table className="min-w-full divide-y divide-gray-200 rounded-md">
           <thead className="bg-gray-50">
             <tr className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
