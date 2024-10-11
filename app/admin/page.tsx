@@ -1,14 +1,50 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Button from "../component/template/Button";
-import { deleteOrder, getAllOrder } from "../fetch/FetchData";
+import { deleteOrder, getAllOrder, getOperators } from "../fetch/FetchData";
 import { dateFormater } from "../functions/DateFormater";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+interface Order {
+  id: number;
+  so_number: number;
+  quotation_number: number;
+  type: string;
+  order_date: string;
+  required_date: string;
+  sales_type: string;
+  po_number: number;
+  acount_rep: string;
+  sales_person: string;
+  custumer: string;
+  contact_person: string;
+  ship_to: string;
+  adress: string;
+  status: number;
+  product_type: string;
+  product_width: number;
+  product_length: number;
+  product_size: string;
+  material: string;
+  color: string;
+  coating: string;
+  prize: number;
+  quantity: number;
+  late: boolean;
+  id_operator: number;
+  authorId: number;
+  Status?: {
+    id: number;
+    status: string;
+  } | null;
+}
+
+type OperatorsMap = { [key: number]: string };
+
 export default function page() {
-  const [orders, setOrders] = useState([]);
-  const [countFinish, setCountFinish] = useState(0);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [operators, setOperators] = useState<OperatorsMap>({});  // Store operator data by ID
 
   const route = useRouter();
 
@@ -21,18 +57,10 @@ export default function page() {
     }
   };
 
-  const handleCreateOrder = () => {
-    route.push("/admin/create-order");
-  };
-  const handleCreateCustumer = () => {
-    route.push("/admin/add-custumer");
-  };
-
   useEffect(() => {
     const fetchOrder = async () => {
       try {
         const res = await getAllOrder();
-        setCountFinish(res?.data.finish);
         setOrders(res?.data.data);
       } catch (error) {
         console.log(error);
@@ -41,25 +69,35 @@ export default function page() {
     fetchOrder();
   }, []);
 
-  console.log(orders)
+  useEffect(() => {
+    const fetchOperators = async () => {
+      const operatorPromises = orders.map(async (item) => {
+        if (item.id_operator) {
+          const res = await getOperators(item.id_operator);
+          return { id: item.id_operator, name: res?.data?.data?.name || "" };
+        }
+        return null;
+      });
+
+      const results = await Promise.all(operatorPromises);
+      const operatorMap: OperatorsMap = {};
+      results.forEach((operator) => {
+        if (operator) {
+          operatorMap[operator.id] = operator.name;
+        }
+      });
+      setOperators(operatorMap);
+    };
+
+    if (orders.length > 0) {
+      fetchOperators(); // Fetch operators after orders are loaded
+    }
+  }, [orders]);
 
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
         <h1 className="text-[2rem] font-bold">Data Order</h1>
-        {/* <div className="flex justify-between">
-          <button
-            onClick={() => route.push("/admin/sale")}
-            className="bg-green-500 px-[3rem] py-[1rem] text-white rounded-md"
-          >
-            <h3 className="text-[2rem]">{countFinish}</h3>
-            <p>new Finished Product</p>
-          </button>
-        </div>
-        <div className="flex w-full space-x-[2rem]">
-          <Button onClick={handleCreateOrder}>Tambah Orderan</Button>
-          <Button onClick={handleCreateCustumer}>Tambah Custumer</Button>
-        </div> */}
         <table className="min-w-full divide-y divide-gray-200 rounded-md">
           <thead className="bg-gray-50">
             <tr className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
@@ -103,7 +141,7 @@ export default function page() {
                   {item.Status.status}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {item.Status.id_operator}
+                  {item.id_operator ? operators[item.id_operator] || "Unknown" : "No Operator"}
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]">
                   <button
@@ -126,6 +164,6 @@ export default function page() {
           </tbody>
         </table>
       </div>
-    </div>
+    </div >
   );
 }

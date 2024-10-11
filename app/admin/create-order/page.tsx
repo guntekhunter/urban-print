@@ -548,7 +548,7 @@ export default function CreateOrder() {
                             </div>
                           )
                         }
-                        <div className={`flex ${(orderedData.product_type === "printing sticker" || orderedData.product_type === "printing poster" || orderedData.type === "brosur" || orderedData.type === "kartu nama") && "hidden"}`}>
+                        <div className={`flex ${(orderedData.product_type === "printing sticker" || orderedData.product_type === "printing poster" || orderedData.type === "brosur" || orderedData.type === "kartu nama" || orderedData.type === "stiker") && "hidden"}`}>
                           <label className="w-[19%]">Product Size</label>
                           {
                             orderedData.type === "stiker" ? (
@@ -677,7 +677,7 @@ export default function CreateOrder() {
 
                         </div>
 
-                        <div className={`${(orderedData.type === "t shirt" || orderedData.type === "jersey") && "hidden"}`}>
+                        <div className={`${(orderedData.type === "t shirt" || orderedData.type === "jersey") && "hidden"} flex`}>
                           {
                             orderedData.type === "tumbler" ? (
                               <label className="w-[19%]">Tumbler Type</label>

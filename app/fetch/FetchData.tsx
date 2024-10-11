@@ -278,3 +278,12 @@ export const deleteCustumer = async (id: any) => {
     console.log(error);
   }
 };
+
+export const getOperators = async (id: any) => {
+  try {
+    const res = await axios.post("/api/admin/get-operators", id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
