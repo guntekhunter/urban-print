@@ -448,349 +448,346 @@ export default function CreateOrder() {
                     <p>Merchandise</p>
                   </button>
                 </div>
-                <div className="flex pt-[2rem]">
-                  <div className="w-full pr-[2rem] space-y-[2rem]">
-                    <div className="flex space-x-[2rem]">
-                      <label className="w-[14%]">Product Type</label>
-                      <div className="w-full">
-                        {orderedData.product_type === "printing stickers" ? (
-                          <Dropdown
-                            options={[
-                              { id: "kartu nama", name: "kartu nama" },
-                              { id: "brosur", name: "brosur" },
-                              { id: "stiker", name: "stiker" },
-                              { id: "cetak a3", name: "cetak a3" },
-                            ]}
-                            onChange={handleDropdownChange("type")}
-                          />
-                        ) : orderedData.product_type ===
-                          "printing photography" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Outdor", name: "Outdor" },
-                              { id: "Indor", name: "Indor" },]}
-                            onChange={handleDropdownChange("type")}
-                          />
-                        ) : (
-                          <Dropdown
-                            options={[
-                              { id: "t shirt", name: "T Shirt" },
-                              { id: "jersey", name: "Jersey" },
-                              { id: "tumbler", name: "Tumbler" },
-                              { id: "todbag", name: "Todbag" },
-                            ]}
-                            onChange={handleDropdownChange("type")}
-                          />
-                        )}
-                      </div>
-                    </div>
-                    {
-                      orderedData.type === "brosur" ? (
-                        <div className="flex">
-                          <label className="w-[19%]">Product Size</label>
-                          <Dropdown
-                            options={[
-                              { id: "A5", name: "A5" },
-                              { id: "A4", name: "A4" },
-                              { id: "1/3 A4", name: "1/3 A4" },
-                              { id: "A6", name: "A6" },
-                              { id: "A3", name: "A3" },
-                            ]}
-                            onChange={handleDropdownChange("product_size")}
-                          />
-                        </div>
-                      ) : orderedData.type === "stiker" ? (
-                        <div className="flex">
-                          <label className="w-[19%]">Product Size</label>
-                          <Dropdown
-                            options={[
-                              { id: "A5", name: "A5" },
-                              { id: "A4", name: "A4" },
-                              { id: "1/3 A4", name: "1/3 A4" },
-                              { id: "A6", name: "A6" },
-                              { id: "A3", name: "A3" },
-                            ]}
-                            onChange={handleDropdownChange("product_size")}
-                          />
-                        </div>
-                      ) : orderedData.type === "kartu nama" && (
-                        <div className="flex">
-                          <label className="w-[19%]">Select Size</label>
-                          <Dropdown
-                            options={[
-                              { id: "Double Sided", name: "Double sided" },
-                              { id: "Single Sided", name: "Single Sided" },
-                            ]}
-                            onChange={handleDropdownChange("product_size")}
-                          />
-                        </div>
-                      )
-                    }
-                    <div className={`flex ${(orderedData.product_type === "printing sticker" || orderedData.product_type === "printing poster" || orderedData.type === "brosur") && "hidden"}`}>
-                      <label className="w-[19%]">Product Size</label>
-                      {
-                        orderedData.type === "stiker" ? (
-                          <Dropdown
-                            options={[
-                              { id: "A5", name: "A5" },
-                              { id: "A4", name: "A4" },
-                              { id: "1/3 A4", name: "1/3 A4" },
-                              { id: "A6", name: "A6" },
-                              { id: "A3", name: "A3" },
-                            ]}
-                            onChange={handleDropdownChange("product_size")}
-                          />
-                        ) : orderedData.product_type === "printing photography" ? (
-                          <div className="flex space-x-[1.5rem]">
-                            <div className="w-full">
-                              <Input
-                                onChange={handleInput}
-                                name="product_width"
-                                value={orderedData.product_width}
+                {
+                  selectedProduct && (
+                    <div className="flex pt-[2rem]">
+                      <div className="w-full pr-[2rem] space-y-[2rem]">
+                        <div className="flex space-x-[2rem]">
+                          <label className="w-[14%]">Product Type</label>
+                          <div className="w-full">
+                            {orderedData.product_type === "printing stickers" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "kartu nama", name: "kartu nama" },
+                                  { id: "brosur", name: "brosur" },
+                                  { id: "stiker", name: "stiker" },
+                                  { id: "cetak a3", name: "cetak full A3+" },
+                                ]}
+                                onChange={handleDropdownChange("type")}
                               />
-                              <p>Size Width / Centimeter</p>
-                            </div>
-                            <div className="w-full">
-                              <Input
-                                onChange={handleInput}
-                                name="product_length"
-                                value={orderedData.product_length}
+                            ) : orderedData.product_type ===
+                              "printing photography" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Outdor", name: "Outdor" },
+                                  { id: "Indor", name: "Indor" },]}
+                                onChange={handleDropdownChange("type")}
                               />
-                              <p>Size Length / Centimeter</p>
-                            </div>
+                            ) : (
+                              <Dropdown
+                                options={[
+                                  { id: "t shirt", name: "T Shirt" },
+                                  { id: "jersey", name: "Jersey" },
+                                  { id: "tumbler", name: "Tumbler" },
+                                  { id: "todbag", name: "Todbag" },
+                                ]}
+                                onChange={handleDropdownChange("type")}
+                              />
+                            )}
                           </div>
-                        ) : orderedData.type === "t shirt" || orderedData.type === "jersey" ? (
-                          <Dropdown
-                            options={[
-                              { id: "KIDS S", name: "KIDS S" },
-                              { id: "KIDS M", name: "KIDS M" },
-                              { id: "KIDS L", name: "KIDS L" },
-                              { id: "KIDS XL", name: "KIDS XL" },
-                              { id: "XS", name: "XS" },
-                              { id: "S", name: "S" },
-                              { id: "M", name: "M" },
-                              { id: "L", name: "L" },
-                              { id: "XL", name: "XL" },
-                              { id: "2XL", name: "2XL" },
-                              { id: "3XL", name: "3XL" },
-                            ]}
-                            onChange={handleDropdownChange("product_size")}
+                        </div>
+                        {
+                          orderedData.type === "brosur" ? (
+                            <div className="flex">
+                              <label className="w-[19%]">Product Size</label>
+                              <Dropdown
+                                options={[
+                                  { id: "A5", name: "A5" },
+                                  { id: "A4", name: "A4" },
+                                  { id: "1/3 A4", name: "1/3 A4" },
+                                  { id: "A6", name: "A6" },
+                                  { id: "A3", name: "A3" },
+                                ]}
+                                onChange={handleDropdownChange("product_size")}
+                              />
+                            </div>
+                          ) : orderedData.type === "stiker" ? (
+                            <div className="flex">
+                              <label className="w-[19%]">Product Size</label>
+                              <Dropdown
+                                options={[
+                                  { id: "A5", name: "A5" },
+                                  { id: "A4", name: "A4" },
+                                  { id: "1/3 A4", name: "1/3 A4" },
+                                  { id: "A6", name: "A6" },
+                                  { id: "A3", name: "A3" },
+                                ]}
+                                onChange={handleDropdownChange("product_size")}
+                              />
+                            </div>
+                          ) : orderedData.type === "kartu nama" ? (
+                            <div className="flex">
+                              <label className="w-[19%]">Select Size</label>
+                              <Dropdown
+                                options={[
+                                  { id: "Double Sided", name: "Double sided" },
+                                  { id: "Single Sided", name: "Single Sided" },
+                                ]}
+                                onChange={handleDropdownChange("product_size")}
+                              />
+                            </div>
+                          ) : (orderedData.type === "t shirt" || orderedData.type === "jersey") && (
+                            <div className="flex">
+                              <label className="w-[19%]">Select Size</label>
+                              <Dropdown
+                                options={[
+                                  { id: "KIDS S", name: "KIDS S" },
+                                  { id: "KIDS M", name: "KIDS M" },
+                                  { id: "KIDS L", name: "KIDS L" },
+                                  { id: "KIDS XL", name: "KIDS XL" },
+                                  { id: "XS", name: "XS" },
+                                  { id: "S", name: "S" },
+                                  { id: "M", name: "M" },
+                                  { id: "L", name: "L" },
+                                  { id: "XL", name: "XL" },
+                                  { id: "2XL", name: "2XL" },
+                                  { id: "3XL", name: "3XL" },
+                                ]}
+                                onChange={handleDropdownChange("product_size")}
+                              />
+                            </div>
+                          )
+                        }
+                        <div className={`flex ${(orderedData.product_type === "printing sticker" || orderedData.product_type === "printing poster" || orderedData.type === "brosur" || orderedData.type === "kartu nama") && "hidden"}`}>
+                          <label className="w-[19%]">Product Size</label>
+                          {
+                            orderedData.type === "stiker" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "A5", name: "A5" },
+                                  { id: "A4", name: "A4" },
+                                  { id: "1/3 A4", name: "1/3 A4" },
+                                  { id: "A6", name: "A6" },
+                                  { id: "A3", name: "A3" },
+                                ]}
+                                onChange={handleDropdownChange("product_size")}
+                              />
+                            ) : orderedData.product_type === "printing photography" ? (
+                              <div className="flex space-x-[1.5rem]">
+                                <div className="w-full">
+                                  <Input
+                                    onChange={handleInput}
+                                    name="product_width"
+                                    value={orderedData.product_width}
+                                  />
+                                  <p>Size Width / Centimeter</p>
+                                </div>
+                                <div className="w-full">
+                                  <Input
+                                    onChange={handleInput}
+                                    name="product_length"
+                                    value={orderedData.product_length}
+                                  />
+                                  <p>Size Length / Centimeter</p>
+                                </div>
+                              </div>
+                            ) : orderedData.type === "t shirt" || orderedData.type === "jersey" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "KIDS S", name: "KIDS S" },
+                                  { id: "KIDS M", name: "KIDS M" },
+                                  { id: "KIDS L", name: "KIDS L" },
+                                  { id: "KIDS XL", name: "KIDS XL" },
+                                  { id: "XS", name: "XS" },
+                                  { id: "S", name: "S" },
+                                  { id: "M", name: "M" },
+                                  { id: "L", name: "L" },
+                                  { id: "XL", name: "XL" },
+                                  { id: "2XL", name: "2XL" },
+                                  { id: "3XL", name: "3XL" },
+                                ]}
+                                onChange={handleDropdownChange("product_size")}
+                              />
+                            ) : orderedData.type === "cetak a3" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Single Sided", name: "single sided" },
+                                  { id: "Double Sided", name: "double sided" },
+                                ]}
+                                onChange={handleDropdownChange("product_size")}
+                              />
+                            ) : (
+                              <Dropdown
+                                options={[
+                                  { id: "10 x 15", name: "10 x 15" },
+                                  { id: "20 x 30", name: "20 x 30" },
+                                  { id: "30 x 40", name: "30 x 40" },
+                                  { id: "40 x 45", name: "40 x 45" },
+                                ]}
+                                onChange={handleDropdownChange("product_size")}
+                              />
+                            )
+                          }
+                        </div>
+                        <div className={`flex ${(orderedData.type === "jersey" || orderedData.type === "kartu nama" || orderedData.type === "brosur" || orderedData.type === "stiker" || orderedData.type === "cetak a3" || orderedData.type === "t shirt" || orderedData.product_type === "printing photography" || orderedData.type === "todbag") && "hidden"}`}>
+                          <label className="w-[19%]">Media Print</label>
+                          {
+                            orderedData.product_type === "printing photography" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Outdor", name: "Outdor" },
+                                  { id: "Indor", name: "Indor" },
+                                ]}
+                                onChange={handleDropdownChange("material")}
+                              />
+                            ) : (
+                              <Dropdown
+                                options={[
+                                  { id: "UV", name: "UV" },
+                                  { id: "Grafir", name: "Grafir" },
+                                ]}
+                                onChange={handleDropdownChange("material")}
+                              />
+                            )
+                          }
+                        </div>
+                        <div className={`flex ${(orderedData.product_type === "printing stickers" || orderedData.product_type === "printing photography") && "hidden"}`}>
+                          {
+                            orderedData.type === "jersey" ? (
+                              <label className="w-[19%]">Type Print</label>
+                            ) : (
+                              <label className="w-[19%]">Color</label>
+                            )
+                          }
+                          {
+                            orderedData.type === "jersey" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "full print", name: "Full Print" },
+                                  { id: "half print", name: "Half Print" },
+                                ]}
+                                onChange={handleDropdownChange("color")}
+                              />
+                            ) : (
+                              <Dropdown
+                                options={
+                                  [
+                                    { id: "red", name: "red" },
+                                    { id: "yellow", name: "yellow" },
+                                    { id: "green", name: "green" },
+                                    { id: "blue", name: "blue" },
+                                    { id: "white", name: "white" },
+                                    { id: "black", name: "black" },
+                                  ]
+                                }
+                                onChange={handleDropdownChange("color")}
+                              />
+                            )
+                          }
+
+                        </div>
+
+                        <div className={`${(orderedData.type === "t shirt" || orderedData.type === "jersey") && "hidden"}`}>
+                          {
+                            orderedData.type === "tumbler" ? (
+                              <label className="w-[19%]">Tumbler Type</label>
+                            ) : orderedData.type === "todbag" ? (
+                              <label className="w-[19%]">Todbag Type</label>
+                            ) : (
+                              <label className="w-[19%]">Material</label>
+                            )
+                          }
+                          {
+                            orderedData.type === "brosur" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
+                                  { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
+                                  { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
+                                  { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
+                                  { id: "HVS 100 gsm", name: "HVS 100 gsm" },
+                                ]}
+                                onChange={handleDropdownChange("coating")}
+                              />
+
+                            ) : orderedData.type === "stiker" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
+                                  { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
+                                  { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
+                                  { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
+                                  { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
+                                  { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
+                                ]}
+                                onChange={handleDropdownChange("coating")}
+                              />
+                            ) : orderedData.type === "cetak a3" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
+                                  { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
+                                  { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
+                                  { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
+                                  { id: "HVS 100 gsm", name: "HVS 100 gsm" },
+                                  { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
+                                  { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
+                                  { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
+                                  { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
+                                  { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
+                                  { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
+                                ]}
+                                onChange={handleDropdownChange("coating")}
+                              />
+                            ) : orderedData.product_type === "printing photography" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Vinyl Cina", name: "Vinyl Cina" },
+                                  { id: "Vinyl Korea", name: "Vinyl Korea" },
+                                  { id: "Vinyl Slik Banner", name: "Vinyl Slik Banner" },
+                                  { id: "Sticker Ritrama Glosy", name: "Sticker Ritrama Glosy" },
+                                  { id: "Sticker Ritrama Matte", name: "Sticker Ritrama Matte" },
+                                  { id: "Sticker Ritrama Transparent", name: "Sticker Ritrama Transparent" },
+                                  { id: "Sticker Ritrama Blackout", name: "Sticker Ritrama Blackout" },
+                                  { id: "Sticker Oneway", name: "Sticker Oneway" },
+                                ]}
+                                onChange={handleDropdownChange("coating")}
+                              />
+                            ) : orderedData.type === "todbag" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Todbag Canvas", name: "Todbag Canvas" },
+                                  { id: "Todbag Belacu", name: "Todbag Belacu" },
+                                  { id: "Pouch", name: "Pouch" },
+                                  { id: "Todbag Classic", name: "Todbag Classic" },
+
+                                ]}
+                                onChange={handleDropdownChange("coating")}
+                              />
+                            ) : orderedData.type === "tumbler" ? (
+                              <Dropdown
+                                options={[
+                                  { id: "Tumbler Plastik", name: "Tumbler Plastik" },
+                                  { id: "Tumbler Aluminium", name: "Tumbler Aluminium" },
+                                  { id: "Tumbler Insert Paper", name: "Tumbler Insert Paper" },
+                                  { id: "Tumbler Stainles Steel", name: "Tumbler Stainles Steel" },
+                                ]}
+                                onChange={handleDropdownChange("coating")}
+                              />
+                            ) : (<Dropdown
+                              options={[
+                                { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
+                                { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
+
+                              ]}
+                              onChange={handleDropdownChange("coating")}
+                            />
+                            )
+                          }
+
+                        </div>
+                        <div className="flex">
+                          <label className="w-[19%]">quantity</label>
+                          <Input
+                            onChange={handleInput}
+                            name="quantity"
+                            value={orderedData.quantity}
                           />
-                        ) : (
-                          <Dropdown
-                            options={[
-                              { id: "10 x 15", name: "10 x 15" },
-                              { id: "20 x 30", name: "20 x 30" },
-                              { id: "30 x 40", name: "30 x 40" },
-                              { id: "40 x 45", name: "40 x 45" },
-                            ]}
-                            onChange={handleDropdownChange("product_size")}
-                          />
-                        )
-                      }
-                      {/* <div className="w-full">
-                        <Input
-                          onChange={handleInput}
-                          name="product_width"
-                          value={orderedData.product_width}
-                        />
-                        <p>Size Width / Centimeter</p>
+                        </div>
                       </div>
-                      <div className="w-full">
-                        <Input
-                          onChange={handleInput}
-                          name="product_length"
-                          value={orderedData.product_length}
-                        />
-                        <p>Size Length / Centimeter</p>
-                      </div> */}
                     </div>
-                    {/* <div className={`flex space-x-[2rem] ${orderedData.product_type !== "printing photography" && "hidden"}`}>
-                      <label className="w-[30%]">Cutting Size</label>
-                      <div className="w-full">
-                        <Input
-                          onChange={handleInput}
-                          name="cutting_width"
-                          value={orderedData.cutting_width}
-                        />
-                        <p>Size Width / Centimeter</p>
-                      </div>
-                      <div className="w-full">
-                        <Input
-                          onChange={handleInput}
-                          name="cutting_length"
-                          value={orderedData.cutting_length}
-                        />
-                        <p>Size Length / Centimeter</p>
-                      </div>
-                    </div> */}
-                    <div className={`flex ${(orderedData.type === "jersey" || orderedData.type === "kartu nama" || orderedData.type === "brosur" || orderedData.type === "stiker" || orderedData.type === "cetak a3" || orderedData.type === "t shirt" || orderedData.product_type === "printing photography" || orderedData.type === "todbag") && "hidden"}`}>
-                      <label className="w-[19%]">Media Print</label>
-                      {
-                        orderedData.product_type === "printing photography" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Outdor", name: "Outdor" },
-                              { id: "Indor", name: "Indor" },
-                            ]}
-                            onChange={handleDropdownChange("material")}
-                          />
-                        ) : (
-                          <Dropdown
-                            options={[
-                              { id: "UV", name: "UV" },
-                              { id: "Grafir", name: "Grafir" },
-                            ]}
-                            onChange={handleDropdownChange("material")}
-                          />
-                        )
-                      }
-                    </div>
-                    <div className={`flex ${(orderedData.product_type === "printing stickers" || orderedData.product_type === "printing photography") && "hidden"}`}>
-                      {
-                        orderedData.type === "jersey" ? (
-                          <label className="w-[19%]">Type Print</label>
-                        ) : (
-                          <label className="w-[19%]">Color</label>
-                        )
-                      }
-                      {
-                        orderedData.type === "jersey" ? (
-                          <Dropdown
-                            options={[
-                              { id: "full print", name: "Full Print" },
-                              { id: "half print", name: "Half Print" },
-                            ]}
-                            onChange={handleDropdownChange("color")}
-                          />
-                        ) : (
-                          <Dropdown
-                            options={
-                              [
-                                { id: "red", name: "red" },
-                                { id: "yellow", name: "yellow" },
-                                { id: "green", name: "green" },
-                                { id: "blue", name: "blue" },
-                                { id: "white", name: "white" },
-                                { id: "black", name: "black" },
-                              ]
-                            }
-                            onChange={handleDropdownChange("color")}
-                          />
-                        )
-                      }
-
-                    </div>
-
-                    <div className={`flex`}>
-                      {
-                        orderedData.type === "tumbler" ? (
-                          <label className="w-[19%]">Tumbler Type</label>
-                        ) : orderedData.type === "todbag" ? (
-                          <label className="w-[19%]">Todbag Type</label>
-                        ) : (
-                          <label className="w-[19%]">Material</label>
-                        )
-                      }
-                      {
-                        orderedData.type === "brosur" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
-                              { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
-                              { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
-                              { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
-                              { id: "HVS 100 gsm", name: "HVS 100 gsm" },
-                            ]}
-                            onChange={handleDropdownChange("coating")}
-                          />
-
-                        ) : orderedData.type === "stiker" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
-                              { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
-                              { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
-                              { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
-                              { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
-                              { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
-                            ]}
-                            onChange={handleDropdownChange("coating")}
-                          />
-                        ) : orderedData.type === "cetak a3" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
-                              { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
-                              { id: "Art Paper 120gsm", name: "Art Paper 120gsm" },
-                              { id: "Art Paper 150gsm", name: "Art Paper 150gsm" },
-                              { id: "HVS 100 gsm", name: "HVS 100 gsm" },
-                              { id: "Sticker A3 HVS", name: "Sticker A3 HVS" },
-                              { id: "Sticker Vinyl A3 Glosy", name: "Sticker Vinyl A3 Glosy" },
-                              { id: "Sticker Vinyl A3 Matte", name: "Sticker Vinyl A3 Matte" },
-                              { id: "Sticker Vinyl A3 Transparent", name: "Sticker Vinyl A3 Transparent" },
-                              { id: "Sticker A3 Chromo Glossy", name: "Sticker A3 Chromo Glossy" },
-                              { id: "Sticker A3 Metalic Silver", name: "Sticker A3 Metalic Silver" },
-                            ]}
-                            onChange={handleDropdownChange("coating")}
-                          />
-                        ) : orderedData.product_type === "printing photography" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Vinyl Cina", name: "Vinyl Cina" },
-                              { id: "Vinyl Korea", name: "Vinyl Korea" },
-                              { id: "Vinyl Slik Banner", name: "Vinyl Slik Banner" },
-                              { id: "Sticker Ritrama Glosy", name: "Sticker Ritrama Glosy" },
-                              { id: "Sticker Ritrama Matte", name: "Sticker Ritrama Matte" },
-                              { id: "Sticker Ritrama Transparent", name: "Sticker Ritrama Transparent" },
-                              { id: "Sticker Ritrama Blackout", name: "Sticker Ritrama Blackout" },
-                              { id: "Sticker Oneway", name: "Sticker Oneway" },
-                            ]}
-                            onChange={handleDropdownChange("coating")}
-                          />
-                        ) : orderedData.type === "todbag" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Todbag Canvas", name: "Todbag Canvas" },
-                              { id: "Todbag Belacu", name: "Todbag Belacu" },
-                              { id: "Pouch", name: "Pouch" },
-                              { id: "Todbag Classic", name: "Todbag Classic" },
-
-                            ]}
-                            onChange={handleDropdownChange("coating")}
-                          />
-                        ) : orderedData.type === "tumbler" ? (
-                          <Dropdown
-                            options={[
-                              { id: "Tumbler Plastik", name: "Tumbler Plastik" },
-                              { id: "Tumbler Aluminium", name: "Tumbler Aluminium" },
-                              { id: "Tumbler Insert Paper", name: "Tumbler Insert Paper" },
-                              { id: "Tumbler Stainles Steel", name: "Tumbler Stainles Steel" },
-                            ]}
-                            onChange={handleDropdownChange("coating")}
-                          />
-                        ) : (<Dropdown
-                          options={[
-                            { id: "Art Paper 210gsm", name: "Art Paper 210gsm" },
-                            { id: "Art Paper 260gsm", name: "Art Paper 260gsm" },
-
-                          ]}
-                          onChange={handleDropdownChange("coating")}
-                        />
-                        )
-                      }
-
-                    </div>
-                    <div className="flex">
-                      <label className="w-[19%]">quantity</label>
-                      <Input
-                        onChange={handleInput}
-                        name="quantity"
-                        value={orderedData.quantity}
-                      />
-                    </div>
-                  </div>
-                </div>
+                  )
+                }
               </div>
               <div className="w-[30%] bg-gray-200 p-[1rem]">
                 <h1 className="text-[.9rem] font-bold">Order Items</h1>
