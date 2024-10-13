@@ -1,6 +1,7 @@
 "use client";
 import {
   createSale,
+  getCustumer,
   getOrder,
   postFinish,
   postStatus,
@@ -46,6 +47,7 @@ interface OrderData {
 
 export default function Page({ params }: { params: { id: string } }) {
   const [orderData, setOrderData] = useState<OrderData | null>(null); // Initialize with null
+  const [custumerName, setCustumerName] = useState("")
 
   const route = useRouter();
 
@@ -57,6 +59,9 @@ export default function Page({ params }: { params: { id: string } }) {
           const id = parseInt(orderId);
           const task = await getOrder(id);
           setOrderData(task?.data.data[0] as OrderData); // Update the state with response data
+          const custumer = task?.data.data[0].custumer
+          const res = await getCustumer(custumer)
+          setCustumerName(res?.data.data.name)
         } else {
           console.log("User ID not found in local storage.");
         }
@@ -202,7 +207,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <tbody className="bg-white divide-y divide-gray-200">
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
-                  {custumer}
+                  {custumerName}
                 </td>
               </tr>
             </tbody>
@@ -275,14 +280,14 @@ export default function Page({ params }: { params: { id: string } }) {
             <thead className="bg-gray-50">
               <tr className="px-6 py-3 text-left text-gray-500 font-medium">
                 <th className="px-6 py-3 text-center text-gray-500">
-                  SO Remarks
+                  Note
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               <tr>
                 <td className="px-6 py-4 whitespace-nowrap text-center">
-                  {so_number}
+                  {sales_type}
                 </td>
               </tr>
             </tbody>

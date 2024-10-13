@@ -82,6 +82,16 @@ export default function CreateOrder() {
         value = 0; // or handle it appropriately if value is not a valid number
       }
     }
+
+    if (orderedData.type === "outdor") {
+      if (thePize) {
+        console.log("ini harga", thePize, orderedData.product_length, orderedData.product_width, thePize)
+        const digitalPrintingPrize = (orderedData.product_length * orderedData.product_width) * thePize;
+        setThePrize(digitalPrintingPrize)
+        console.log("harganya ini heee", digitalPrintingPrize)
+      }
+    }
+
     setOrderedData((prev) => {
       return {
         ...prev,
@@ -110,13 +120,39 @@ export default function CreateOrder() {
         };
         fetchCustumer();
       }
-      console.log("bismillah", fieldName)
       setOrderedData((prev: any) => {
         return {
           ...prev,
           [fieldName]: value,
         };
       });
+
+      console.log("ini typenya", value)
+
+      // if (fieldName === "type") {
+      if (fieldName === "type") {
+        if (value === "kartu nama") {
+          setThePrize(13000);
+        } else if (value === "brosur") {
+          setThePrize(15000);
+        } else if (value === "stiker") {
+          setThePrize(15000);
+        } else if (value === "cetak a3") {
+          setThePrize(20000);
+        } else if (value === "outdor") {
+          setThePrize(1700);
+        } else if (value === "indor") {
+          setThePrize(1700);
+        } else if (value === "t shirt") {
+          setThePrize(40000);
+        } else if (value === "jersey") {
+          setThePrize(50000);
+        } else if (value === "tumbler") {
+          setThePrize(50000);
+        } else if (value === "todbag") {
+          setThePrize(20000);
+        }
+      }
     };
 
   // date picker handler
@@ -144,23 +180,6 @@ export default function CreateOrder() {
       }, 3000);
     }
   };
-  // useEffect(() => {
-  //   if (orderedData.cutting_length && orderedData.cutting_width) {
-  //     const quantity = orderedData.cutting_length * orderedData.cutting_width;
-  //     setTheQuantity(quantity);
-  //     setOrderedData((prevData: any) => ({
-  //       ...prevData,
-  //       quantity,
-  //     }));
-  //   }
-  // }, [orderedData.cutting_length, orderedData.cutting_width]);
-
-  // set the prize
-  useEffect(() => {
-    if (orderedData.type === "kartu nama") {
-
-    }
-  }, [])
 
   useEffect(() => {
     if (orderedData.quantity && thePize) {
@@ -184,13 +203,6 @@ export default function CreateOrder() {
     setOrderedData((prev) => {
       return { ...prev, ["product_type"]: value };
     });
-    if (value === "printing photography") {
-      setThePrize(3000);
-    } else if (value === "printing stickers") {
-      setThePrize(1000);
-    } else if (value === "printing poster") {
-      setThePrize(2000);
-    }
   };
 
   useEffect(() => {
@@ -263,9 +275,13 @@ export default function CreateOrder() {
     }
   }, [])
 
+  // useEffect(() => {
+  //   if (orderedData.type && orderedData.product_length && orderedData.product_width) {
+  //     const digitalPrintingPrize = orderedData.product_length * orderedData.product_width;
+  //     setThePrize(digitalPrintingPrize);
+  //   }
+  // }, [orderedData.type, orderedData.product_length, orderedData.product_width]);
 
-
-  console.log(selectedProduct);
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">
@@ -282,16 +298,6 @@ export default function CreateOrder() {
                 value={orderedData.so_number}
               />
             </div>
-            {/* <div className="w-full flex items-center">
-              <label htmlFor="" className="w-[7rem] align-center">
-                Quotational Number
-              </label>
-              <Input
-                onChange={handleInput}
-                name="quotation_number"
-                value={orderedData.quotation_number}
-              />
-            </div> */}
             <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
                 Order date
@@ -306,16 +312,6 @@ export default function CreateOrder() {
             </div>
           </div>
           <div className="w-full space-y-[1.5rem]">
-            {/* <div className="w-full flex items-center">
-              <label htmlFor="" className="w-[7rem] align-center">
-                Sales Type
-              </label>
-              <Input
-                onChange={handleInput}
-                name="sales_type"
-                value={orderedData.sales_type}
-              />
-            </div> */}
             <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
                 Sales Person
@@ -459,8 +455,8 @@ export default function CreateOrder() {
                               "printing photography" ? (
                               <Dropdown
                                 options={[
-                                  { id: "Outdor", name: "Outdor" },
-                                  { id: "Indor", name: "Indor" },]}
+                                  { id: "outdor", name: "Outdor" },
+                                  { id: "indor", name: "Indor" },]}
                                 onChange={handleDropdownChange("type")}
                               />
                             ) : (

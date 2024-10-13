@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Button from "../component/template/Button";
-import { deleteOrder, getAllOrder, getOperators } from "../fetch/FetchData";
+import { deleteOrder, getAllOrder, getCustumer, getOperators } from "../fetch/FetchData";
 import { dateFormater } from "../functions/DateFormater";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -41,10 +41,12 @@ interface Order {
 }
 
 type OperatorsMap = { [key: number]: string };
+type CustumerMap = { [key: number]: string };
 
 export default function page() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [operators, setOperators] = useState<OperatorsMap>({});  // Store operator data by ID
+  const [custumer, setCustumer] = useState<CustumerMap>({});  // Store operator data by ID
 
   const route = useRouter();
 
@@ -94,6 +96,35 @@ export default function page() {
     }
   }, [orders]);
 
+  useEffect(() => {
+    const fetchCustumer = async () => {
+      const custumerPromises = orders.map(async (item) => {
+        if (item.custumer) {
+          const id = parseInt(item.custumer)
+          const res = await getCustumer(id);
+          return { id: item.custumer, name: res?.data?.data?.name || "" };
+        }
+        return null;
+      });
+
+      const results = await Promise.all(custumerPromises);
+      const custumerMap: CustumerMap = {};
+      results.forEach((custumer) => {
+        if (custumer) { // Check if custumer is not null
+          const custumerId = parseInt(custumer.id, 10);
+          if (!isNaN(custumerId)) {
+            custumerMap[custumerId] = custumer.name;
+          }
+        }
+      });
+      setCustumer(custumerMap);
+    };
+
+    if (orders.length > 0) {
+      fetchCustumer(); // Fetch operators after orders are loaded
+    }
+  }, [orders]);
+
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
@@ -130,7 +161,7 @@ export default function page() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.so_number}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.custumer}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{item.custumer ? custumer[item.custumer] || "Unknown" : "No Operator"}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.sales_person}
                 </td>
@@ -138,7 +169,7 @@ export default function page() {
                   {dateFormater(item.required_date)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {item.Status.status}
+                  {item.Status.status === "waiting" ? "not started" : item.Status.status}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.id_operator ? operators[item.id_operator] || "Unknown" : "No Operator"}
