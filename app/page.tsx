@@ -61,6 +61,11 @@ export default function Home() {
           <div>
             <input
               type="password"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleLogin();
+                }
+              }}
               className="w-full h-[2rem] px-[1rem] rounded-md border-[1.4px] border-gray-200 text-[.9rem]"
               onChange={(e: any) => {
                 setPassword(e.target.value);
