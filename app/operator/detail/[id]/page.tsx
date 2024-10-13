@@ -312,8 +312,12 @@ export default function Page({ params }: { params: { id: string } }) {
             Redo
           </button>
           <button
-            className="bg-red-200 p-[2rem] w-full rounded-md text-center"
+            className={`p-[2rem] w-full rounded-md text-center shadow-md ${orderData.status === 3
+              ? "bg-red-200"
+              : "bg-gray-100 text-gray-500"
+              }`}
             onClick={handleFinish}
+            disabled={(orderData.status === 1)}
           >
             Finish
           </button>

@@ -774,6 +774,14 @@ export default function CreateOrder() {
                             value={orderedData.quantity}
                           />
                         </div>
+                        <div className="flex">
+                          <label className="w-[19%]">Note</label>
+                          <textarea className="w-full px-[1rem] py-[1rem] rounded-md border-[1.4px] border-gray-200 text-[.9rem]"
+                            onChange={handleInput}
+                            name="sales_type"
+                            value={orderedData.sales_type}
+                          />
+                        </div>
                       </div>
                     </div>
                   )
