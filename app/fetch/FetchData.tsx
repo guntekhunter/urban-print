@@ -287,3 +287,33 @@ export const getOperators = async (id: any) => {
     console.log(error);
   }
 };
+
+export const addUser = async (data: any) => {
+  try {
+    const res = await axios.post("/api/user/create-user", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUsers = async () => {
+  try {
+    const res = await axios.get("/api/user/get-users");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteUser = async (id: number) => {
+  try {
+    const res = await axios.post("/api/user/delete-user",
+      id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+

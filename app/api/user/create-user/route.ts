@@ -28,9 +28,17 @@ export async function POST(req: NextRequest, res: NextResponse) {
           password: encryptPassword,
         },
       });
-      return NextResponse.json({ data: newUser });
+      // return NextResponse.json({ data: newUser });
     }
-    return NextResponse.json({ data: isUser });
+
+    const user = await prisma.user.findMany({
+      where: {
+        type: {
+          not: "manager",
+        },
+      },
+    });
+    return NextResponse.json({ data: user });
   } catch (err) {
     return NextResponse.json({ err });
   }

@@ -5,21 +5,21 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
-  const idUser = await reqBody.user;
+  // const idUser = await reqBody.user;
   try {
-    const isUser = await prisma.user.findFirst({
+    await prisma.user.delete({
       where: {
-        email: reqBody.userEmail,
+        id: reqBody,
       },
     });
-    if (isUser?.id === undefined) {
-      const newUser = await prisma.user.delete({
-        where: {
-          id: idUser,
+    const users = await prisma.user.findMany({
+      where: {
+        type: {
+          not: "manager",
         },
-      });
-      return NextResponse.json({ data: newUser });
-    }
+      },
+    });
+    return NextResponse.json({ data: users });
   } catch (error) {
     return NextResponse.json({ error });
   }

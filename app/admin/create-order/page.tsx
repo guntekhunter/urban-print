@@ -318,16 +318,6 @@ export default function CreateOrder() {
             </div> */}
             <div className="w-full flex items-center">
               <label htmlFor="" className="w-[7rem] align-center">
-                PO Number
-              </label>
-              <Input
-                onChange={handleInput}
-                name="po_number"
-                value={orderedData.so_number}
-              />
-            </div>
-            <div className="w-full flex items-center">
-              <label htmlFor="" className="w-[7rem] align-center">
                 Sales Person
               </label>
               <Input
