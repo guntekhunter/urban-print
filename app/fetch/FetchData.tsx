@@ -19,6 +19,14 @@ export const deleteOrder = async (id: any) => {
     console.log(error);
   }
 };
+export const deleteOrders = async (data: any) => {
+  try {
+    const res = await axios.post("/api/order/delete-orders", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //get order by admin
 export const addOrder = async (data: any) => {
@@ -310,6 +318,16 @@ export const deleteUser = async (id: number) => {
   try {
     const res = await axios.post("/api/user/delete-user",
       id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getOrders = async (data: any) => {
+  try {
+    const res = await axios.post("/api/admin/get-orders",
+      data);
     return res;
   } catch (error) {
     console.log(error);

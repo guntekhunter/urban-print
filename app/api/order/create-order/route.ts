@@ -53,7 +53,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
         quantity: reqBody.quantity,
       },
     });
-    return NextResponse.json({ data: newOrder });
+
+    const orders = await prisma.order.findMany({
+      where: {
+        custumer: reqBody.custumer,
+        status: reqBody.status,
+      },
+    });
+    return NextResponse.json({ data: orders });
   } catch (error) {
     return NextResponse.json({ error });
   }

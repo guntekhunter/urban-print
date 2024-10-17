@@ -4,9 +4,12 @@ import Dropdown from "@/app/component/template/Dropdown";
 import Input from "@/app/component/template/Input";
 import {
   addOrder,
+  deleteOrder,
+  deleteOrders,
   getAllOrder,
   getCustumer,
   getCustumers,
+  getOrders,
   getUser,
 } from "../../fetch/FetchData";
 import React, { useEffect, useState } from "react";
@@ -22,7 +25,17 @@ export interface Customer {
   // add other properties as needed
 }
 
+export interface Order {
+  quantity: number,
+  type: string,
+  prize: number,
+  id: number,
+}
+
+
+
 export default function CreateOrder() {
+  type Orders = Order[];
   const [errorCreateOrder, setErrorCreateaOrder] = useState(false);
   const [thePize, setThePrize] = useState<number>();
   const [theQuantity, setTheQuantity] = useState<number>();
@@ -30,6 +43,7 @@ export default function CreateOrder() {
   const [custumers, setCustumers] = useState([]);
   const [custumer, setCustumer] = useState<Customer | null>(null);
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [orders, setOrders] = useState<Orders>([] as Orders)
 
   const [orderedData, setOrderedData] = useState({
     so_number: null,
@@ -59,6 +73,8 @@ export default function CreateOrder() {
     prize: null, //new data
     quantity: null, //new data
   });
+
+  const [previousOrders, setPreviousOrders] = useState([]);
 
   const route = useRouter();
 
@@ -170,15 +186,22 @@ export default function CreateOrder() {
 
   const createOrder = async () => {
     const res = await addOrder(orderedData);
-    console.log(res)
-    if (!res?.data.error) {
-      route.push("/admin");
-    } else {
-      setErrorCreateaOrder(true);
-      setTimeout(() => {
-        setErrorCreateaOrder(false);
-      }, 3000);
-    }
+    setOrderedData((prevData: any) => ({
+      ...prevData,
+      sales_type: "", // set empty string if undefined
+      product_type: "",
+      product_width: 1,
+      product_length: 1,
+      product_size: "null",
+      material: "",
+      color: "null",
+      coating: "",
+      type: "",
+      prize: null,
+      quantity: null,
+    }));
+    console.log("ini datanya", res?.data.data)
+    setOrders(res?.data.data)
   };
 
   useEffect(() => {
@@ -275,12 +298,31 @@ export default function CreateOrder() {
     }
   }, [])
 
-  // useEffect(() => {
-  //   if (orderedData.type && orderedData.product_length && orderedData.product_width) {
-  //     const digitalPrintingPrize = orderedData.product_length * orderedData.product_width;
-  //     setThePrize(digitalPrintingPrize);
-  //   }
-  // }, [orderedData.type, orderedData.product_length, orderedData.product_width]);
+  const handleDelete = async (id: any) => {
+    if (!id) {
+      console.error("Order ID is required.");
+      return;
+    }
+
+    const data = {
+      id,
+      custumer: orderedData.custumer,
+      status: orderedData.status,
+      product_type: orderedData.product_type,
+    };
+
+    try {
+      const res = await deleteOrders(data);
+      setOrders(res?.data?.data); // Use `res.data.data` to get the updated orders
+    } catch (error) {
+      console.log("Error deleting order:", error);
+    }
+  };
+
+
+  // ini total harganya
+  const totalPrize = orders?.reduce((acc: number, item: any) => acc + (item?.prize || 0), 0);
+
 
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
@@ -783,7 +825,7 @@ export default function CreateOrder() {
                   )
                 }
               </div>
-              <div className="w-[30%] bg-gray-200 p-[1rem]">
+              <div className="w-[40%] border rounded-md p-[1rem]">
                 <h1 className="text-[.9rem] font-bold">Order Items</h1>
                 <div className="space-y-[2rem]">
                   <ul className="list-disc ml-4">
@@ -827,13 +869,69 @@ export default function CreateOrder() {
                     </div>
                   </div>
                 </div>
+                <div className="pt-[2rem]">
+                  <table className="min-w-full divide-y divide-gray-200 rounded-md]">
+                    <thead className="bg-gray-50">
+                      <tr className="px-1 py-1 text-left text-gray-500 text-[.6rem]">
+                        <th className="px-1 py-1 text-left text-gray-500 text-[.6rem]">Product Type</th>
+                        <th className="px-1 py-1 text-left text-gray-500 text-[.6rem]">Quantity</th>
+                        <th className="px-1 py-1 text-left text-gray-500 text-[.6rem]">Prize</th>
+                        <th className="px-1 py-1 text-left text-gray-500 text-[.6rem]">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {
+                        orders?.map((item: any, key) => (
+                          <tr key={key}>
+                            <td className="px-1 py-1 whitespace-nowrap">
+                              {item?.type}
+                            </td>
+                            <td className="px-1 py-1 whitespace-nowrap">
+                              {item?.quantity}
+                            </td>
+                            <td className="px-1 py-1 whitespace-nowrap">
+                              {new Intl.NumberFormat("id-ID", {
+                                style: "currency",
+                                currency: "IDR",
+                              }).format(item?.prize)}
+                            </td>
+                            <td className="px-3 py-4 whitespace-no-wrap py-[1rem]">
+                              <button
+                                className="p-[.3rem] bg-red-200 border-red-300 border-[1.3px] rounded-md"
+                                onClick={() => {
+                                  handleDelete(item?.id);
+                                }}
+                              >
+                                <Image
+                                  src="/delete.png"
+                                  alt=""
+                                  width={500}
+                                  height={500}
+                                  className="w-3"
+                                />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      }
+                      <tr>
+                        <td>Total</td>
+                        <td>{new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(totalPrize)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <Button onClick={cancel} className="mt-[2rem]">Save</Button>
               </div>
             </div>
           </div>
         </div>
 
         <div className="flex space-x-[1rem] pt-[1rem]">
-          <Button onClick={createOrder}>Save Order</Button>
+          <Button onClick={createOrder}>Add Order</Button>
           <Button onClick={cancel}>Cancel</Button>
         </div>
       </div>

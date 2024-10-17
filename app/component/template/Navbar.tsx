@@ -47,6 +47,8 @@ export default function Navbar() {
     fetchUser();
   }, []);
 
+  console.log("ini usernya", user)
+
   if (path === "/") {
     return <div></div>;
   } else if (path.includes("/admin")) {
@@ -59,7 +61,7 @@ export default function Navbar() {
             <p className="font-bold flex items-center">URBAN PRINT</p>
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>Sales</p>
+            <p>{user?.name}</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}
@@ -80,7 +82,7 @@ export default function Navbar() {
             <p className="font-bold flex items-center">URBAN PRINT</p>
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>Manager</p>
+            <p>{user?.email}</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}
@@ -101,7 +103,7 @@ export default function Navbar() {
             <p className="font-bold flex items-center">URBAN PRINT</p>
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>Operator</p>
+            <p>{user?.email}</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}
