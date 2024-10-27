@@ -125,6 +125,10 @@ export default function page() {
     }
   }, [orders]);
 
+  const detailSale = (id: any) => {
+    route.push(`/admin/${id}`);
+  };
+
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
@@ -157,7 +161,7 @@ export default function page() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {orders?.map((item: any, key) => (
-              <tr key={key} className="cursor-pointer">
+              <tr key={key} className="cursor-pointer hover:bg-gray-100" onClick={() => detailSale(item.id)}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.so_number}
                 </td>

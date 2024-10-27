@@ -37,6 +37,16 @@ export const addOrder = async (data: any) => {
     console.log(error);
   }
 };
+export const getOneOrder = async (data: any) => {
+  try {
+    const res = await axios.post("/api/admin/get-order", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 //get order by operator
 export const getOperatorTask = async (id: any) => {
   try {

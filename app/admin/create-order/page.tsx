@@ -183,7 +183,6 @@ export default function CreateOrder() {
     setOrderedData((prevData: any) => ({
       ...prevData,
       sales_type: "", // set empty string if undefined
-      product_type: "",
       product_width: 1,
       product_length: 1,
       product_size: "null",
@@ -314,7 +313,7 @@ export default function CreateOrder() {
   // ini total harganya
   const totalPrize = orders?.reduce((acc: number, item: any) => acc + (item?.prize || 0), 0);
 
-  console.log("ini harga aslinya", thePize)
+  console.log("ini terklik", orderedData)
 
 
   return (
