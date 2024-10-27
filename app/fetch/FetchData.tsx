@@ -334,4 +334,14 @@ export const getOrders = async (data: any) => {
   }
 };
 
+export const getProductionOnTime = async (data: any) => {
+  try {
+    const res = await axios.post("/api/operator/production-on-time",
+      data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 

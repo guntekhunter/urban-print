@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getTask, getTaskCount } from "../fetch/FetchData";
+import { getProductionOnTime, getTask, getTaskCount } from "../fetch/FetchData";
 import Diagram from "../component/template/Diagram";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function Page() {
   const path = usePathname();
+  const [onTime, setOnTime] = useState("");
   const [orderData, setOrderData] = useState({
     printing_stickers: {},
     printing_poster: {},
@@ -80,23 +81,39 @@ export default function Page() {
     return () => clearTimeout(refreshPage);
   }, []);
 
+  useEffect(() => {
+    const getOnTime = async () => {
+      const userId = localStorage.getItem("user_id");
+      if (userId !== null) {
+        const id = parseInt(userId)
+        const res = await getProductionOnTime(id)
+        console.log("ommaleka", res)
+        setOnTime(res?.data.data)
+      }
+    }
+    getOnTime()
+  }, [])
+
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="w-[95%]">
-        <div className={`w-[20%] flex`}>
-          <div
-            onClick={() => changePage("operator")}
-            className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${path.includes("/operator") ? "bg-white" : "bg-gray-200"
-              }`}
-          >
-            Printing
+        <div className="flex justify-between">
+          <div className={`w-[20%] flex`}>
+            <div
+              onClick={() => changePage("operator")}
+              className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${path.includes("/operator") ? "bg-white" : "bg-gray-200"
+                }`}
+            >
+              Printing
+            </div>
+            <div
+              onClick={() => changePage("operator/finishing-task")}
+              className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer`}
+            >
+              Finishing
+            </div>
           </div>
-          <div
-            onClick={() => changePage("operator/finishing-task")}
-            className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer`}
-          >
-            Finishing
-          </div>
+          <div className="px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer">Production On Time: {onTime}</div>
         </div>
         <div
           className={`p-[3rem] rounded-tr-md shadow-md text-text text-[.7rem] flex bg-white justify-between `}

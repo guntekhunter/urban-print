@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getFinishTask, getTask, getTaskCount } from "../../fetch/FetchData";
+import { getFinishTask, getProductionOnTime, getTask, getTaskCount } from "../../fetch/FetchData";
 import DiagramFinishing from "../../component/template/DiagramFinishing";
 import { usePathname, useRouter } from "next/navigation";
 import OperatorNavigator from "@/app/component/operator/OperatorNavigator";
 
 export default function Page() {
   const path = usePathname();
+  const [onTime, setOnTime] = useState("");
   const [orderData, setOrderData] = useState({
     finishing_stickers: {},
     finishing_poster: {},
@@ -78,11 +79,26 @@ export default function Page() {
     // Cleanup the timeout if the component unmounts
     return () => clearTimeout(refreshPage);
   }, []);
+  useEffect(() => {
+    const getOnTime = async () => {
+      const userId = localStorage.getItem("user_id");
+      if (userId !== null) {
+        const id = parseInt(userId)
+        const res = await getProductionOnTime(id)
+        console.log("ommaleka", res)
+        setOnTime(res?.data.data)
+      }
+    }
+    getOnTime()
+  }, [])
 
   return (
     <div className="flex justify-around relative pt-[2rem]">
       <div className="w-[95%]">
-        <OperatorNavigator />
+        <div className="flex justify-between">
+          <OperatorNavigator />
+          <div className="px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer">Production On Time: {onTime}</div>
+        </div>
         <div
           className={`p-[3rem] rounded-tr-md shadow-md text-text text-[.7rem] flex bg-white justify-between `}
         >

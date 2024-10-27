@@ -13,17 +13,15 @@ export default function OperatorNavigator() {
     <div className={`w-[20%] flex`}>
       <div
         onClick={() => changePage("/operator")}
-        className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${
-          path === "/operator/finishing-task" ? "bg-gray-200" : "bg-white"
-        }`}
+        className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${path === "/operator/finishing-task" ? "bg-gray-200" : "bg-white"
+          }`}
       >
         Printing
       </div>
       <div
         onClick={() => changePage("/operator/finishing-task")}
-        className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${
-          path === "operator/finishing-task" ? "bg-gray-200" : "bg-white "
-        }`}
+        className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${path === "operator/finishing-task" ? "bg-gray-200" : "bg-white "
+          }`}
       >
         Finishing
       </div>
