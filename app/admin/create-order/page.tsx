@@ -81,6 +81,7 @@ export default function CreateOrder() {
   const handleInput = (e: any) => {
     const name = e.target.name;
     let value = e.target.value;
+
     if (
       [
         "so_number",
@@ -99,14 +100,7 @@ export default function CreateOrder() {
       }
     }
 
-    if (orderedData.type === "outdor") {
-      if (thePize) {
-        console.log("ini harga", thePize, orderedData.product_length, orderedData.product_width, thePize)
-        const digitalPrintingPrize = (orderedData.product_length * orderedData.product_width) * thePize;
-        setThePrize(digitalPrintingPrize)
-        console.log("harganya ini heee", digitalPrintingPrize)
-      }
-    }
+
 
     setOrderedData((prev) => {
       return {
@@ -156,9 +150,9 @@ export default function CreateOrder() {
         } else if (value === "cetak a3") {
           setThePrize(20000);
         } else if (value === "outdor") {
-          setThePrize(1700);
+          setThePrize(1900 * orderedData.product_length * orderedData.product_width);
         } else if (value === "indor") {
-          setThePrize(1700);
+          setThePrize(1700 * orderedData.product_length * orderedData.product_width);
         } else if (value === "t shirt") {
           setThePrize(40000);
         } else if (value === "jersey") {
@@ -214,8 +208,6 @@ export default function CreateOrder() {
       }));
     }
   }, [orderedData.quantity, thePize]);
-
-  console.log("xoba", orderedData, orderedData.prize, thePize)
 
   const cancel = () => {
     route.push("/admin");
@@ -288,7 +280,6 @@ export default function CreateOrder() {
 
   useEffect(() => {
     if (orderedData.product_type === "printing photography") {
-
       if (orderedData.product_length && orderedData.product_width) {
         setOrderedData((pref: any) => ({
           ...pref,
@@ -322,6 +313,8 @@ export default function CreateOrder() {
 
   // ini total harganya
   const totalPrize = orders?.reduce((acc: number, item: any) => acc + (item?.prize || 0), 0);
+
+  console.log("ini harga aslinya", thePize)
 
 
   return (
