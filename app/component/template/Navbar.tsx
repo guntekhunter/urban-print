@@ -1,5 +1,6 @@
 "use client";
 import { getUser } from "@/app/fetch/FetchData";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -11,7 +12,7 @@ interface User {
 
 export default function Navbar() {
   const path = usePathname();
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
 
   const [isDrop, setIsDrop] = useState(false);
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
@@ -24,28 +25,30 @@ export default function Navbar() {
 
   const logout = () => {
     setIsDrop(!isDrop);
-    localStorage.removeItem("user id");
+    localStorage.removeItem("user_id");
     // Cookies.remove("token");
     // Cookies.remove("user id");
     // Cookies.remove("isAdmin");
     route.push("/");
   };
 
+
+
   useEffect(() => {
     const fetchUser = async () => {
       const id = localStorage.getItem("user_id");
-      try {
-        if (id) {
+      if (id) {
+        try {
           const res = await getUser(parseInt(id));
-          setUser(res?.data.data);
-        } else {
+          console.log("User response:", res);
+          setUser(res?.data?.data || null);
+        } catch (error) {
+          console.error("Error fetching user:", error);
         }
-      } catch (error) {
-        console.log(error);
       }
     };
     fetchUser();
-  }, []);
+  }, [localStorage.getItem("user_id")]);
 
   console.log("ini usernya", user)
 
@@ -57,11 +60,11 @@ export default function Navbar() {
         className={`py-[.8rem] flex justify-around bg-white border-b-[1.5px] sticky top-0 inset-0 bg-white bg-opacity-90 backdrop-filter backdrop-blur-md z-10`}
       >
         <div className="w-[90%] flex justify-between">
-          <div className="flex space-x-[2rem]">
-            <p className="font-bold flex items-center">URBAN PRINT</p>
+          <div className="">
+            <Image src="/logo.jpeg" alt="" width={1000} height={1000} className="w-[3rem]" />
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>{user?.name}</p>
+            <p>{user ? user.email : "Loading..."}</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}
@@ -78,11 +81,11 @@ export default function Navbar() {
         className={`py-[.8rem] flex justify-around bg-white border-b-[1.5px] sticky top-0 inset-0 bg-white bg-opacity-90 backdrop-filter backdrop-blur-md z-10`}
       >
         <div className="w-[90%] flex justify-between">
-          <div className="flex space-x-[2rem]">
-            <p className="font-bold flex items-center">URBAN PRINT</p>
+          <div className="">
+            <Image src="/logo.jpeg" alt="" width={1000} height={1000} className="w-[3rem]" />
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>{user?.email}</p>
+            <p>{user ? user.email : "Loading..."}</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}
@@ -99,11 +102,11 @@ export default function Navbar() {
         className={`py-[.8rem] flex justify-around bg-white border-b-[1.5px] sticky top-0 inset-0 bg-white bg-opacity-90 backdrop-filter backdrop-blur-md z-10`}
       >
         <div className="w-[90%] flex justify-between">
-          <div className="flex space-x-[2rem]">
-            <p className="font-bold flex items-center">URBAN PRINT</p>
+          <div className="">
+            <Image src="/logo.jpeg" alt="" width={1000} height={1000} className="w-[3rem]" />
           </div>
           <div className="flex items-center space-x-[1rem]">
-            <p>{user?.email}</p>
+            <p>{user ? user.email : "Loading..."}</p>
             <button
               className={`px-[2rem] py-[.5rem] rounded-md hover:bg-gray-100 bg-white border border-gray-200`}
               onClick={logout}

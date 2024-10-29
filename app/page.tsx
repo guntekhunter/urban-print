@@ -46,7 +46,9 @@ export default function Home() {
   return (
     <div className="h-screen flex items-center justify-center bg-gray-200">
       <div className="p-[4rem] space-y-[1rem] w-[30rem] rounded-md shadow-md bg-white text-text">
-        <p className="flex justify-center font-bold">URBAN PRINT</p>
+        <div className="w-full flex justify-around">
+          <Image src="/logo.jpeg" alt="" width={1000} height={1000} className="w-[10rem]" />
+        </div>
         <p className="flex justify-center">Please login to your account</p>
         <div className="w-full space-y-2">
           <p className="text-[.9rem]">ID</p>
