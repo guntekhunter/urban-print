@@ -25,7 +25,7 @@ export default function TimeInputs(prop: any) {
       <input
         type="datetime-local"
         value={date}
-        className="appearance-none border rounded py-3 px-2 text-gray-500 w-full h-[2rem] px-[1rem] rounded-md border-[1.4px] border-gray-200 text-[.9rem]"
+        className={`appearance-none border rounded py-3 px-2 text-gray-500 w-full h-[2rem] px-[1rem] rounded-md border-[1.4px] border-gray-200 text-[.9rem] ${prop.className}`}
         onChange={handleDate}
         disabled={prop.name === "order_date"}
       />

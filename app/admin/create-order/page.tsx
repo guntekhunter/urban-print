@@ -43,7 +43,8 @@ export default function CreateOrder() {
   const [custumers, setCustumers] = useState([]);
   const [custumer, setCustumer] = useState<Customer | null>(null);
   const [selectedProduct, setSelectedProduct] = useState("");
-  const [orders, setOrders] = useState<Orders>([] as Orders)
+  const [orders, setOrders] = useState<Orders>([] as Orders);
+  const [required, setRequired] = useState(false)
 
   const [orderedData, setOrderedData] = useState({
     so_number: null,
@@ -179,22 +180,29 @@ export default function CreateOrder() {
   };
 
   const createOrder = async () => {
-    const res = await addOrder(orderedData);
-    setOrderedData((prevData: any) => ({
-      ...prevData,
-      sales_type: "", // set empty string if undefined
-      product_width: 1,
-      product_length: 1,
-      product_size: "null",
-      material: "",
-      color: "null",
-      coating: "",
-      type: "",
-      prize: null,
-      quantity: null,
-    }));
-    console.log("ini datanya", res?.data.data)
-    setOrders(res?.data.data)
+    if (orderedData.required_date) {
+      const res = await addOrder(orderedData);
+      setSelectedProduct("");
+      setOrderedData((prevData: any) => ({
+        ...prevData,
+        sales_type: "", // set empty string if undefined
+        product_width: 1,
+        product_length: 1,
+        product_type: "",
+        product_size: "null",
+        material: "",
+        color: "null",
+        coating: "",
+        type: "",
+        prize: null,
+        quantity: null,
+      }));
+      console.log("ini datanya", res?.data.data)
+      setOrders(res?.data.data)
+      setRequired(false)
+    } else {
+      setRequired(true)
+    }
   };
 
   useEffect(() => {
@@ -338,11 +346,20 @@ export default function CreateOrder() {
               </label>
               <TimeInputs onChange={handleDate} name="order_date" />
             </div>
-            <div className="w-full flex items-center">
-              <label htmlFor="" className="w-[7rem] align-center">
-                Required Date
-              </label>
-              <TimeInputs onChange={handleDate} name="required_date" required />
+            <div>
+              <div className="w-full flex items-center">
+                <label htmlFor="" className="w-[7rem] align-center">
+                  Required Date
+                </label>
+                <div className="w-full">
+                  <TimeInputs onChange={handleDate} name="required_date" required className={`${required ? "border-red-400" : ""}`} />
+                  {
+                    required && (
+                      <p className="text-red-400">Field is required</p>
+                    )
+                  }
+                </div>
+              </div>
             </div>
           </div>
           <div className="w-full space-y-[1.5rem]">
