@@ -1,4 +1,5 @@
 "use client";
+import OnCreateOperator from "@/app/component/modal/OnCreateOperator";
 import Button from "@/app/component/template/Button";
 import Dropdown from "@/app/component/template/Dropdown";
 import Input from "@/app/component/template/Input";
@@ -8,7 +9,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
-  const [errorCreateCustumer, setErrorCreateCustumer] = useState(false);
+  const [errorCreateCustumer, setErrorCreateCustumer] = useState("");
   const [customer, setCustomer] = useState([])
   const [custumerData, setCustumerData] = useState({
     name: "",
@@ -32,16 +33,13 @@ export default function page() {
 
   const createOrder = async () => {
     const res = await addUser(custumerData);
-
-    console.log(res)
-    console.log(res);
+    setErrorCreateCustumer("");
     if (!res?.data.error) {
-      setCustomer(res?.data.data)
+      setCustomer(res?.data.data);
+      setCustumerData({ name: "", type: "", email: "", password: "" }); // Reset the data
     } else {
-      setErrorCreateCustumer(true);
-      setTimeout(() => {
-        setErrorCreateCustumer(false);
-      }, 3000);
+      setErrorCreateCustumer(res.data.error);
+      setCustumerData({ name: "", type: "", email: "", password: "" }); // Reset the data
     }
   };
 
@@ -91,9 +89,15 @@ export default function page() {
     }
   }, [custumerData.name])
 
+  console.log("errornya", errorCreateCustumer)
   return (
-    <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
+    <div className="flex justify-around relative pt-[2rem] text-[.7rem] relative">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">
+        {
+          errorCreateCustumer && (
+            <OnCreateOperator error={errorCreateCustumer} />
+          )
+        }
         <h1 className="text-[2rem] font-bold">Buat User Baru</h1>
         <div className="flex w-full space-x-[1rem]">
           <div className="w-full space-y-[1.5rem]">

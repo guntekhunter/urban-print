@@ -28,17 +28,20 @@ export async function POST(req: NextRequest, res: NextResponse) {
           password: encryptPassword,
         },
       });
-      // return NextResponse.json({ data: newUser });
-    }
-
-    const user = await prisma.user.findMany({
-      where: {
-        type: {
-          not: "manager",
+      console.log("ini usernya", isUser);
+      const user = await prisma.user.findMany({
+        where: {
+          type: {
+            not: "manager",
+          },
         },
-      },
-    });
-    return NextResponse.json({ data: user });
+      });
+      return NextResponse.json({ data: user });
+
+      // return NextResponse.json({ data: newUser });
+    } else {
+      return NextResponse.json({ error: "user ini sudah ada" });
+    }
   } catch (err) {
     return NextResponse.json({ err });
   }
