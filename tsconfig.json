@@ -21,6 +21,13 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/functions/DateFormater.tsx", "app/api/sale/daily"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/functions/DateFormater.tsx",
+    "app/api/sale/daily"
+  ],
   "exclude": ["node_modules"]
 }

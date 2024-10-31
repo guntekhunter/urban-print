@@ -13,6 +13,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
       },
     });
 
+    console.log("ini resnya", res);
+
     const sale = await prisma.sale.findFirst({
       where: {
         order_id: id,
@@ -20,7 +22,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
 
     if (sale) {
-      // Delete the sale using its unique id
       await prisma.sale.delete({
         where: {
           id: sale.id,

@@ -149,7 +149,7 @@ export default function Diagram({
               <td className="bg-green-400 flex-1"></td>
             </tr>
             <tr className="text-center flex">
-              <td className="flex-1" onClick={() => setStatus("1")}>Waiting</td>
+              <td className="flex-1">Waiting</td>
               <td className="flex-1" onClick={() => setStatus("2")}>Not Started</td>
               <td className="flex-1" onClick={() => setStatus("3")}>On Progress</td>
             </tr>

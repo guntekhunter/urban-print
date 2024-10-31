@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "email tidak terdaftar" },
+        { error: "ID tidak terdaftar" },
         { status: 400 }
       );
     }

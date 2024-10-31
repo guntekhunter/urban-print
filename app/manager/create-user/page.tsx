@@ -115,7 +115,6 @@ export default function page() {
                 options={[
                   { id: "admin", name: "Admin" },
                   { id: "operator", name: "Operator" },
-                  { id: "manager", name: "Manager" },
                 ]}
                 onChange={handleDropdownChange("material")}
               />

@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 export default function Page() {
   const path = usePathname();
   const [onTime, setOnTime] = useState("");
+  const [dateTime, setDateTime] = useState(new Date());
   const [orderData, setOrderData] = useState({
     printing_stickers: {},
     printing_poster: {},
@@ -69,6 +70,14 @@ export default function Page() {
     return segments;
   };
 
+  useEffect(() => {
+    const timer = setInterval(() => setDateTime(new Date()), 1000);
+    return () => clearInterval(timer); // Clean up the interval on unmount
+  }, []);
+
+  const formattedDate = dateTime.toLocaleDateString();
+  const formattedTime = dateTime.toLocaleTimeString();
+
   const changePage = (path: string) => {
     route.push(path);
   };
@@ -98,7 +107,7 @@ export default function Page() {
     <div className="flex justify-around relative pt-[2rem]">
       <div className="w-[95%]">
         <div className="flex justify-between">
-          <div className={`w-[20%] flex`}>
+          <div className={`w-[40%] flex`}>
             <div
               onClick={() => changePage("operator")}
               className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${path.includes("/operator") ? "bg-white" : "bg-gray-200"
@@ -112,6 +121,15 @@ export default function Page() {
             >
               Finishing
             </div>
+            <div
+              // onClick={() => changePage("operator/finishing-task")}
+              className={`px-[1rem] py-[.5rem] w-full rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 w-[10rem]`}
+            >
+              <p className="flex">
+                Date: {formattedDate} Time : {formattedTime}
+              </p>
+            </div>
+
           </div>
           <div className="px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer">Production On Time: {onTime}</div>
         </div>

@@ -4,6 +4,7 @@ import "./globals.css";
 // import { NextUIProvider } from "@nextui-org/react";
 import Navbar from "./component/template/Navbar";
 import SideBar from "./component/template/SideBar";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={`${inter.className} bg-gray-100`}>
         {/* <NextUIProvider> */}
         <Navbar />
