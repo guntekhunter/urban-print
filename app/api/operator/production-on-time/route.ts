@@ -11,12 +11,23 @@ export async function POST(req: NextRequest, res: NextResponse) {
         Status: true,
       },
       where: {
-        id_operator: reqBody,
-        status: 4,
+        id_operator: reqBody.id,
+        order_date: reqBody.order_date,
+      },
+    });
+    const resLate = await prisma.order.findMany({
+      include: {
+        Status: true,
+      },
+      where: {
+        id_operator: reqBody.id,
+        order_date: reqBody.order_date,
+        status: 5,
       },
     });
     return NextResponse.json({
       data: res.length,
+      late: resLate.length,
     });
   } catch (error) {
     console.log(error);

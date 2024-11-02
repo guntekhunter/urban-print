@@ -159,13 +159,20 @@ export default function Page({ params }: { params: { id: string } }) {
           sales_id: authorId,
         };
         await createSale(data);
+        let status = 0
+
+        if (new Date(currentDate) > new Date(order_date)) {
+          status = 5
+        } else {
+          status = 2
+        }
 
         if (product_type === "printing photography") {
-          await postFinish(id, 2, "finishing photography");
+          await postFinish(id, status, "finishing photography");
         } else if (product_type === "printing stickers") {
-          await postFinish(id, 2, "finishing stickers");
+          await postFinish(id, status, "finishing stickers");
         } else if (product_type === "printing poster") {
-          await postFinish(id, 2, "finishing poster");
+          await postFinish(id, status, "finishing poster");
         } else {
           await postFinish(id, 4, product_type);
         }

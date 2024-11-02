@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function Page() {
   const path = usePathname();
-  const [onTime, setOnTime] = useState("");
+  const [onTime, setOnTime] = useState(0);
   const [dateTime, setDateTime] = useState(new Date());
   const [orderData, setOrderData] = useState({
     printing_stickers: {},
@@ -95,9 +95,24 @@ export default function Page() {
       const userId = localStorage.getItem("user_id");
       if (userId !== null) {
         const id = parseInt(userId)
-        const res = await getProductionOnTime(id)
+        // Get the current year and month
+        const now = new Date();
+        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`; // Format as YYYY-MM
+
+        const data = {
+          id,
+          date: formattedDate, // Send the current month in YYYY-MM format
+        };
+        const res = await getProductionOnTime(data)
         console.log("ommaleka", res)
-        setOnTime(res?.data.data)
+        if (res?.data.data === 0) {
+          setOnTime(100)
+        } else {
+          const countLate = res?.data.data - res?.data.late
+          const final = (countLate / res?.data.data) * 100
+          console.log()
+          setOnTime(final)
+        }
       }
     }
     getOnTime()
@@ -131,7 +146,7 @@ export default function Page() {
             </div>
 
           </div>
-          <div className="px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer">Production On Time: {onTime}</div>
+          <div className="px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer">Production On Time: {onTime}%</div>
         </div>
         <div
           className={`p-[3rem] rounded-tr-md shadow-md text-text text-[.7rem] flex bg-white justify-between `}
