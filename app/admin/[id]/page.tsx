@@ -46,7 +46,7 @@ interface OrderData {
     product_width: number;
 }
 
-export default function page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
     const [orderData, setOrderData] = useState<OrderData | null>(null)
     const [custumerName, setCustumerName] = useState("");
     const [productSizePhotography, setProductSizePhotography] = useState("")

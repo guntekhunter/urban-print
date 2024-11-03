@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-export default function page() {
+export default function Page() {
   const [errorCreateCustumer, setErrorCreateCustumer] = useState(false);
   const [customer, setCustomer] = useState([])
   const [custumerData, setCustumerData] = useState({
@@ -67,7 +67,7 @@ export default function page() {
   return (
     <div className="flex justify-around relative pt-[2rem] text-[.7rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">
-        <h1 className="text-[2rem] font-bold">Buat Order Baru</h1>
+        <h1 className="text-[2rem] font-bold">Tambah Customer</h1>
         <div className="flex w-full space-x-[1rem]">
           <div className="w-full space-y-[1.5rem]">
             <div className="w-full flex items-center">

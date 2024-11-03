@@ -17,6 +17,17 @@ export default function Navbar() {
   const [isDrop, setIsDrop] = useState(false);
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
+  const [idUser, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if window is defined to ensure this code runs only on the client side
+    if (typeof window !== "undefined") {
+      const userId = localStorage.getItem("user_id");
+      setUserId(userId);
+    }
+  }, []);
+
+
   const route = useRouter();
 
   const handleDrop = () => {
@@ -36,7 +47,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const id = localStorage.getItem("user_id");
+      const id = idUser;
       if (id) {
         try {
           const res = await getUser(parseInt(id));
@@ -48,7 +59,7 @@ export default function Navbar() {
       }
     };
     fetchUser();
-  }, [localStorage.getItem("user_id")]);
+  }, [idUser]);
 
   console.log("ini usernya", user)
 
