@@ -100,6 +100,9 @@ export default function Page({ params }: { params: { id: string } }) {
     type,
     so_number,
   } = orderData;
+  const handleBack = () => {
+    route.push(`/operator`)
+  }
 
   const handleStart = async () => {
     const userId = localStorage.getItem("user_id");
@@ -303,6 +306,13 @@ export default function Page({ params }: { params: { id: string } }) {
       </div>
       <div className="fixed bottom-0 w-full flex justify-center py-[1rem] z-10 bg-white">
         <div className="w-[95%] flex justify-between space-x-[1rem]">
+          <button
+            className={`p-[2rem] w-full rounded-md text-center shadow-md bg-green-200`}
+            onClick={handleBack}
+            disabled={orderData.status === 3}
+          >
+            Back
+          </button>
           <button
             className={`p-[2rem] w-full rounded-md text-center shadow-md ${orderData.status === 1 || orderData.status === 2
               ? "bg-red-200"

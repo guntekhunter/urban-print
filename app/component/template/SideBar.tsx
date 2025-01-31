@@ -115,6 +115,15 @@ export default function SideBar() {
                   >
                     Work List
                   </li>
+                  <li
+                    onClick={() => handleChangePage("evaluation")}
+                    className={`cursor-pointer border-b-[1px] hover:border-gray-200 transform duration-200 pb-[.5rem] hover:text-black text-[.8rem] ${path.includes("evaluation")
+                      ? "text-black border-gray-200 font-bold"
+                      : "text-gray-600 border-transparent"
+                      }`}
+                  >
+                    Performance list
+                  </li>
                 </ul>
               </>
             ) : null}

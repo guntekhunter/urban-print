@@ -108,8 +108,8 @@ export default function Page() {
         if (res?.data.data === 0) {
           setOnTime(100)
         } else {
-          const countLate = res?.data.data - res?.data.late
-          const final = (countLate / res?.data.data) * 100
+          const countTotal = res?.data.data - res?.data.late
+          const final = (countTotal / res?.data.data) * 100
           console.log()
           setOnTime(final)
         }
