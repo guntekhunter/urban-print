@@ -164,12 +164,13 @@ export default function Page({ params }: { params: { id: string } }) {
         await createSale(data);
         let status = 0
 
-        if (new Date(currentDate) > new Date(order_date)) {
+        if (new Date(currentDate) > new Date(required_date)) {
           status = 5
         } else {
           status = 2
         }
 
+        console.log("ini datenya", currentDate, required_date)
         if (product_type === "printing photography") {
           await postFinish(id, status, "finishing photography");
         } else if (product_type === "printing stickers") {

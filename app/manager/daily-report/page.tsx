@@ -44,7 +44,6 @@ export default function page() {
   console.log(salesPerson);
 
   const handleDropdownChange = async (event: any) => {
-    console.log("ini valuenya", event.target.value);
     const intId = parseInt(event.target.value);
     salesPerson.map((item: any) => {
       if (item.id === intId) {
@@ -102,7 +101,7 @@ export default function page() {
   });
   return (
     <div className="flex flex-col items-center pt-[2rem]">
-      <div className="p-8 rounded-md shadow-md bg-white text-black w-[95%] text-[1rem] text-gray-700 border border-gray-300 space-y-[2rem]">
+      <div className="p-8 rounded-md shadow-md bg-white text-black w-[95%] text-[1rem] border border-gray-300 space-y-[2rem]">
         <div className="grid grid-cols-2 w-[80%] gap-4">
           <div>
             <label htmlFor="">Pilih Sales</label>

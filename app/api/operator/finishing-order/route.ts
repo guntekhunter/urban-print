@@ -10,7 +10,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
         where: {
           // id_operator: reqBody,
           product_type: "finishing stickers",
-          status: 2,
+          status: {
+            in: [2, 5],
+          },
         },
       }),
       prisma.order.count({
@@ -43,7 +45,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
         where: {
           // id_operator: reqBody,
           product_type: "finishing photography",
-          status: 2,
+          status: {
+            in: [2, 5],
+          },
         },
       }),
       prisma.order.count({
@@ -74,7 +78,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
         where: {
           // id_operator: reqBody,
           product_type: "finishing poster",
-          status: 2,
+          status: {
+            in: [2, 5],
+          },
         },
       }),
       prisma.order.count({

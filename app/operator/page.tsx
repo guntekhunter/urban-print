@@ -108,10 +108,7 @@ export default function Page() {
         if (res?.data.data === 0) {
           setOnTime(100)
         } else {
-          const countTotal = res?.data.data - res?.data.late
-          const final = (countTotal / res?.data.data) * 100
-          console.log()
-          setOnTime(final)
+          setOnTime(Math.round(res?.data.data))
         }
       }
     }
@@ -138,7 +135,7 @@ export default function Page() {
             </div>
             <div
               // onClick={() => changePage("operator/finishing-task")}
-              className={`px-[1rem] py-[.5rem] w-full rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 w-[10rem]`}
+              className={`px-[1rem] py-[.5rem] w-full rounded-tr-[20px] rounded-tl-[5px] bg-gray-200`}
             >
               <p className="flex">
                 Date: {formattedDate} Time : {formattedTime}

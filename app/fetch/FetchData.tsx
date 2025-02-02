@@ -353,5 +353,13 @@ export const getProductionOnTime = async (data: any) => {
     console.log(error);
   }
 };
+export const getEvaluation = async () => {
+  try {
+    const res = await axios.get("/api/manager/performance-list");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 

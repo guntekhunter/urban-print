@@ -101,7 +101,7 @@ export default function Page() {
     <div className="flex justify-around relative pt-[2rem]">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem] text-[.7rem]">
         <ButtonPerformance />
-        <h1 className="text-[2rem] font-bold">Data Order</h1>
+        <h1 className="text-[2rem] font-bold">Work In Progress</h1>
         <div className="w-full flex items-center">
           <label htmlFor="" className="w-[7rem] align-center">
             Operator

@@ -99,7 +99,7 @@ export default function page() {
 
   return (
     <div className="flex flex-col items-center pt-[2rem]">
-      <div className="p-8 rounded-md shadow-md bg-white text-black w-[95%] text-[1rem] text-gray-700 border border-gray-300 space-y-[2rem]">
+      <div className="p-8 rounded-md shadow-md bg-white text-black w-[95%] text-[1rem] border border-gray-300 space-y-[2rem]">
         <MountInput onChange={handleDate} />
         <Button
           onClick={() => {
@@ -145,41 +145,41 @@ export default function page() {
                     {item.transaction === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.transaction)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.transaction)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.paid === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.paid)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.paid)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.unpaid === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.unpaid)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.unpaid)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.refund === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.refund)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.refund)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.total === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.total)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.total)}
                   </td>
                 </tr>
               ))}
@@ -220,41 +220,41 @@ export default function page() {
                     {item.transaction === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.transaction)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.transaction)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.paid === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.paid)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.paid)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.unpaid === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.unpaid)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.unpaid)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.refund === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.refund)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.refund)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.total === 0
                       ? "-"
                       : new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(item.total)}
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(item.total)}
                   </td>
                 </tr>
               ))}
