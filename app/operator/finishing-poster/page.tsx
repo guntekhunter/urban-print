@@ -145,7 +145,7 @@ export default function page() {
                 Sales Order Number
               </th>
               <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Custumer
+                Customer
               </th>
               <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
                 Sales Person

@@ -378,7 +378,7 @@ export default function CreateOrder() {
           <div className="w-full flex space-x-[1rem] ">
             <div className="space-y-[1rem]">
               <div>
-                <label htmlFor="">Custumer</label>
+                <label htmlFor="">Customer</label>
                 <Dropdown
                   options={custumers}
                   onChange={handleDropdownChange("custumer")}

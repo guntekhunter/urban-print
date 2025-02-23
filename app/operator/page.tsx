@@ -6,7 +6,6 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function Page() {
   const path = usePathname();
-  const [formattedDate, setFormattedDate] = useState("");
   const [formattedTime, setFormattedTime] = useState("");
   const [onTime, setOnTime] = useState(0);
   const [dateTime, setDateTime] = useState(new Date());
@@ -79,15 +78,13 @@ export default function Page() {
 
   useEffect(() => {
     const updateTime = () => {
-      const dateTime = new Date();
-      setFormattedDate(dateTime.toLocaleDateString());
-      setFormattedTime(dateTime.toLocaleTimeString());
+      setFormattedTime(new Date().toLocaleTimeString());
     };
 
     updateTime(); // Initial update
     const interval = setInterval(updateTime, 1000); // Update every second
 
-    return () => clearInterval(interval); // Cleanup to prevent memory leaks
+    return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
   const changePage = (path: string) => {
@@ -150,7 +147,7 @@ export default function Page() {
               className={`px-[1rem] py-[.5rem] w-full rounded-tr-[20px] rounded-tl-[5px] bg-gray-200`}
             >
               <p className="flex">
-                Date: {formattedDate} Time : {formattedTime}
+                Time : {formattedTime}
               </p>
             </div>
 

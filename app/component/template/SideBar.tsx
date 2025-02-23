@@ -162,7 +162,7 @@ export default function SideBar() {
                 : "text-gray-600 border-transparent"
                 }`}
             >
-              Tambah Custumer
+              Tambah Customer
             </li>
             <li
               onClick={() => handleChangePage("sale")}

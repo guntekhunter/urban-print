@@ -103,7 +103,7 @@ export default function Page() {
           </div>
         </div>
         <div className="flex space-x-[1rem]">
-          <Button onClick={createOrder}>Add Custumer</Button>
+          <Button onClick={createOrder}>Add Customer</Button>
           <Button onClick={cancel}>Cancel</Button>
         </div>
         <table className="min-w-full divide-y divide-gray-200 rounded-md">
@@ -113,7 +113,7 @@ export default function Page() {
                 No
               </th>
               <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
-                Custumer
+                Customer
               </th>
               <th className="px-6 py-3 text-left text-gray-500 text-[1rem] text-sm font-medium">
                 Address
@@ -139,7 +139,7 @@ export default function Page() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.contact_person}
                 </td>
-                <td className="px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]">
+                <td className="px-6 whitespace-no-wrap flex justify-between py-[1rem]">
                   <button
                     className="p-[.5rem] bg-red-200 border-red-300 border-[1.3px] rounded-md"
                     onClick={(e) => {
