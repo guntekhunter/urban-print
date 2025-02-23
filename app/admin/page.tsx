@@ -120,7 +120,7 @@ export default function page() {
       setCustumer(custumerMap);
     };
 
-    if (orders.length > 0) {
+    if (orders) {
       fetchCustumer(); // Fetch operators after orders are loaded
     }
   }, [orders]);
@@ -182,6 +182,7 @@ export default function page() {
                   <button
                     className="p-[.5rem] bg-red-200 border-red-300 border-[1.3px] rounded-md"
                     onClick={(e) => {
+                      e.stopPropagation();
                       handleDelete(item.id);
                     }}
                   >
