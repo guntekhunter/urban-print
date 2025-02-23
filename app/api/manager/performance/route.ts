@@ -40,6 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         where: {
           id_operator: parseInt(reqBody.id),
           status: 4,
+          late: false,
           order_date: {
             startsWith: reqBody.mounth,
           },
@@ -48,11 +49,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
       prisma.order.count({
         where: {
           id_operator: parseInt(reqBody.id),
-          status: {
-            not: 4, // Exclude already finished orders from being counted as late
-          },
-          required_date: {
-            lt: new Date().toISOString(), // Compare with current date in ISO string format
+          late: true,
+          order_date: {
+            startsWith: reqBody.mounth,
           },
         },
       }),
