@@ -1,6 +1,7 @@
 "use client";
 import TimeInputs from "@/app/component/template/MountInput";
 import {
+  getCustumer,
   getPrintingStickersTask,
   getPrintingTask,
 } from "@/app/fetch/FetchData";
@@ -9,8 +10,45 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+interface Order {
+  id: number;
+  so_number: number;
+  quotation_number: number;
+  type: string;
+  order_date: string;
+  required_date: string;
+  sales_type: string;
+  po_number: number;
+  acount_rep: string;
+  sales_person: string;
+  custumer: string;
+  contact_person: string;
+  ship_to: string;
+  adress: string;
+  status: number;
+  product_type: string;
+  product_width: number;
+  product_length: number;
+  product_size: string;
+  material: string;
+  color: string;
+  coating: string;
+  prize: number;
+  quantity: number;
+  late: boolean;
+  id_operator: number;
+  authorId: number;
+  Status?: {
+    id: number;
+    status: string;
+  } | null;
+}
+
+type CustumerMap = { [key: number]: string };
+
 export default function page() {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [custumer, setCustumer] = useState<CustumerMap>({});
 
   const route = useRouter();
 
@@ -38,6 +76,36 @@ export default function page() {
     };
     fetchOrder();
   }, []);
+
+  // get custumer
+  useEffect(() => {
+    const fetchCustumer = async () => {
+      const custumerPromises = orders.map(async (item) => {
+        if (item.custumer) {
+          const id = parseInt(item.custumer)
+          const res = await getCustumer(id);
+          return { id: item.custumer, name: res?.data?.data?.name || "" };
+        }
+        return null;
+      });
+
+      const results = await Promise.all(custumerPromises);
+      const custumerMap: CustumerMap = {};
+      results.forEach((custumer) => {
+        if (custumer) { // Check if custumer is not null
+          const custumerId = parseInt(custumer.id, 10);
+          if (!isNaN(custumerId)) {
+            custumerMap[custumerId] = custumer.name;
+          }
+        }
+      });
+      setCustumer(custumerMap);
+    };
+
+    if (orders) {
+      fetchCustumer(); // Fetch operators after orders are loaded
+    }
+  }, [orders]);
 
   const detailOrders = (id: any) => {
     route.push(`/operator/detail/${id}`);
@@ -93,7 +161,7 @@ export default function page() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.so_number}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.custumer}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{item.custumer ? custumer[item.custumer] || "Unknown" : "No Operator"}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.sales_person}
                 </td>

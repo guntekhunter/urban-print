@@ -6,6 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function Page() {
   const path = usePathname();
+  const [formattedDate, setFormattedDate] = useState("");
+  const [formattedTime, setFormattedTime] = useState("");
   const [onTime, setOnTime] = useState(0);
   const [dateTime, setDateTime] = useState(new Date());
   const [orderData, setOrderData] = useState({
@@ -75,8 +77,18 @@ export default function Page() {
     return () => clearInterval(timer); // Clean up the interval on unmount
   }, []);
 
-  const formattedDate = dateTime.toLocaleDateString();
-  const formattedTime = dateTime.toLocaleTimeString();
+  useEffect(() => {
+    const updateTime = () => {
+      const dateTime = new Date();
+      setFormattedDate(dateTime.toLocaleDateString());
+      setFormattedTime(dateTime.toLocaleTimeString());
+    };
+
+    updateTime(); // Initial update
+    const interval = setInterval(updateTime, 1000); // Update every second
+
+    return () => clearInterval(interval); // Cleanup to prevent memory leaks
+  }, []);
 
   const changePage = (path: string) => {
     route.push(path);
@@ -106,7 +118,7 @@ export default function Page() {
         const res = await getProductionOnTime(data)
         console.log("ommaleka", res)
         if (res?.data.data === 0) {
-          setOnTime(100)
+          setOnTime(0)
         } else {
           setOnTime(Math.round(res?.data.data))
         }

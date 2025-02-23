@@ -178,7 +178,7 @@ export default function page() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.id_operator ? operators[item.id_operator] || "Unknown" : "No Operator"}
                 </td>
-                <td className="px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]">
+                <td className="px-6 whitespace-no-wrap flex justify-between py-[1rem]">
                   <button
                     className="p-[.5rem] bg-red-200 border-red-300 border-[1.3px] rounded-md"
                     onClick={(e) => {

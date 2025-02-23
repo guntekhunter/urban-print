@@ -24,7 +24,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
 
     const countTotal = count - late;
-    const performance = Math.round(count > 0 ? (countTotal / count) * 100 : 0);
+    const performance = Math.round((countTotal / count) * 100);
     return NextResponse.json({
       data: performance,
     });
