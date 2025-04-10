@@ -15,15 +15,14 @@ type Operator = {
   performance: number;
 };
 
-
 export default function page() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchOperators = async () => {
       try {
         const res = await getEvaluation();
-        setData(res?.data.data)
+        setData(res?.data.data);
       } catch (error) {
         console.error("Error fetching operators:", error);
       }
@@ -32,8 +31,7 @@ export default function page() {
     fetchOperators();
   }, []);
 
-  console.log("ini datanya", data)
-
+  console.log("ini datanya", data);
 
   return (
     <div className="flex justify-around relative pt-[2rem]">
@@ -61,25 +59,19 @@ export default function page() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {
-              data?.map((item: any, key: any) => (
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.finish}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.onProgress}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.late}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {Math.round(item.performance)}%
-                  </td>
-                </tr>
-              ))
-            }
+            {data?.map((item: any, key: any) => (
+              <tr>
+                <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{item.finish}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {item.onProgress}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">{item.late}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {Math.round(item.performance)}%
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

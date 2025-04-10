@@ -3,14 +3,22 @@ import OnCreateOperator from "@/app/component/modal/OnCreateOperator";
 import Button from "@/app/component/template/Button";
 import Dropdown from "@/app/component/template/Dropdown";
 import Input from "@/app/component/template/Input";
-import { addCustumer, addUser, deleteCustumer, deleteUser, getAllCustumer, getUser, getUsers } from "@/app/fetch/FetchData";
+import {
+  addCustumer,
+  addUser,
+  deleteCustumer,
+  deleteUser,
+  getAllCustumer,
+  getUser,
+  getUsers,
+} from "@/app/fetch/FetchData";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [errorCreateCustumer, setErrorCreateCustumer] = useState("");
-  const [customer, setCustomer] = useState([])
+  const [customer, setCustomer] = useState([]);
   const [custumerData, setCustumerData] = useState({
     name: "",
     type: "",
@@ -59,13 +67,13 @@ export default function page() {
     fetchCustumers();
   }, []);
 
-  console.log(customer)
+  console.log(customer);
 
   const handleDelete = async (id: any) => {
-    const deleteRes = await deleteUser(id)
-    setCustomer(deleteRes?.data.data)
-    console.log(deleteRes, "ommaleka")
-  }
+    const deleteRes = await deleteUser(id);
+    setCustomer(deleteRes?.data.data);
+    console.log(deleteRes, "ommaleka");
+  };
 
   const handleDropdownChange =
     (fieldName: string) => (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -87,17 +95,15 @@ export default function page() {
         };
       });
     }
-  }, [custumerData.name])
+  }, [custumerData.name]);
 
-  console.log("errornya", errorCreateCustumer)
+  console.log("errornya", errorCreateCustumer);
   return (
-    <div className="flex justify-around relative pt-[2rem] text-[.7rem] relative">
+    <div className="flex justify-around pt-[2rem] text-[.7rem] relative">
       <div className="p-[3rem] rounded-md shadow-md bg-white text-text w-[95%] space-y-[1rem]">
-        {
-          errorCreateCustumer && (
-            <OnCreateOperator error={errorCreateCustumer} />
-          )
-        }
+        {errorCreateCustumer && (
+          <OnCreateOperator error={errorCreateCustumer} />
+        )}
         <h1 className="text-[2rem] font-bold">Buat User Baru</h1>
         <div className="flex w-full space-x-[1rem]">
           <div className="w-full space-y-[1.5rem]">
@@ -159,14 +165,10 @@ export default function page() {
           <tbody className="bg-white divide-y divide-gray-200">
             {customer?.map((item: any, key) => (
               <tr key={key} className="cursor-pointer">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {key + 1}
-                </td>
+                <td className="px-6 py-4 whitespace-nowrap">{key + 1}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {item.type}
-                </td>
-                <td className="px-6 py-4 whitespace-no-wrap flex justify-between py-[1rem]">
+                <td className="px-6 py-4 whitespace-nowrap">{item.type}</td>
+                <td className="px-6 whitespace-no-wrap flex justify-between py-[1rem]">
                   <button
                     className="p-[.5rem] bg-red-200 border-red-300 border-[1.3px] rounded-md"
                     onClick={(e) => {
@@ -187,7 +189,6 @@ export default function page() {
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }
