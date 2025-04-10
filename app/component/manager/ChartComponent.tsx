@@ -20,7 +20,8 @@ interface CircularProgressBarProps {
   performance: Performance;
   idPrefix: string;
   index: number;
-  operatorTask: number
+  operatorTask: number;
+  score: number;
 }
 
 const colorMap: { [key: string]: string } = {
@@ -34,6 +35,7 @@ export default function ChartComponent({
   idPrefix,
   index,
   operatorTask,
+  score,
 }: CircularProgressBarProps) {
   const [segments, setSegments] = useState<Segment[]>([]);
   const [performances, setPerformance] = useState<number>();
@@ -52,7 +54,7 @@ export default function ChartComponent({
 
     const finalPerformance = calculatedPerformance.toFixed(2);
     setPerformance(Number(finalPerformance));
-    console.log("ini idnya", operatorTask)
+    console.log("ini idnya", operatorTask);
 
     const segmentData: Segment[] = [
       {
@@ -102,11 +104,11 @@ export default function ChartComponent({
                   index === 0
                     ? 0
                     : segments
-                      .slice(0, index)
-                      .reduce(
-                        (acc, seg) => acc - (seg.value / seg.total) * 100,
-                        0
-                      )
+                        .slice(0, index)
+                        .reduce(
+                          (acc, seg) => acc - (seg.value / seg.total) * 100,
+                          0
+                        )
                 }
               />
             );
@@ -115,21 +117,9 @@ export default function ChartComponent({
         <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-gray-700">
           <div className="text-center">
             <p className="border-b-[2px] border-gray-700">
-              {
-                operatorTask ? (
-                  <>
-                    {performances} % On Time
-                  </>
-                ) : (
-                  <>
-                    -
-                  </>
-                )
-              }
+              {operatorTask ? <>{score + 1} % On Time</> : <>-</>}
             </p>
-            <p>
-              {operatorTask} / Pekerjaan
-            </p>
+            <p>{operatorTask} / Pekerjaan</p>
           </div>
         </div>
       </div>

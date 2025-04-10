@@ -103,26 +103,28 @@ export default function Page() {
     const getOnTime = async () => {
       const userId = localStorage.getItem("user_id");
       if (userId !== null) {
-        const id = parseInt(userId)
+        const id = parseInt(userId);
         // Get the current year and month
         const now = new Date();
-        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`; // Format as YYYY-MM
+        const formattedDate = `${now.getFullYear()}-${String(
+          now.getMonth() + 1
+        ).padStart(2, "0")}`; // Format as YYYY-MM
 
         const data = {
           id,
           date: formattedDate, // Send the current month in YYYY-MM format
         };
-        const res = await getProductionOnTime(data)
-        console.log("ommaleka", res)
+        const res = await getProductionOnTime(data);
+        console.log("ommaleka", res);
         if (res?.data.data === 0) {
-          setOnTime(0)
+          setOnTime(0);
         } else {
-          setOnTime(Math.round(res?.data.data))
+          setOnTime(Math.round(res?.data.data));
         }
       }
-    }
-    getOnTime()
-  }, [])
+    };
+    getOnTime();
+  }, []);
 
   return (
     <div className="flex justify-around relative pt-[2rem]">
@@ -131,8 +133,9 @@ export default function Page() {
           <div className={`w-[40%] flex`}>
             <div
               onClick={() => changePage("operator")}
-              className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${path.includes("/operator") ? "bg-white" : "bg-gray-200"
-                }`}
+              className={`px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] cursor-pointer ${
+                path.includes("/operator") ? "bg-white" : "bg-gray-200"
+              }`}
             >
               Printing
             </div>
@@ -146,13 +149,12 @@ export default function Page() {
               // onClick={() => changePage("operator/finishing-task")}
               className={`px-[1rem] py-[.5rem] w-full rounded-tr-[20px] rounded-tl-[5px] bg-gray-200`}
             >
-              <p className="flex">
-                Time : {formattedTime}
-              </p>
+              <p className="flex">Time : {formattedTime}</p>
             </div>
-
           </div>
-          <div className="px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer">Production On Time: {onTime}%</div>
+          <div className="px-[1rem] py-[.5rem] rounded-tr-[20px] rounded-tl-[5px] bg-gray-200 cursor-pointer">
+            Production On Time: {onTime}%
+          </div>
         </div>
         <div
           className={`p-[3rem] rounded-tr-md shadow-md text-text text-[.7rem] flex bg-white justify-between `}
@@ -163,7 +165,7 @@ export default function Page() {
               <div
                 key={index}
                 className="flex cursor-pointer justify-center"
-              // onClick={() => handleChangePage(index)}
+                // onClick={() => handleChangePage(index)}
               >
                 <div className="">
                   <Diagram

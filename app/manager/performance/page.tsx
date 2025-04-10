@@ -21,18 +21,19 @@ interface Performance {
 
 export default function Page() {
   const [orders, setOrders] = useState([]);
-  const [operatorTask, setOperatorTask] = useState<number>()
+  const [operatorTask, setOperatorTask] = useState<number>();
+  const [score, setScore] = useState<number>();
   const [operators, setOperators] = useState([]);
   const [performance, setPerformance] = useState<Performance | null>(null);
-  const [month, setMounth] = useState("")
-  const [user, setUser] = useState("")
+  const [month, setMounth] = useState("");
+  const [user, setUser] = useState("");
 
   const handleDropdownChange = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     try {
-      console.log("id operator", event.target.value)
-      setUser(event.target.value)
+      console.log("id operator", event.target.value);
+      setUser(event.target.value);
     } catch (error) {
       console.log(error);
     }
@@ -54,13 +55,14 @@ export default function Page() {
   console.log(performance);
 
   const handleDate = async (date: string, name: string) => {
-    setMounth(date)
+    setMounth(date);
     const data = {
       id: user,
-      mounth: date
-    }
+      mounth: date,
+    };
     const res = await getPerformance(data);
-    setOperatorTask(parseInt(res?.data.count))
+    setOperatorTask(parseInt(res?.data.count));
+    setScore(parseInt(res?.data.score));
     setPerformance(res?.data.performance);
   };
 
@@ -81,6 +83,7 @@ export default function Page() {
             <h2 className="text-[1.5rem] font-bold">Performance</h2>
             <div>
               <ChartComponent
+                score={score ?? 0}
                 performance={performance}
                 idPrefix={`diagram-${1}`}
                 index={1}

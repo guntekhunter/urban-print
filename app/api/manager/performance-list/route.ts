@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
 
         const performance =
           count > 0
-            ? Math.pow(right || 1, rateLate) * Math.pow(count, rateCount)
+            ? Math.pow(right, rateLate) * Math.pow(count, rateCount)
             : 0;
 
         return { id, name, onProgress, finish, late, count, right, performance };
